@@ -30,7 +30,7 @@ export default function RootLayout({
   return (
     <html
       className={`${geistSans.variable} ${geistMono.variable} ${GeistPixelSquare.variable} ${barlow.variable}`}
-      lang="en"
+      lang="pl"
     >
       <head>
         {process.env.NODE_ENV === 'development' && (

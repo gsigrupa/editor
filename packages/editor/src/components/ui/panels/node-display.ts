@@ -6,25 +6,25 @@ export type NodeDisplay = {
 }
 
 const TYPE_DEFAULTS: Record<string, NodeDisplay> = {
-  item: { icon: '/icons/furniture.png', label: 'Item' },
-  wall: { icon: '/icons/wall.png', label: 'Wall' },
-  door: { icon: '/icons/door.png', label: 'Door' },
-  window: { icon: '/icons/window.png', label: 'Window' },
-  slab: { icon: '/icons/floor.png', label: 'Slab' },
-  ceiling: { icon: '/icons/ceiling.png', label: 'Ceiling' },
-  column: { icon: '/icons/column.png', label: 'Column' },
-  elevator: { icon: '/icons/elevator.png', label: 'Elevator' },
-  fence: { icon: '/icons/fence.png', label: 'Fence' },
-  roof: { icon: '/icons/roof.png', label: 'Roof' },
-  'roof-segment': { icon: '/icons/roof.png', label: 'Roof segment' },
-  stair: { icon: '/icons/stair.png', label: 'Stair' },
-  'stair-segment': { icon: '/icons/stair.png', label: 'Stair segment' },
-  scan: { icon: '/icons/mesh.png', label: '3D Scan' },
-  guide: { icon: '/icons/floorplan.png', label: 'Guide image' },
+  item: { icon: '/icons/furniture.png', label: 'Element' },
+  wall: { icon: '/icons/wall.png', label: 'Ściana' },
+  door: { icon: '/icons/door.png', label: 'Drzwi' },
+  window: { icon: '/icons/window.png', label: 'Okno' },
+  slab: { icon: '/icons/floor.png', label: 'Płyta podłogowa' },
+  ceiling: { icon: '/icons/ceiling.png', label: 'Sufit' },
+  column: { icon: '/icons/column.png', label: 'Słup' },
+  elevator: { icon: '/icons/elevator.png', label: 'Winda' },
+  fence: { icon: '/icons/fence.png', label: 'Ogrodzenie' },
+  roof: { icon: '/icons/roof.png', label: 'Dach' },
+  'roof-segment': { icon: '/icons/roof.png', label: 'Segment dachu' },
+  stair: { icon: '/icons/stair.png', label: 'Schody' },
+  'stair-segment': { icon: '/icons/stair.png', label: 'Segment schodów' },
+  scan: { icon: '/icons/mesh.png', label: 'Skan 3D' },
+  guide: { icon: '/icons/floorplan.png', label: 'Obraz pomocniczy' },
 }
 
 export function getNodeDisplay(node: AnyNode | null | undefined): NodeDisplay {
-  if (!node) return { icon: '/icons/select.png', label: 'Selection' }
+  if (!node) return { icon: '/icons/select.png', label: 'Zaznaczenie' }
   const fallback = TYPE_DEFAULTS[node.type] ?? { icon: '/icons/select.png', label: node.type }
   // Item nodes carry an asset with its own thumbnail/name
   if (node.type === 'item') {

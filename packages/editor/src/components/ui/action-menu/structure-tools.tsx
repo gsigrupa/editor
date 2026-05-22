@@ -19,21 +19,19 @@ export type ToolConfig = {
 }
 
 export const tools: ToolConfig[] = [
-  { id: 'wall', iconSrc: '/icons/wall.png', label: 'Wall' },
-  { id: 'door', iconSrc: '/icons/door.png', label: 'Door' },
-  { id: 'window', iconSrc: '/icons/window.png', label: 'Window' },
-  { id: 'stair', iconSrc: '/icons/stairs.png', label: 'Stairs' },
-  { id: 'roof', iconSrc: '/icons/roof.png', label: 'Gable Roof' },
-  { id: 'fence', iconSrc: '/icons/fence.png', label: 'Fence' },
-  { id: 'column', iconSrc: '/icons/column.png', label: 'Column' },
-  { id: 'elevator', iconSrc: '/icons/elevator.png', label: 'Elevator' },
-  // { id: 'room', iconSrc: '/icons/room.png', label: 'Room' },
-  // { id: 'custom-room', iconSrc: '/icons/custom-room.png', label: 'Custom Room' },
-  { id: 'slab', iconSrc: '/icons/floor.png', label: 'Slab' },
-  { id: 'ceiling', iconSrc: '/icons/ceiling.png', label: 'Ceiling' },
-  { id: 'zone', iconSrc: '/icons/zone.png', label: 'Zone' },
-  { id: 'spawn', iconSrc: '/icons/site.png', label: 'Spawn Point' },
-  { id: 'shelf', iconSrc: '/icons/shelf.png', label: 'Shelf' },
+  { id: 'wall', iconSrc: '/icons/wall.png', label: 'Ściana' },
+  { id: 'door', iconSrc: '/icons/door.png', label: 'Drzwi' },
+  { id: 'window', iconSrc: '/icons/window.png', label: 'Okno' },
+  { id: 'stair', iconSrc: '/icons/stairs.png', label: 'Schody' },
+  { id: 'roof', iconSrc: '/icons/roof.png', label: 'Dach dwuspadowy' },
+  { id: 'fence', iconSrc: '/icons/fence.png', label: 'Ogrodzenie' },
+  { id: 'column', iconSrc: '/icons/column.png', label: 'Słup' },
+  { id: 'elevator', iconSrc: '/icons/elevator.png', label: 'Winda' },
+  { id: 'slab', iconSrc: '/icons/floor.png', label: 'Płyta podłogowa' },
+  { id: 'ceiling', iconSrc: '/icons/ceiling.png', label: 'Sufit' },
+  { id: 'zone', iconSrc: '/icons/zone.png', label: 'Strefa' },
+  { id: 'spawn', iconSrc: '/icons/site.png', label: 'Punkt startowy' },
+  { id: 'shelf', iconSrc: '/icons/shelf.png', label: 'Półka' },
 ]
 
 export function StructureTools() {
