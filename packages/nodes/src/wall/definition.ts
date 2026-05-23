@@ -100,13 +100,13 @@ export const wallDefinition: NodeDefinition<typeof WallNode> = {
 
   presentation: {
     label: 'Wall',
-    description: 'A straight or curved wall segment. Hosts doors, windows, and wall-mounted items.',
+    description: 'Prosty lub łukowy segment ściany. Zawiera drzwi, okna i elementy wiszące.',
     icon: { kind: 'url', src: '/icons/wall.png' },
     paletteSection: 'structure',
     paletteOrder: 10,
   },
 
   mcp: {
-    description: 'A wall segment defined by start + end points, with optional curve sagitta.',
+    description: 'Segment ściany zdefiniowany przez punkt początkowy + końcowy, z opcjonalnym łukiem.',
   },
 }

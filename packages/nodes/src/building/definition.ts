@@ -37,14 +37,14 @@ export const buildingDefinition: NodeDefinition<typeof BuildingNode> = {
   },
 
   presentation: {
-    label: 'Building',
-    description: 'A building container holding one or more levels.',
+    label: 'Budynek',
+    description: 'Budynek zawierający jeden lub więcej poziomów.',
     icon: { kind: 'url', src: '/icons/building.png' },
     paletteSection: 'site',
     paletteOrder: 6,
   },
 
   mcp: {
-    description: 'A building container that groups levels.',
+    description: 'Budynek grupujący poziomy.',
   },
 }

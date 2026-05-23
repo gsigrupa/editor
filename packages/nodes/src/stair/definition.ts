@@ -54,6 +54,6 @@ export const stairDefinition: NodeDefinition<typeof StairNode> = {
   },
 
   mcp: {
-    description: 'A multi-flight stair with segmented geometry.',
+    description: 'Schody wielobiegowe z geometrią segmentową.',
   },
 }

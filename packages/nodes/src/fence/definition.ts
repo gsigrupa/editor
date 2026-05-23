@@ -101,13 +101,13 @@ export const fenceDefinition: NodeDefinition<typeof FenceNode> = {
 
   presentation: {
     label: 'Fence',
-    description: 'A straight or curved fence segment with configurable posts and infill.',
+    description: 'Prosty lub łukowy segment ogrodzenia z konfigurowalnymi słupkami i wypełnieniem.',
     icon: { kind: 'url', src: '/icons/fence.png' },
     paletteSection: 'structure',
     paletteOrder: 20,
   },
 
   mcp: {
-    description: 'A fence segment defined by start + end points, with optional curve sagitta.',
+    description: 'Segment ogrodzenia od punktu startowego do końcowego, z opcjonalnym łukiem.',
   },
 }

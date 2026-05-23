@@ -1,4 +1,6 @@
 'use client'
+import { formatLevelName } from '../../../lib/i18n'
+
 
 import { Icon } from '@iconify/react'
 import {
@@ -85,7 +87,7 @@ function useLowerReferenceLevels(): LevelNode[] {
 }
 
 function getLevelDisplayName(level: LevelNode) {
-  return level.name || `Level ${level.level}`
+  return level.name || formatLevelName(level.level)
 }
 
 // ── Shared upload button for dropdowns ──────────────────────────────────────

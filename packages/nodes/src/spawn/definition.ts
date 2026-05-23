@@ -63,6 +63,6 @@ export const spawnDefinition: NodeDefinition<typeof SpawnNode> = {
   },
 
   mcp: {
-    description: 'A singleton spawn point marker placed inside a level.',
+    description: 'Pojedynczy marker punktu startowego na poziomie.',
   },
 }

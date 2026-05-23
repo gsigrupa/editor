@@ -64,13 +64,13 @@ export const windowDefinition: NodeDefinition<typeof WindowNode> = {
 
   presentation: {
     label: 'Window',
-    description: 'A window cut into a wall. Animated open/close for opening windows.',
+    description: 'Okno wycięte w ścianie. Animowane otwieranie/zamykanie dla okien uchylnych.',
     icon: { kind: 'url', src: '/icons/window.png' },
     paletteSection: 'structure',
     paletteOrder: 60,
   },
 
   mcp: {
-    description: 'A window mounted on a wall, with type / dimensions / opening options.',
+    description: 'Okno zamontowane w ścianie, z typem / wymiarami / opcjami otwierania.',
   },
 }

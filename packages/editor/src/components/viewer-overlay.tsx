@@ -1,4 +1,6 @@
 'use client'
+import { formatLevelName } from '../lib/i18n'
+
 
 import { Icon } from '@iconify/react'
 import {
@@ -204,7 +206,7 @@ export const ViewerOverlay = ({
                       className={`truncate transition-colors ${zone ? 'text-muted-foreground hover:text-foreground' : 'font-medium text-foreground'}`}
                       onClick={() => handleBreadcrumbClick('level')}
                     >
-                      {level.name || `Level ${level.level}`}
+                      {level.name || formatLevelName(level.level)}
                     </button>
                   </>
                 )}
@@ -261,7 +263,7 @@ export const ViewerOverlay = ({
                         <Layers className="h-3.5 w-3.5" />
                       </span>
                       <div className="min-w-0 flex-1 truncate text-left">
-                        {lvl.name || `Level ${lvl.level}`}
+                        {lvl.name || formatLevelName(lvl.level)}
                       </div>
                     </div>
                   </button>

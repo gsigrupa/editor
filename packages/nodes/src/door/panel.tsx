@@ -1328,7 +1328,7 @@ export default function DoorPanel() {
 
               <div className="flex gap-1.5 px-1 pt-1">
                 <ActionButton
-                  label="+ Add Segment"
+                  label="+ Dodaj segment"
                   onClick={() => {
                     const updated = [
                       ...node.segments,

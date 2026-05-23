@@ -40,13 +40,13 @@ export const roofSegmentDefinition: NodeDefinition<typeof RoofSegmentNode> = {
 
   presentation: {
     label: 'Roof Segment',
-    description: 'A single pitched plane of a parent roof.',
+    description: 'Pojedyncza skośna połać dachu.',
     icon: { kind: 'url', src: '/icons/roof.png' },
     paletteSection: 'structure',
     paletteOrder: 101,
   },
 
   mcp: {
-    description: 'A single roof segment with polygon footprint + pitch.',
+    description: 'Pojedynczy segment dachu z poligonem podstawy i nachyleniem.',
   },
 }

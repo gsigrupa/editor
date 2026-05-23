@@ -1,3 +1,4 @@
+import { formatLevelName } from '../i18n'
 'use client'
 
 import {
@@ -235,7 +236,7 @@ export default function StairPanel() {
             >
               {levels.map((level) => (
                 <option key={level.id} value={level.id}>
-                  {level.name || `Level ${level.level + 1}`}
+                  {level.name || formatLevelName(level.level + 1)}
                 </option>
               ))}
             </select>
@@ -252,7 +253,7 @@ export default function StairPanel() {
             >
               {levels.map((level) => (
                 <option key={level.id} value={level.id}>
-                  {level.name || `Level ${level.level + 1}`}
+                  {level.name || formatLevelName(level.level + 1)}
                 </option>
               ))}
             </select>
@@ -297,12 +298,12 @@ export default function StairPanel() {
           <div className="flex gap-1.5">
             <ActionButton
               icon={<Plus className="h-3.5 w-3.5" />}
-              label="Add flight"
+              label="Dodaj bieg"
               onClick={handleAddFlight}
             />
             <ActionButton
               icon={<Plus className="h-3.5 w-3.5" />}
-              label="Add landing"
+              label="Dodaj spocznik"
               onClick={handleAddLanding}
             />
           </div>

@@ -39,13 +39,13 @@ export const guideDefinition: NodeDefinition<typeof GuideNode> = {
 
   presentation: {
     label: 'Guide',
-    description: 'A measurement / reference annotation (linear, area, or arc).',
+    description: 'Pomocnicze odniesienie (linia, powierzchnia, łuk).',
     icon: { kind: 'url', src: '/icons/blueprint.png' },
     paletteSection: 'site',
     paletteOrder: 30,
   },
 
   mcp: {
-    description: 'A measurement reference guide annotation.',
+    description: 'Adnotacja pomocnicza.',
   },
 }

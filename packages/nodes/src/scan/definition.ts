@@ -38,13 +38,13 @@ export const scanDefinition: NodeDefinition<typeof ScanNode> = {
 
   presentation: {
     label: 'Scan',
-    description: 'A captured mesh (LiDAR / photogrammetry) imported as a scene reference.',
+    description: 'Zaimportowany skan mesh (LiDAR / fotogrametria) jako odniesienie sceny.',
     icon: { kind: 'url', src: '/icons/mesh.png' },
     paletteSection: 'site',
     paletteOrder: 40,
   },
 
   mcp: {
-    description: 'A captured mesh import.',
+    description: 'Import skanu mesh.',
   },
 }

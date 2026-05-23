@@ -1,4 +1,6 @@
 'use client'
+import { formatLevelName } from '../../lib/i18n'
+
 
 import type { LevelNode } from '@pascal-app/core'
 import { useEffect, useState } from 'react'
@@ -42,7 +44,7 @@ const DUPLICATE_PRESETS: Array<{
 
 function getLevelLabel(level: LevelNode | null) {
   if (!level) return 'this level'
-  return level.name || `Level ${level.level}`
+  return level.name || formatLevelName(level.level)
 }
 
 export function LevelDuplicateDialog({

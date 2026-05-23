@@ -45,13 +45,13 @@ export const levelDefinition: NodeDefinition<typeof LevelNode> = {
 
   presentation: {
     label: 'Level',
-    description: 'A single floor of a building, holding walls / slabs / ceilings / items.',
+    description: 'Pojedyncze piętro budynku, zawierające ściany / płyty / sufity / elementy.',
     icon: { kind: 'url', src: '/icons/level.png' },
     paletteSection: 'site',
     paletteOrder: 7,
   },
 
   mcp: {
-    description: 'A level (floor) container under a building.',
+    description: 'Poziom (piętro) w obrębie budynku.',
   },
 }

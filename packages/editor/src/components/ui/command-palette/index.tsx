@@ -1,4 +1,6 @@
 'use client'
+import { formatLevelName } from '../../../lib/i18n'
+
 
 import type { AnyNodeId, LevelNode } from '@pascal-app/core'
 import { useScene } from '@pascal-app/core'
@@ -404,7 +406,7 @@ export function CommandPalette({ emptyAction }: { emptyAction?: CommandPaletteEm
                     <OptionItem
                       isActive={level.id === activeLevelId}
                       key={level.id}
-                      label={level.name ?? `Level ${level.level}`}
+                      label={level.name ?? formatLevelName(level.level)}
                       onSelect={() =>
                         run(() => useViewer.getState().setSelection({ levelId: level.id }))
                       }

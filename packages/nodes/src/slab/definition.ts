@@ -101,13 +101,13 @@ export const slabDefinition: NodeDefinition<typeof SlabNode> = {
 
   presentation: {
     label: 'Slab',
-    description: 'A polygon-bounded floor surface that hosts items on top.',
+    description: 'Płyta podłogowa ograniczona wielokątem, zawierająca elementy.',
     icon: { kind: 'url', src: '/icons/floor.png' },
     paletteSection: 'structure',
     paletteOrder: 30,
   },
 
   mcp: {
-    description: 'A polygon-bounded slab (floor) with optional cutout holes.',
+    description: 'Płyta podłogowa ograniczona wielokątem z opcjonalnymi otworami.',
   },
 }

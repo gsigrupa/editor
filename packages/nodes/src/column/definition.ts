@@ -68,13 +68,13 @@ export const columnDefinition: NodeDefinition<typeof ColumnNode> = {
 
   presentation: {
     label: 'Column',
-    description: 'A parametric column with configurable cross-section, base, and capital.',
+    description: 'Parametryczny słup z konfigurowalnym przekrojem, bazą i głowicą.',
     icon: { kind: 'url', src: '/icons/column.png' },
     paletteSection: 'structure',
     paletteOrder: 70,
   },
 
   mcp: {
-    description: 'A parametric column placed on a slab or level.',
+    description: 'Parametryczny słup umieszczony na płycie lub poziomie.',
   },
 }

@@ -131,7 +131,7 @@ export default function RoofPanel() {
         <ActionGroup>
           <ActionButton
             icon={<Plus className="h-3.5 w-3.5" />}
-            label="Add Segment"
+            label="Dodaj segment"
             onClick={handleAddSegment}
           />
         </ActionGroup>

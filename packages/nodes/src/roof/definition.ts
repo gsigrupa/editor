@@ -42,13 +42,13 @@ export const roofDefinition: NodeDefinition<typeof RoofNode> = {
 
   presentation: {
     label: 'Roof',
-    description: 'A pitched / hip / gable roof composed of one or more segments.',
+    description: 'Dach skośny / kopertowy / dwuspadowy złożony z jednego lub więcej segmentów.',
     icon: { kind: 'url', src: '/icons/roof.png' },
     paletteSection: 'structure',
     paletteOrder: 100,
   },
 
   mcp: {
-    description: 'A roof composed of segmented planes (gable / hip / shed).',
+    description: 'Dach złożony z połaci (dwuspadowy / kopertowy / pulpitowy).',
   },
 }

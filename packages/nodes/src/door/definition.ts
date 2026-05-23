@@ -84,13 +84,13 @@ export const doorDefinition: NodeDefinition<typeof DoorNode> = {
 
   presentation: {
     label: 'Door',
-    description: 'A door cut into a wall. Animated open/close state.',
+    description: 'Drzwi wycięte w ścianie. Animowane otwieranie/zamykanie.',
     icon: { kind: 'url', src: '/icons/door.png' },
     paletteSection: 'structure',
     paletteOrder: 50,
   },
 
   mcp: {
-    description: 'A door mounted on a wall, with type / dimensions / hardware options.',
+    description: 'Drzwi zamontowane w ścianie, z typem / wymiarami / opcjami okuć.',
   },
 }

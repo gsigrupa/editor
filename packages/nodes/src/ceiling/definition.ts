@@ -103,13 +103,13 @@ export const ceilingDefinition: NodeDefinition<typeof CeilingNode> = {
 
   presentation: {
     label: 'Ceiling',
-    description: 'A polygon-bounded ceiling surface that hosts ceiling-mounted items.',
+    description: 'Sufit ograniczony wielokątem z elementami montowanymi.',
     icon: { kind: 'url', src: '/icons/ceiling.png' },
     paletteSection: 'structure',
     paletteOrder: 40,
   },
 
   mcp: {
-    description: 'A polygon-bounded ceiling with optional cutout holes.',
+    description: 'Sufit ograniczony wielokątem z opcjonalnymi otworami.',
   },
 }

@@ -1,4 +1,6 @@
+import { formatLevelName } from '../../../../../lib/i18n'
 import {
+
   type AnyNode,
   type AnyNodeId,
   type BuildingNode,
@@ -147,7 +149,7 @@ const PropertyLineSection = memo(function PropertyLineSection() {
 
         <div className="flex items-center gap-2">
           <Pentagon className="h-4 w-4 text-muted-foreground" />
-          <span className="font-medium text-sm">Property Line</span>
+          <span className="font-medium text-sm">Linia działki</span>
         </div>
         <button
           className={cn(
@@ -167,7 +169,7 @@ const PropertyLineSection = memo(function PropertyLineSection() {
         <div className="text-muted-foreground text-xs">Powierzchnia:<span className="text-foreground">{area.toFixed(1)} m²</span>
         </div>
         <div className="text-muted-foreground text-xs">
-          Perimeter: <span className="text-foreground">{perimeter.toFixed(1)} m</span>
+          Obwód: <span className="text-foreground">{perimeter.toFixed(1)} m</span>
         </div>
       </div>
 
@@ -536,7 +538,7 @@ const LevelReferences = memo(function LevelReferences({
                 ) : (
                   <Plus className="h-3.5 w-3.5" />
                 )}
-                {uploading ? `Uploading ${uploadingType}... ${progress}%` : 'Upload scan/floorplan'}
+                {uploading ? `Wgrywanie ${uploadingType}... ${progress}%` : 'Wgraj skan/rzut'}
               </button>
 
               <input
@@ -716,7 +718,7 @@ const LevelItem = memo(function LevelItem({
             src="/icons/level.png"
           />
           <InlineRenameInput
-            defaultName={`Level ${level.level}`}
+            defaultName={formatLevelName(level.level)}
             isEditing={isEditing}
             nodeId={level.id}
             onStartEditing={() => setIsEditing(true)}
@@ -1385,7 +1387,7 @@ const BuildingItem = memo(function BuildingItem({
             )}
             src="/icons/building.png"
           />
-          <span className="truncate font-medium text-sm">{building.name || 'Building'}</span>
+          <span className="truncate font-medium text-sm">{building.name || 'Budynek'}</span>
         </div>
         <Popover
           onOpenChange={(open) => setBuildingCameraOpen(open ? building.id : null)}

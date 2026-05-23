@@ -257,7 +257,7 @@ export function SlabPanel() {
             className="w-full"
             disabled={editingHole?.nodeId === selectedId}
             icon={<Plus className="h-3.5 w-3.5" />}
-            label="Add Hole"
+            label="Dodaj otwór"
             onClick={handleAddHole}
           />
         </div>

@@ -54,13 +54,13 @@ export const zoneDefinition: NodeDefinition<typeof ZoneNode> = {
 
   presentation: {
     label: 'Zone',
-    description: 'A polygonal site zone (lawn, water, paving) with a TSL gradient material.',
+    description: 'Wielokątna strefa działki (trawnik, woda, nawierzchnia) z gradientowym materiałem.',
     icon: { kind: 'url', src: '/icons/zone.png' },
     paletteSection: 'site',
     paletteOrder: 20,
   },
 
   mcp: {
-    description: 'A polygon-bounded site zone with a typed surface (grass / water / paving / ...).',
+    description: 'Wielokątna strefa działki z typowaną powierzchnią (trawa / woda / nawierzchnia / ...).',
   },
 }

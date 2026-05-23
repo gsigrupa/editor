@@ -1,4 +1,6 @@
+import { formatLevelName } from '../../../../../lib/i18n'
 import { type LevelNode, useScene } from '@pascal-app/core'
+
 import { useViewer } from '@pascal-app/viewer'
 import { Layers } from 'lucide-react'
 import { memo, useCallback, useState } from 'react'
@@ -35,7 +37,7 @@ export const LevelTreeNode = memo(function LevelTreeNode({
   const handleStartEditing = useCallback(() => setIsEditing(true), [])
   const handleStopEditing = useCallback(() => setIsEditing(false), [])
 
-  const defaultName = `Level ${level}`
+  const defaultName = formatLevelName(level)
 
   return (
     <TreeNodeWrapper

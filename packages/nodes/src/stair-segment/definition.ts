@@ -36,13 +36,13 @@ export const stairSegmentDefinition: NodeDefinition<typeof StairSegmentNode> = {
 
   presentation: {
     label: 'Stair Segment',
-    description: 'A single flight of a parent stair.',
+    description: 'Pojedynczy bieg schodów.',
     icon: { kind: 'url', src: '/icons/stairs.png' },
     paletteSection: 'structure',
     paletteOrder: 111,
   },
 
   mcp: {
-    description: 'A single stair flight with run + rise + tread parameters.',
+    description: 'Pojedynczy bieg schodów z parametrami głębokości, wysokości i stopnia.',
   },
 }

@@ -1,3 +1,4 @@
+import { formatLevelName } from '../i18n'
 'use client'
 
 import {
@@ -602,7 +603,7 @@ export default function ElevatorPanel() {
             >
               {levels.map((level) => (
                 <option key={level.id} value={level.id}>
-                  {level.name || `Level ${level.level}`}
+                  {level.name || formatLevelName(level.level)}
                 </option>
               ))}
             </select>
@@ -619,7 +620,7 @@ export default function ElevatorPanel() {
             >
               {levels.map((level) => (
                 <option key={level.id} value={level.id}>
-                  {level.name || `Level ${level.level}`}
+                  {level.name || formatLevelName(level.level)}
                 </option>
               ))}
             </select>
@@ -637,7 +638,7 @@ export default function ElevatorPanel() {
           >
             {defaultLevelOptions.map((level) => (
               <option key={level.id} value={level.id}>
-                {level.name || `Level ${level.level}`}
+                {level.name || formatLevelName(level.level)}
               </option>
             ))}
           </select>
@@ -817,7 +818,7 @@ export default function ElevatorPanel() {
                 key={level.id}
               >
                 <span className="min-w-0 truncate text-sm">
-                  {level.name || `Level ${level.level}`}
+                  {level.name || formatLevelName(level.level)}
                 </span>
                 <div className="flex shrink-0 gap-1.5">
                   <button
@@ -872,7 +873,7 @@ export default function ElevatorPanel() {
                 type="button"
               >
                 <span className="flex min-w-0 flex-col">
-                  <span className="truncate text-xs">{level.name || `Level ${level.level}`}</span>
+                  <span className="truncate text-xs">{level.name || formatLevelName(level.level)}</span>
                   {isDisabled ? (
                     <span className="mt-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-current/65">
                       Disabled

@@ -1,4 +1,6 @@
 'use client'
+import { formatLevelName } from '../../lib/i18n'
+
 
 import {
   closestCenter,
@@ -61,7 +63,7 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from './primitives/popover'
 
 function getLevelDisplayLabel(level: LevelNode) {
-  return level.name || `Level ${level.level}`
+  return level.name || formatLevelName(level.level)
 }
 
 // ── Inline rename input for a level row ─────────────────────────────────────
@@ -76,7 +78,7 @@ function LevelInlineRename({
   onStopEditing: () => void
 }) {
   const updateNode = useScene((s) => s.updateNode)
-  const defaultName = `Level ${level.level}`
+  const defaultName = formatLevelName(level.level)
   const [value, setValue] = useState(level.name || '')
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -514,7 +516,7 @@ export function FloatingLevelSelector() {
             <button
               className={cn(addButtonClass, 'top-0 -translate-y-1/2')}
               onClick={handleAddAbove}
-              title="Add level above"
+              title="Dodaj piętro wyżej"
               type="button"
             >
               <Plus className="h-2.5 w-2.5" />
@@ -526,7 +528,7 @@ export function FloatingLevelSelector() {
             <button
               className={cn(addButtonClass, 'bottom-0 translate-y-1/2')}
               onClick={handleAddBelow}
-              title="Add level below"
+              title="Dodaj piętro niżej"
               type="button"
             >
               <Plus className="h-2.5 w-2.5" />

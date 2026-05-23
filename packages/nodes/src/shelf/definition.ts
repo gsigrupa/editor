@@ -108,7 +108,7 @@ export const shelfDefinition: NodeDefinition<typeof ShelfNode> = {
 
   presentation: {
     label: 'Shelf',
-    description: 'A configurable shelving unit. Items host on each row.',
+    description: 'Konfigurowalna półka. Elementy umieszczane na każdym poziomie.',
     icon: { kind: 'url', src: '/icons/shelf.png' },
     paletteSection: 'furnish',
     paletteOrder: 30,

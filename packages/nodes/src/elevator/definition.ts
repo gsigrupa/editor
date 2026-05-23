@@ -42,13 +42,13 @@ export const elevatorDefinition: NodeDefinition<typeof ElevatorNode> = {
 
   presentation: {
     label: 'Elevator',
-    description: 'A multi-level elevator shaft with configurable openings per level.',
+    description: 'Wielopoziomowy szyb windy z konfigurowalnymi otworami na poziom.',
     icon: { kind: 'url', src: '/icons/wallcut.png' },
     paletteSection: 'structure',
     paletteOrder: 80,
   },
 
   mcp: {
-    description: 'A multi-level elevator with shaft + openings per level.',
+    description: 'Wielopoziomowa winda z szybem i otworami na poziom.',
   },
 }
