@@ -93,6 +93,14 @@ export function resolveDefaultDatabasePath(env: NodeJS.ProcessEnv = process.env)
   if (env.PASCAL_DATA_DIR && env.PASCAL_DATA_DIR.length > 0) {
     return path.join(env.PASCAL_DATA_DIR, 'pascal.db')
   }
+  // GSI fork: Vercel / AWS Lambda serverless = read-only filesystem
+  // poza /tmp. Default homedir-based path padlby EROFS. /tmp jest
+  // ephemeral (znika przy scale-down / redeploy) ale wystarczy dla
+  // demo/testowania. Dla persistencji: ustawic Vercel Blob / Postgres
+  // przez custom storage adapter (osobny task).
+  if (env.VERCEL === '1' || env.AWS_LAMBDA_FUNCTION_NAME) {
+    return '/tmp/pascal.db'
+  }
   if (process.platform === 'win32') {
     const appData = env.APPDATA
     if (appData && appData.length > 0) {
