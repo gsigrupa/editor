@@ -69,8 +69,8 @@ export function StructureTools() {
             className={cn(
               'rounded-lg duration-300',
               isActive
-                ? 'z-10 scale-110 bg-black/40 hover:bg-black/40'
-                : 'scale-95 bg-transparent opacity-60 grayscale hover:bg-black/20 hover:opacity-100 hover:grayscale-0',
+                ? 'z-10 scale-110 bg-foreground/10 hover:bg-foreground/15'
+                : 'scale-95 bg-transparent opacity-60 grayscale hover:bg-foreground/10 hover:opacity-100 hover:grayscale-0',
             )}
             key={`${tool.id}-${tool.catalogCategory ?? index}`}
             label={tool.label}
