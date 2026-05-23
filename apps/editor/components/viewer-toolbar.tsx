@@ -101,7 +101,7 @@ const SHADING_OPTIONS = [
   { id: 'rendered', name: 'Rendered', detail: 'Full ambient occlusion', icon: Sparkles },
 ] as const
 
-function ViewModeControl() {
+export function ViewModeControl() {
   const viewMode = useEditor((state) => state.viewMode)
   const setViewMode = useEditor((state) => state.setViewMode)
 
@@ -136,7 +136,7 @@ function ViewModeControl() {
   )
 }
 
-function CollapseSidebarButton() {
+export function CollapseSidebarButton() {
   const isCollapsed = useSidebarStore((state) => state.isCollapsed)
   const setIsCollapsed = useSidebarStore((state) => state.setIsCollapsed)
 

@@ -26,9 +26,40 @@ import {
   type SceneGraph,
   type SidebarTab,
 } from '@pascal-app/editor'
-import { Layers, Package, Settings } from 'lucide-react'
+import { ArrowLeft, Layers, Package, Settings } from 'lucide-react'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { CommunityViewerToolbarLeft, CommunityViewerToolbarRight } from './viewer-toolbar'
+import {
+  CollapseSidebarButton,
+  CommunityViewerToolbarRight,
+  ViewModeControl,
+} from './viewer-toolbar'
+
+/**
+ * GSI fork: button "Wróć do projektu" w viewer toolbar (lewa strona).
+ * Styl matchujący Pascal toolbar (TOOLBAR_CONTAINER pattern), pozycja
+ * przed CollapseSidebarButton + ViewModeControl. Klik → postMessage do
+ * GSI parent z prośbą o nawigację (parent czeka 1.2s na flush autosave,
+ * potem push do /app/inwestycje/[id]?tab=model3d).
+ */
+function BackToProjectButton({ parentOrigin }: { parentOrigin: string }) {
+  const handleClick = () => {
+    if (typeof window === 'undefined' || !window.parent || window.parent === window) return
+    window.parent.postMessage({ type: 'gsi:navigate-back' }, parentOrigin)
+  }
+  return (
+    <div className="inline-flex h-8 items-stretch overflow-hidden rounded-xl border border-border bg-background/90 shadow-2xl backdrop-blur-md">
+      <button
+        aria-label="Wróć do projektu"
+        className="flex items-center gap-1.5 px-3 text-muted-foreground/80 text-xs transition-colors hover:bg-accent hover:text-foreground/90"
+        onClick={handleClick}
+        type="button"
+      >
+        <ArrowLeft className="h-3.5 w-3.5" />
+        <span>Wróć do projektu</span>
+      </button>
+    </div>
+  )
+}
 
 const SIDEBAR_TABS: (SidebarTab & { component: React.ComponentType })[] = [
   {
@@ -160,7 +191,13 @@ export function EmbedSceneLoader({ projectId, parentOrigin }: EmbedSceneLoaderPr
         onThumbnailCapture={handleThumbnail}
         projectId={projectId}
         sidebarTabs={SIDEBAR_TABS}
-        viewerToolbarLeft={<CommunityViewerToolbarLeft />}
+        viewerToolbarLeft={
+          <>
+            <CollapseSidebarButton />
+            <BackToProjectButton parentOrigin={parentOrigin} />
+            <ViewModeControl />
+          </>
+        }
         viewerToolbarRight={<CommunityViewerToolbarRight />}
       />
     </div>
