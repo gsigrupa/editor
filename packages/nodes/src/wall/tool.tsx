@@ -94,6 +94,36 @@ function formatMeasurement(value: number, _unit: 'metric' | 'imperial', lengthUn
   return `${Math.round(value * 100)} cm`
 }
 
+/**
+ * GSI fork: SketchUp-style numeric input.
+ *
+ * Parsuje user-typed string (np. "1,05" lub "105") interpretowany w
+ * aktywnej jednostce długości viewer'a. Zwraca metry albo null gdy
+ * nieparsowalny (pusty / kropka tylko / NaN / ≤ 0).
+ *
+ * Akceptuje '.' i ',' jako separator dziesiętny.
+ */
+function parsePendingLengthToMeters(
+  input: string,
+  lengthUnit: 'm' | 'cm' | 'mm',
+): number | null {
+  const trimmed = input.trim().replace(',', '.')
+  if (trimmed.length === 0 || trimmed === '.') return null
+  const value = Number.parseFloat(trimmed)
+  if (!Number.isFinite(value) || value <= 0) return null
+  if (lengthUnit === 'mm') return value / 1000
+  if (lengthUnit === 'cm') return value / 100
+  return value
+}
+
+/**
+ * GSI fork: HUD label dla typed numeric input. Pokazuje string z
+ * jednostką + trailing pipe jako wskaźnik kursora ("105 cm |").
+ */
+function formatPendingLengthLabel(input: string, lengthUnit: 'm' | 'cm' | 'mm'): string {
+  return `${input || '0'} ${lengthUnit} |`
+}
+
 function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value))
 }
@@ -391,10 +421,87 @@ export const WallTool: React.FC = () => {
   useEffect(() => {
     let gridPosition: WallPlanPoint = [0, 0]
     let previousWallEnd: [number, number] | null = null
+    // GSI fork: SketchUp-style numeric input. Po pierwszym kliku user
+    // może wpisać długość (cyfry + '.' lub ','), Enter commituje wall
+    // na exact length w kierunku cursora (z angle-snap 45° gdy !Shift).
+    // Pusty string = brak active input → standardowy click-to-end flow.
+    let pendingLength = ''
+    // Cache ostatniego computed measurement (od onGridMove). Używane do
+    // refresh label gdy user pisze cyfry BEZ ruszania myszką — bez tego
+    // HUD nie aktualizowałby się aż do następnego onGridMove.
+    let lastBaseMeasurement: DraftMeasurementState = null
 
     const stopDrafting = () => {
       buildingState.current = 0
       wallPreviewRef.current.visible = false
+      setDraftMeasurement(null)
+      pendingLength = ''
+      lastBaseMeasurement = null
+    }
+
+    // Wymuś re-render measurement HUD z aktualnym pendingLength override.
+    // Wywołane po każdej zmianie pendingLength w onKeyDown.
+    const refreshMeasurementLabel = () => {
+      if (!lastBaseMeasurement) return
+      if (pendingLength.length > 0) {
+        setDraftMeasurement({
+          ...lastBaseMeasurement,
+          lengthLabel: formatPendingLengthLabel(
+            pendingLength,
+            useViewer.getState().lengthUnit,
+          ),
+        })
+      } else {
+        // Pusty bufor — restore computed length z lastBase.
+        setDraftMeasurement(lastBaseMeasurement)
+      }
+    }
+
+    // GSI fork helper: compute end-point od typed length + cursor
+    // direction. Zwraca null gdy zero direction (cursor na start).
+    const computeNumericEndPoint = (lengthMeters: number): WallPlanPoint | null => {
+      const startX = startingPoint.current.x
+      const startZ = startingPoint.current.z
+      const dx = gridPosition[0] - startX
+      const dz = gridPosition[1] - startZ
+      const dist = Math.hypot(dx, dz)
+      if (dist < 0.001) {
+        // Cursor na start point — brak kierunku, ignore Enter.
+        return null
+      }
+      let dirX = dx / dist
+      let dirZ = dz / dist
+      // Angle snap (45°) gdy Shift puszczony — tak samo jak normalny click.
+      if (!shiftPressed.current) {
+        const angle = Math.atan2(dirZ, dirX)
+        const snapAngle = Math.PI / 4 // 45°
+        const snappedAngle = Math.round(angle / snapAngle) * snapAngle
+        dirX = Math.cos(snappedAngle)
+        dirZ = Math.sin(snappedAngle)
+      }
+      return [startX + dirX * lengthMeters, startZ + dirZ * lengthMeters]
+    }
+
+    // GSI fork helper: commit segment z typed length. Wykonuje to samo
+    // co `onGridClick` z buildingState===1, ale używa numerycznego end.
+    const commitNumericLength = (): void => {
+      const lengthUnit = useViewer.getState().lengthUnit
+      const lengthMeters = parsePendingLengthToMeters(pendingLength, lengthUnit)
+      if (lengthMeters === null) return
+      const endPoint = computeNumericEndPoint(lengthMeters)
+      if (!endPoint) return
+      const createdWall = createWallOnCurrentLevel(
+        [startingPoint.current.x, startingPoint.current.z],
+        endPoint,
+      )
+      if (!createdWall) return
+
+      const nextStart = createdWall.end
+      startingPoint.current.set(nextStart[0], startingPoint.current.y, nextStart[1])
+      endingPoint.current.copy(startingPoint.current)
+      cursorRef.current?.position.copy(startingPoint.current)
+      buildingState.current = 1
+      pendingLength = ''
       setDraftMeasurement(null)
     }
 
@@ -425,15 +532,27 @@ export const WallTool: React.FC = () => {
         previousWallEnd = currentWallEnd
 
         updateWallPreview(wallPreviewRef.current, startingPoint.current, endingPoint.current)
-        setDraftMeasurement(
-          getDraftMeasurementState(
-            [startingPoint.current.x, startingPoint.current.z],
-            snappedLocal,
-            walls,
-            unit,
-            startingPoint.current.y,
-          ),
+        const baseMeasurement = getDraftMeasurementState(
+          [startingPoint.current.x, startingPoint.current.z],
+          snappedLocal,
+          walls,
+          unit,
+          startingPoint.current.y,
         )
+        // GSI fork: cache base measurement do refresh przy keydown bez
+        // ruszania myszki. Override length label gdy mamy typed input.
+        lastBaseMeasurement = baseMeasurement
+        if (pendingLength.length > 0 && baseMeasurement) {
+          setDraftMeasurement({
+            ...baseMeasurement,
+            lengthLabel: formatPendingLengthLabel(
+              pendingLength,
+              useViewer.getState().lengthUnit,
+            ),
+          })
+        } else {
+          setDraftMeasurement(baseMeasurement)
+        }
       } else {
         cursorRef.current.position.set(gridPosition[0], event.localPosition[1], gridPosition[1])
         setDraftMeasurement(null)
@@ -484,7 +603,49 @@ export const WallTool: React.FC = () => {
     }
 
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Shift') shiftPressed.current = true
+      if (e.key === 'Shift') {
+        shiftPressed.current = true
+        return
+      }
+      // GSI fork: SketchUp-style numeric input — działa tylko gdy
+      // mamy aktywny segment (po pierwszym kliku).
+      if (buildingState.current !== 1) return
+
+      // Capture phase + stopImmediatePropagation jest konieczny, bo
+      // globalny `useKeyboard` (packages/editor/src/hooks/use-keyboard.ts)
+      // intercept'uje cyfry 1/2/3 jako phase shortcuts site/structure/
+      // furnish. Bez stop'u: wpisanie '1' wymontowuje wall tool.
+
+      // Cyfry: dopisz do bufora.
+      if (e.key >= '0' && e.key <= '9') {
+        pendingLength = pendingLength + e.key
+        refreshMeasurementLabel()
+        e.preventDefault()
+        e.stopImmediatePropagation()
+        return
+      }
+      // Separator dziesiętny — tylko jeden raz.
+      if ((e.key === '.' || e.key === ',') && !pendingLength.includes('.')) {
+        pendingLength = pendingLength + '.'
+        refreshMeasurementLabel()
+        e.preventDefault()
+        e.stopImmediatePropagation()
+        return
+      }
+      if (e.key === 'Backspace') {
+        if (pendingLength.length > 0) {
+          pendingLength = pendingLength.slice(0, -1)
+          refreshMeasurementLabel()
+          e.preventDefault()
+          e.stopImmediatePropagation()
+        }
+        return
+      }
+      if (e.key === 'Enter' && pendingLength.length > 0) {
+        commitNumericLength()
+        e.preventDefault()
+        e.stopImmediatePropagation()
+      }
     }
 
     const onKeyUp = (e: KeyboardEvent) => {
@@ -492,6 +653,14 @@ export const WallTool: React.FC = () => {
     }
 
     const onCancel = () => {
+      // GSI fork: Escape z aktywnym numeric inputem czyści TYLKO bufor,
+      // nie anuluje drafting. Drugi Escape (już bez bufora) → cancel.
+      if (buildingState.current === 1 && pendingLength.length > 0) {
+        markToolCancelConsumed()
+        pendingLength = ''
+        refreshMeasurementLabel()
+        return
+      }
       if (buildingState.current === 1) {
         markToolCancelConsumed()
         stopDrafting()
@@ -501,14 +670,18 @@ export const WallTool: React.FC = () => {
     emitter.on('grid:move', onGridMove)
     emitter.on('grid:click', onGridClick)
     emitter.on('tool:cancel', onCancel)
-    window.addEventListener('keydown', onKeyDown)
+    // GSI fork: capture phase żeby odpalić PRZED globalnym `useKeyboard`
+    // (który łapie cyfry 1/2/3 jako phase shortcuts). W obrębie aktywnego
+    // wall-draftu cyfry idą do numeric input — `stopImmediatePropagation`
+    // w handlerze blokuje useKeyboard.
+    window.addEventListener('keydown', onKeyDown, { capture: true })
     window.addEventListener('keyup', onKeyUp)
 
     return () => {
       emitter.off('grid:move', onGridMove)
       emitter.off('grid:click', onGridClick)
       emitter.off('tool:cancel', onCancel)
-      window.removeEventListener('keydown', onKeyDown)
+      window.removeEventListener('keydown', onKeyDown, { capture: true })
       window.removeEventListener('keyup', onKeyUp)
     }
   }, [unit])

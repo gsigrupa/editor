@@ -101,7 +101,9 @@ export const wallDefinition: NodeDefinition<typeof WallNode> = {
 
   toolHints: [
     { key: 'Lewy klik', label: 'Ustaw początek/koniec ściany' },
-    { key: 'Shift', label: 'Pozwól na dowolne kąty (nie 45°)' },
+    { key: 'Shift', label: 'Pozwól na dowolne kąty (bez snapu do 45°)' },
+    { key: '0-9 + Enter', label: 'Wpisz długość ściany (np. 105 + Enter)' },
+    { key: 'Backspace', label: 'Edytuj wpisaną długość' },
     { key: 'Esc', label: 'Anuluj' },
   ],
 

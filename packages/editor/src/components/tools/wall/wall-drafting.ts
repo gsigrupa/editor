@@ -21,14 +21,11 @@ export type WallPlanPoint = [number, number]
 export const WALL_GRID_STEP = 0.5
 export const WALL_JOIN_SNAP_RADIUS = 0.35
 export const WALL_MIN_LENGTH = 0.01
+// GSI fork: stały snap 45° niezależnie od grid step.
+// Upstream Pascal mapował angle step na grid (np. 0.05 grid → 5° snap),
+// co dla drobnych grid'ów efektywnie znosiło snap i hint Shift kłamał.
+// SketchUp-style: zawsze 45° co, Shift = pełna swoboda.
 const DEFAULT_WALL_ANGLE_SNAP_STEP = Math.PI / 4
-
-const WALL_ANGLE_SNAP_BY_GRID_STEP: Record<number, number> = {
-  0.5: Math.PI / 4,
-  0.25: Math.PI / 8,
-  0.1: Math.PI / 12,
-  0.05: Math.PI / 36,
-}
 
 type WallSplitIntersection = {
   wallId: WallNode['id']
@@ -71,8 +68,10 @@ export function snapPointTo45Degrees(
   )
 }
 
-export function getWallAngleSnapStep(step = getWallGridStep()): number {
-  return WALL_ANGLE_SNAP_BY_GRID_STEP[step] ?? DEFAULT_WALL_ANGLE_SNAP_STEP
+export function getWallAngleSnapStep(_step = getWallGridStep()): number {
+  // GSI fork: zawsze 45° niezależnie od grid step (patrz komentarz przy
+  // DEFAULT_WALL_ANGLE_SNAP_STEP). Parametr zostawiony dla compat ABI.
+  return DEFAULT_WALL_ANGLE_SNAP_STEP
 }
 
 function projectPointOntoWall(point: WallPlanPoint, wall: WallNode): WallPlanPoint | null {
