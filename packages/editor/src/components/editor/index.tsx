@@ -1022,11 +1022,12 @@ export default function Editor({
     }
   }, [isVersionPreviewMode])
 
+  // Light mode default (GSI Platform fork) — Pascal oryginalnie forsował
+  // `dark` class na body żeby UI chrome (sidebar, top dock, bottom dock)
+  // używał ciemnych CSS variables. Usuwamy żeby pasować do GSI light theme.
+  // Theme dla 3D sceny (useViewer.theme) zostaje configurable.
   useEffect(() => {
-    document.body.classList.add('dark')
-    return () => {
-      document.body.classList.remove('dark')
-    }
+    document.body.classList.remove('dark')
   }, [])
 
   const showLoader = isLoading || isSceneLoading
