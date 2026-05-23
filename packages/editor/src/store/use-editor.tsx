@@ -135,6 +135,11 @@ export type GuideUiState = {
   scaleReferenceVisible?: boolean
 }
 
+// GSI fork: persistent camera tool (SketchUp style — H = Pan tryb, O = Orbit tryb).
+// null = camera nieaktywna (LMB idzie do selection/build tools). Middle mouse
+// button (scroll wheel) ZAWSZE override na Orbit, niezależnie od cameraTool.
+export type CameraTool = 'pan' | 'orbit' | null
+
 type EditorState = {
   phase: Phase
   setPhase: (phase: Phase) => void
@@ -142,6 +147,8 @@ type EditorState = {
   setMode: (mode: Mode) => void
   tool: Tool | null
   setTool: (tool: Tool | null) => void
+  cameraTool: CameraTool
+  setCameraTool: (cameraTool: CameraTool) => void
   structureLayer: StructureLayer
   setStructureLayer: (layer: StructureLayer) => void
   catalogCategory: CatalogCategory | null
@@ -576,6 +583,8 @@ const useEditor = create<EditorState>()(
           zoneId: null,
         })
       },
+      cameraTool: null as CameraTool,
+      setCameraTool: (cameraTool) => set({ cameraTool }),
       catalogCategory: DEFAULT_PERSISTED_EDITOR_UI_STATE.catalogCategory,
       setCatalogCategory: (category) => set({ catalogCategory: category }),
       selectedItem: null,

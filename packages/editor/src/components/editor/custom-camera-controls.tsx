@@ -168,7 +168,6 @@ export const CustomCameraControls = () => {
       shiftLeft: false,
       controlRight: false,
       controlLeft: false,
-      space: false,
     }
 
     const updateConfig = () => {
@@ -176,30 +175,37 @@ export const CustomCameraControls = () => {
 
       const shift = keyState.shiftRight || keyState.shiftLeft
       const control = keyState.controlRight || keyState.controlLeft
-      const space = keyState.space
+      // GSI fork: cameraTool persistent (H/O toggle z use-keyboard.ts).
+      // null = LMB nieaktywny (idzie do select/build). 'pan' = SCREEN_PAN.
+      // 'orbit' = ROTATE. Middle mouse button ZAWSZE ROTATE (chwilowy
+      // orbit override SketchUp-style — niezależny od cameraTool).
+      const cameraTool = useEditor.getState().cameraTool
 
       const wheelAction =
         cameraMode === 'orthographic'
           ? CameraControlsImpl.ACTION.ZOOM
           : CameraControlsImpl.ACTION.DOLLY
       controls.current.mouseButtons.wheel = wheelAction
-      controls.current.mouseButtons.middle = CameraControlsImpl.ACTION.SCREEN_PAN
+      controls.current.mouseButtons.middle = CameraControlsImpl.ACTION.ROTATE
       controls.current.mouseButtons.right = CameraControlsImpl.ACTION.ROTATE
       if (isPreviewMode) {
         // In preview mode, left-click is always pan (viewer-style)
         controls.current.mouseButtons.left = CameraControlsImpl.ACTION.SCREEN_PAN
-      } else if (space) {
+      } else if (cameraTool === 'pan') {
         controls.current.mouseButtons.left = CameraControlsImpl.ACTION.SCREEN_PAN
+      } else if (cameraTool === 'orbit') {
+        controls.current.mouseButtons.left = CameraControlsImpl.ACTION.ROTATE
       } else {
         controls.current.mouseButtons.left = CameraControlsImpl.ACTION.NONE
       }
+
+      // Cursor visual feedback dla aktywnego cameraTool.
+      if (cameraTool === 'pan') document.body.style.cursor = 'grab'
+      else if (cameraTool === 'orbit') document.body.style.cursor = 'move'
+      else document.body.style.cursor = ''
     }
 
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.code === 'Space') {
-        keyState.space = true
-        document.body.style.cursor = 'grab'
-      }
       if (event.code === 'ShiftRight') {
         keyState.shiftRight = true
       }
@@ -216,10 +222,6 @@ export const CustomCameraControls = () => {
     }
 
     const onKeyUp = (event: KeyboardEvent) => {
-      if (event.code === 'Space') {
-        keyState.space = false
-        document.body.style.cursor = ''
-      }
       if (event.code === 'ShiftRight') {
         keyState.shiftRight = false
       }
@@ -237,11 +239,22 @@ export const CustomCameraControls = () => {
 
     document.addEventListener('keydown', onKeyDown)
     document.addEventListener('keyup', onKeyUp)
+    // GSI fork: subscribe na zmiany cameraTool (H/O toggle z use-keyboard.ts).
+    // Zustand bez subscribeWithSelector middleware — manualny diff w listenerze.
+    let lastCameraTool = useEditor.getState().cameraTool
+    const unsubStore = useEditor.subscribe((state) => {
+      if (state.cameraTool !== lastCameraTool) {
+        lastCameraTool = state.cameraTool
+        updateConfig()
+      }
+    })
     updateConfig()
 
     return () => {
       document.removeEventListener('keydown', onKeyDown)
       document.removeEventListener('keyup', onKeyUp)
+      unsubStore()
+      document.body.style.cursor = ''
     }
   }, [cameraMode, isPreviewMode])
 

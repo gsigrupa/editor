@@ -63,6 +63,8 @@ export const useKeyboard = ({
           // Clear selections to close UI panels, but KEEP the active building and level context.
           useViewer.getState().setSelection({ selectedIds: [], zoneId: null })
           useEditor.getState().setSelectedReferenceId(null)
+          // GSI fork: Esc wyłącza też persistent cameraTool (H/O).
+          useEditor.getState().setCameraTool(null)
         }
       } else if (e.key === '1' && !e.metaKey && !e.ctrlKey) {
         e.preventDefault()
@@ -101,6 +103,19 @@ export const useKeyboard = ({
         useEditor.getState().setPhase('structure')
         useEditor.getState().setStructureLayer('elements')
         useEditor.getState().setMode('build')
+      } else if (e.key === 'h' && !e.metaKey && !e.ctrlKey) {
+        // GSI fork: H = persistent Pan camera tool (SketchUp style toggle).
+        // Drugi raz H = wyłącza (toggle back).
+        if (isVersionPreviewMode) return
+        e.preventDefault()
+        const current = useEditor.getState().cameraTool
+        useEditor.getState().setCameraTool(current === 'pan' ? null : 'pan')
+      } else if (e.key === 'o' && !e.metaKey && !e.ctrlKey) {
+        // GSI fork: O = persistent Orbit camera tool.
+        if (isVersionPreviewMode) return
+        e.preventDefault()
+        const current = useEditor.getState().cameraTool
+        useEditor.getState().setCameraTool(current === 'orbit' ? null : 'orbit')
       } else if (e.key === 'd' && !e.metaKey && !e.ctrlKey) {
         if (isVersionPreviewMode) return
         e.preventDefault()

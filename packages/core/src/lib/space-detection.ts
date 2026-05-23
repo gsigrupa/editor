@@ -1011,8 +1011,96 @@ function runSpaceDetection(
   editorStore.getState().setSpaces(nextSpaces)
 }
 
+// GSI fork: regex name patternu auto-slab/ceiling — używane do detekcji
+// czy nazwa jest "domyślna" (czy można ją bezpiecznie nadpisać przy
+// kaskadzie rename zone). Pasuje do:
+//   - "Pomieszczenie N Podłoga/Sufit" (current convention)
+//   - "Room N Slab/Ceiling" (legacy upstream)
+//   - "<dowolna nazwa> Podłoga/Sufit" (po wcześniejszym rename zone)
+const AUTO_ROOM_NAME_PATTERN = /^(?:.+?)\s+(Podłoga|Sufit|Slab|Ceiling)$/i
+
+// GSI fork: cascade — gdy user zmieni nazwę auto-zone (np. "Pomieszczenie 1"
+// → "Kuchnia"), znajdź auto-slab + auto-ceiling z polygon match i zaktualizuj
+// ich nazwy na "<nowa nazwa> Podłoga" i "<nowa nazwa> Sufit". User-rename'd
+// slab/ceiling (name nie matchuje AUTO_ROOM_NAME_PATTERN) nie są ruszane.
+function cascadeZoneNameToSlabsAndCeilings(
+  sceneStore: any,
+  changedZones: Array<{ zone: ZoneNodeType; previousName: string }>,
+): void {
+  if (changedZones.length === 0) return
+
+  const nodes = sceneStore.getState().nodes
+  const allSlabs: SlabNodeType[] = []
+  const allCeilings: CeilingNodeType[] = []
+  for (const node of Object.values(nodes)) {
+    const n = node as any
+    if (!n) continue
+    if (n.type === 'slab' && n.autoFromWalls === true) {
+      allSlabs.push(SlabNode.parse(n))
+    } else if (n.type === 'ceiling' && n.autoFromWalls === true) {
+      allCeilings.push(CeilingNode.parse(n))
+    }
+  }
+
+  const updates: Array<{ id: string; data: { name: string } }> = []
+
+  for (const { zone } of changedZones) {
+    const zonePolygon = zone.polygon as Array<[number, number]>
+    const newName = zone.name
+
+    // Znajdź auto-slab z polygon match
+    const matchedSlab = allSlabs.find((slab) =>
+      sameTuplePolygon(slab.polygon as Array<[number, number]>, zonePolygon),
+    )
+    if (matchedSlab && AUTO_ROOM_NAME_PATTERN.test(matchedSlab.name ?? '')) {
+      const expectedName = `${newName} Podłoga`
+      if (matchedSlab.name !== expectedName) {
+        updates.push({ id: matchedSlab.id, data: { name: expectedName } })
+      }
+    }
+
+    // Auto-ceiling z polygon match
+    const matchedCeiling = allCeilings.find((ceiling) =>
+      sameTuplePolygon(ceiling.polygon as Array<[number, number]>, zonePolygon),
+    )
+    if (matchedCeiling && AUTO_ROOM_NAME_PATTERN.test(matchedCeiling.name ?? '')) {
+      const expectedName = `${newName} Sufit`
+      if (matchedCeiling.name !== expectedName) {
+        updates.push({ id: matchedCeiling.id, data: { name: expectedName } })
+      }
+    }
+  }
+
+  // GSI fork debug
+  if (typeof window !== 'undefined') {
+    ;(window as any).__cascadeDebug = {
+      changedZones: changedZones.length,
+      allSlabs: allSlabs.length,
+      allCeilings: allCeilings.length,
+      slabPolygonsPreview: allSlabs.slice(0, 3).map((s) => ({
+        id: s.id,
+        name: s.name,
+        firstPoint: s.polygon[0],
+      })),
+      zonePolygonsPreview: changedZones.map((c) => ({
+        id: c.zone.id,
+        name: c.zone.name,
+        firstPoint: c.zone.polygon[0],
+      })),
+      updates,
+    }
+  }
+
+  if (updates.length > 0) {
+    sceneStore.getState().updateNodes(updates)
+  }
+}
+
 export function initSpaceDetectionSync(sceneStore: any, editorStore: any): () => void {
   const previousSnapshots = new Map<string, string>()
+  // GSI fork: cache poprzednich nazw auto-zones do detekcji rename
+  // i cascade do slab/ceiling.
+  const previousZoneNames = new Map<string, string>()
   let isProcessing = false
 
   const unsubscribe = sceneStore.subscribe((state: any) => {
@@ -1031,6 +1119,21 @@ export function initSpaceDetectionSync(sceneStore: any, editorStore: any): () =>
       }
     }
 
+    // GSI fork: zbierz auto-zones z aktualnego state + detect rename
+    const currentAutoZones = new Map<string, ZoneNodeType>()
+    const changedZones: Array<{ zone: ZoneNodeType; previousName: string }> = []
+    for (const node of Object.values(nodes)) {
+      const n = node as any
+      if (n && n.type === 'zone' && n.autoFromWalls === true) {
+        const parsed = ZoneNode.parse(n)
+        currentAutoZones.set(parsed.id, parsed)
+        const prev = previousZoneNames.get(parsed.id)
+        if (prev !== undefined && prev !== parsed.name) {
+          changedZones.push({ zone: parsed, previousName: prev })
+        }
+      }
+    }
+
     const currentSnapshots = new Map<string, string>()
     for (const [levelId, walls] of wallsByLevel.entries()) {
       currentSnapshots.set(levelId, levelWallSnapshot(walls))
@@ -1043,10 +1146,36 @@ export function initSpaceDetectionSync(sceneStore: any, editorStore: any): () =>
       }
     }
 
-    if (levelsToUpdate.size === 0) {
+    const hasWallChanges = levelsToUpdate.size > 0
+    const hasZoneRenames = changedZones.length > 0
+
+    // GSI fork debug: temporary, remove po werify
+    if (typeof window !== 'undefined') {
+      ;(window as any).__zoneDebug = {
+        currentAutoZones: Array.from(currentAutoZones.entries()).map(([id, z]) => ({
+          id,
+          name: z.name,
+        })),
+        previousZoneNames: Array.from(previousZoneNames.entries()),
+        changedZones: changedZones.map((c) => ({
+          id: c.zone.id,
+          from: c.previousName,
+          to: c.zone.name,
+        })),
+        hasWallChanges,
+        hasZoneRenames,
+      }
+    }
+
+    if (!hasWallChanges && !hasZoneRenames) {
+      // Tylko update cache i wyjdź — nic do zrobienia.
       previousSnapshots.clear()
       for (const [levelId, snapshot] of currentSnapshots.entries()) {
         previousSnapshots.set(levelId, snapshot)
+      }
+      previousZoneNames.clear()
+      for (const [id, zone] of currentAutoZones.entries()) {
+        previousZoneNames.set(id, zone.name)
       }
       return
     }
@@ -1054,12 +1183,27 @@ export function initSpaceDetectionSync(sceneStore: any, editorStore: any): () =>
     isProcessing = true
     pauseSceneHistory(sceneStore)
     try {
-      runSpaceDetection([...levelsToUpdate], sceneStore, editorStore, nodes)
+      if (hasWallChanges) {
+        runSpaceDetection([...levelsToUpdate], sceneStore, editorStore, nodes)
+      }
+      if (hasZoneRenames) {
+        cascadeZoneNameToSlabsAndCeilings(sceneStore, changedZones)
+      }
     } finally {
       resumeSceneHistory(sceneStore)
       previousSnapshots.clear()
       for (const [levelId, snapshot] of currentSnapshots.entries()) {
         previousSnapshots.set(levelId, snapshot)
+      }
+      // Re-snapshot auto-zones (cascade mogło update'ować slab/ceiling
+      // ale zone names zostają). Czytamy świeży state.
+      previousZoneNames.clear()
+      const refreshedNodes = sceneStore.getState().nodes
+      for (const node of Object.values(refreshedNodes)) {
+        const n = node as any
+        if (n && n.type === 'zone' && n.autoFromWalls === true) {
+          previousZoneNames.set(n.id, n.name)
+        }
       }
       isProcessing = false
     }

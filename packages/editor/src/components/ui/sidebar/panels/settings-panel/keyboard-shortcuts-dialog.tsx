@@ -106,14 +106,23 @@ const SHORTCUT_CATEGORIES: ShortcutCategory[] = [
     title: 'Kamera',
     shortcuts: [
       {
+        keys: ['H'],
+        action: 'Tryb Pan (SketchUp toggle)',
+        note: 'Wciśnij H — kamera w trybie przesuwania. Drugi raz H / Esc / O = wyjście.',
+      },
+      {
+        keys: ['O'],
+        action: 'Tryb Orbit',
+        note: 'Wciśnij O — kamera w trybie obrotu. Drugi raz O / Esc / H = wyjście.',
+      },
+      {
         keys: ['Middle click'],
-        action: 'Przesuwanie kamery',
-        note: 'Przeciągnij środkowym przyciskiem myszy lub przytrzymaj Space + lewy przycisk.',
+        action: 'Orbit override (chwilowy)',
+        note: 'Przytrzymaj scroll wheel + drag = orbit, niezależnie od aktywnego trybu. Zwolnienie wraca do trybu.',
       },
       {
         keys: ['Right click'],
-        action: 'Orbita kamery',
-        note: 'Przeciągnij prawym przyciskiem myszy.',
+        action: 'Orbit kamery (bez modyfikatora)',
       },
     ],
   },

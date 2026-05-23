@@ -34,28 +34,39 @@ const SIDEBAR_TABS = [
 
 const PROJECT_ID = 'local-editor'
 
+// GSI fork: banner "Edytor lokalny — bez zapisu" jako sibling w viewerToolbarLeft
+// (zaraz po 3D/2D/Split). Pozycjonowanie naturalne przez flex gap-2 + ml-[26px]
+// daje dystans ~34px od konca Split toolbar'a.
+function LocalSceneBanner() {
+  return (
+    <div className="ml-[26px] flex items-center gap-2 rounded-full border border-border/60 bg-background/90 px-3 py-1 text-xs shadow-sm backdrop-blur">
+      <span className="text-muted-foreground">Edytor lokalny — bez zapisu</span>
+      <Link className="font-medium text-foreground hover:underline" href="/scenes">
+        Otwórz
+      </Link>
+      <span aria-hidden className="text-muted-foreground">
+        ·
+      </span>
+      <Link className="font-medium text-foreground hover:underline" href="/scenes">
+        Nowy
+      </Link>
+    </div>
+  )
+}
+
 export default function Home() {
   return (
     <div className="relative h-screen w-screen">
-      {PROJECT_ID === 'local-editor' && (
-        <div className="pointer-events-none absolute top-3 left-1/2 z-40 -translate-x-1/2">
-          <div className="pointer-events-auto flex items-center gap-3 rounded-full border border-border/60 bg-background/90 px-4 py-1.5 text-xs shadow-sm backdrop-blur">
-            <span className="text-muted-foreground">Edytor lokalny — sceny nie są zapisywane.</span>
-            <Link className="font-medium text-foreground hover:underline" href="/scenes">
-              Otwórz
-            </Link>
-            <span aria-hidden className="text-muted-foreground">
-              ·
-            </span>
-            <Link className="font-medium text-foreground hover:underline" href="/scenes">Nowy</Link>
-          </div>
-        </div>
-      )}
       <Editor
         layoutVersion="v2"
         projectId={PROJECT_ID}
         sidebarTabs={SIDEBAR_TABS}
-        viewerToolbarLeft={<CommunityViewerToolbarLeft />}
+        viewerToolbarLeft={
+          <>
+            <CommunityViewerToolbarLeft />
+            {PROJECT_ID === 'local-editor' && <LocalSceneBanner />}
+          </>
+        }
         viewerToolbarRight={<CommunityViewerToolbarRight />}
       />
     </div>
