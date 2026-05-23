@@ -41,7 +41,12 @@ import { BoxGeometry, BufferGeometry, DoubleSide, type Group, type Mesh, Vector3
  *
  * Mounted via `def.tool` from `wall/definition.ts`.
  */
-const WALL_HEIGHT = 2.5
+// GSI fork: pre-commit draft height — match z DEFAULT_WALL_HEIGHT z core
+// (`packages/core/src/systems/wall/wall-footprint.ts`). Trzymane lokalnie
+// jako stała (nie import) bo używane w expressions na top-level pliku
+// (DRAFT_LABEL_Y et al.) — import circular-safe w runtime ale nie w
+// initialization order.
+const WALL_HEIGHT = 2.7
 const DRAFT_WALL_THICKNESS = 0.1
 const DRAFT_LABEL_Y = WALL_HEIGHT + 0.22
 const DRAFT_ANGLE_LABEL_Y = WALL_HEIGHT + 0.08

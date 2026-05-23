@@ -8,7 +8,9 @@ import {
 } from './wall-mitering'
 
 export const DEFAULT_WALL_THICKNESS = 0.1
-export const DEFAULT_WALL_HEIGHT = 2.5
+// GSI fork: 270 cm — typowa wysokość mieszkania w PL po wykończeniu.
+// Upstream Pascal mial 250 cm.
+export const DEFAULT_WALL_HEIGHT = 2.7
 const CURVED_WALL_SURFACE_SEGMENTS = 24
 
 export function getWallThickness(wallNode: WallNode): number {
