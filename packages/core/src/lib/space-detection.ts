@@ -822,10 +822,60 @@ function nextAutoZoneName(nodes: Array<{ name?: string }>) {
   return `Pomieszczenie ${maxIndex + 1}`
 }
 
+// GSI fork: helpers do polygon overlap detection (preserve zone name
+// na zdarzeniu "split" — gdy user dorzuca wall'e wewnątrz zone, dzieli
+// na podpokoje). Naming z prefiksem `tuple` żeby uniknąć kolizji z
+// istniejącymi `polygonArea`/`polygonCentroid` (operują na Point2D z
+// { x, y }, my potrzebujemy tuple [x, y]).
+function tuplePolygonAreaSigned(poly: Array<[number, number]>): number {
+  let sum = 0
+  for (let i = 0; i < poly.length; i += 1) {
+    const a = poly[i]
+    const b = poly[(i + 1) % poly.length]
+    if (!(a && b)) continue
+    sum += (a[0] ?? 0) * (b[1] ?? 0) - (b[0] ?? 0) * (a[1] ?? 0)
+  }
+  return sum / 2
+}
+function tuplePolygonArea(poly: Array<[number, number]>): number {
+  return Math.abs(tuplePolygonAreaSigned(poly))
+}
+function tuplePolygonCentroid(poly: Array<[number, number]>): [number, number] {
+  let cx = 0
+  let cy = 0
+  for (const [x, y] of poly) {
+    cx += x
+    cy += y
+  }
+  return [cx / poly.length, cy / poly.length]
+}
+function pointInTuplePolygon(point: [number, number], poly: Array<[number, number]>): boolean {
+  let inside = false
+  for (let i = 0, j = poly.length - 1; i < poly.length; j = i, i += 1) {
+    const a = poly[i]
+    const b = poly[j]
+    if (!(a && b)) continue
+    const intersect =
+      a[1] > point[1] !== b[1] > point[1] &&
+      point[0] < ((b[0] - a[0]) * (point[1] - a[1])) / (b[1] - a[1] + 1e-12) + a[0]
+    if (intersect) inside = !inside
+  }
+  return inside
+}
+
 // GSI fork: planAutoZonesForLevel — analog do planAutoSlabsForLevel.
 // Tworzy/aktualizuje/usuwa zones z autoFromWalls=true na podstawie
 // wykrytych pokoi. Ręcznie utworzone zones (autoFromWalls=false)
 // nie są ruszane.
+//
+// 2026-05-24: split inheritance — gdy zone "Hall" rozpada się na 2+
+// nowe pokoje (user dorzucił wall wewnątrz), zachowuje swoją nazwę
+// dla pierwszego (największego) nowego pokoju zawartego w jej polygonie,
+// reszta dostaje "{name} 2", "{name} 3"... Bez tego user gubił nazwę
+// "Hall" przy każdym podziale pomieszczenia.
+//
+// Match polygonów rotation-invariant (jak cascade rename) — patrz
+// samePolygonAnyRotation niżej w pliku.
 export function planAutoZonesForLevel(
   roomPolygons: Point2D[][],
   existingZones: ZoneNodeType[],
@@ -840,13 +890,13 @@ export function planAutoZonesForLevel(
   const matchedExistingIds = new Set<string>()
   const matchedDetectedIdx = new Set<number>()
 
-  // Match istniejących auto-zones z detected pokojami po polygon equality
+  // Pass 1: exact (rotation-invariant) polygon match — zone niezmieniony.
   for (const zone of existingAuto) {
     for (let i = 0; i < detected.length; i += 1) {
       if (matchedDetectedIdx.has(i)) continue
       const room = detected[i]
       if (!room) continue
-      if (sameTuplePolygon(zone.polygon as Array<[number, number]>, room.tuple)) {
+      if (samePolygonAnyRotation(zone.polygon as Array<[number, number]>, room.tuple)) {
         matchedExistingIds.add(zone.id)
         matchedDetectedIdx.add(i)
         break
@@ -854,23 +904,63 @@ export function planAutoZonesForLevel(
     }
   }
 
+  // Pass 2: SPLIT inheritance — pozostałe (unmatched) existingAuto może
+  // być zone'em który podzielił się na nowe pokoje. Szukamy detected
+  // pokoi z centroid wewnątrz starego zone polygon — przepisujemy nazwę
+  // największemu, dla pozostałych "{name} 2", "{name} 3"...
+  const splitInherited = new Map<number, string>() // detected idx → inherited name
+  for (const zone of existingAuto) {
+    if (matchedExistingIds.has(zone.id)) continue
+    const zonePoly = zone.polygon as Array<[number, number]>
+    const childIndices: Array<{ idx: number; area: number }> = []
+    for (let i = 0; i < detected.length; i += 1) {
+      if (matchedDetectedIdx.has(i)) continue
+      if (splitInherited.has(i)) continue
+      const room = detected[i]
+      if (!room) continue
+      const centroid = tuplePolygonCentroid(room.tuple)
+      if (pointInTuplePolygon(centroid, zonePoly)) {
+        childIndices.push({ idx: i, area: tuplePolygonArea(room.tuple) })
+      }
+    }
+    if (childIndices.length === 0) continue
+    // Sort by area desc — największy nowy pokój dostaje oryginalną nazwę.
+    childIndices.sort((a, b) => b.area - a.area)
+    const baseName = zone.name ?? nextAutoZoneName([])
+    childIndices.forEach((child, order) => {
+      const inheritedName = order === 0 ? baseName : `${baseName} ${order + 1}`
+      splitInherited.set(child.idx, inheritedName)
+      matchedDetectedIdx.add(child.idx)
+    })
+    matchedExistingIds.add(zone.id) // mark as "consumed" — usunie się ale przepisaliśmy nazwę
+  }
+
   const zonesToDelete = existingAuto
     .filter((zone) => !matchedExistingIds.has(zone.id))
     .map((zone) => zone.id)
 
-  // Zones to update — gdy istniejąca auto-zone ma polygon różny od najbliższego
-  // pasującego pokoju (centroid-based fuzzy match). Pominięte na razie dla
-  // prostoty: bezpieczniej delete+create niż update wrong polygon.
+  // Plus stare zone'y przepisane do split inherited też trzeba usunąć
+  // (już mają matchedExistingIds.has true, więc nie znajdą się wyżej).
+  for (const zone of existingAuto) {
+    const wasInheritedConsumed = Array.from(splitInherited.values()).some((name) =>
+      name === zone.name || name.startsWith(`${zone.name} `),
+    )
+    if (wasInheritedConsumed && !zonesToDelete.includes(zone.id)) {
+      zonesToDelete.push(zone.id)
+    }
+  }
+
+  // Zones to update — pominięte (delete+create approach).
   const zonesToUpdate: Array<{ id: string; data: { polygon: Array<[number, number]> } }> = []
 
   const plannedZonesForNaming: Array<{ name?: string }> = [...existingZones]
   const zonesToCreate: ZoneNodeType[] = []
   for (let index = 0; index < detected.length; index += 1) {
-    if (matchedDetectedIdx.has(index)) continue
+    if (matchedDetectedIdx.has(index) && !splitInherited.has(index)) continue
     const room = detected[index]
     if (!room) continue
 
-    const name = nextAutoZoneName(plannedZonesForNaming)
+    const name = splitInherited.get(index) ?? nextAutoZoneName(plannedZonesForNaming)
     plannedZonesForNaming.push({ name })
 
     zonesToCreate.push(
