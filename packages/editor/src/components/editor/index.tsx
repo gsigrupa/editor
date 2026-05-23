@@ -1022,13 +1022,18 @@ export default function Editor({
     }
   }, [isVersionPreviewMode])
 
-  // Light mode default (GSI Platform fork) — Pascal oryginalnie forsował
-  // `dark` class na body żeby UI chrome (sidebar, top dock, bottom dock)
-  // używał ciemnych CSS variables. Usuwamy żeby pasować do GSI light theme.
-  // Theme dla 3D sceny (useViewer.theme) zostaje configurable.
+  // Theme sync — body.dark cascade'uje Tailwind dark variant na cały
+  // chrome (sidebar, top bar, bottom dock, panels). Sync z useViewer.theme
+  // żeby toggle Dark/Light w viewer top-right też przełączał UI.
+  // Default light (GSI Platform fork) — useViewer.theme initial = 'light'.
+  const theme = useViewer((s) => s.theme)
   useEffect(() => {
-    document.body.classList.remove('dark')
-  }, [])
+    if (theme === 'dark') {
+      document.body.classList.add('dark')
+    } else {
+      document.body.classList.remove('dark')
+    }
+  }, [theme])
 
   const showLoader = isLoading || isSceneLoading
 
