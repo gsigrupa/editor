@@ -183,7 +183,7 @@ export const ViewerOverlay = ({
                 <button
                   className="text-muted-foreground transition-colors hover:text-foreground"
                   onClick={() => handleBreadcrumbClick('root')}
-                >Działka</button>
+                >Teren</button>
 
                 {building && (
                   <>
