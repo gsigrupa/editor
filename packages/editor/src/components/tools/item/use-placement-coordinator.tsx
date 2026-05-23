@@ -19,7 +19,7 @@ import {
 import { useViewer } from '@pascal-app/viewer'
 import { Html } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   BufferGeometry,
   Euler,
@@ -317,7 +317,14 @@ export function usePlacementCoordinator(config: PlacementCoordinatorConfig): Rea
   const { asset, draftNode } = config
   const unit = useViewer((state) => state.unit)
   const gridSnapStep = useEditor((s) => s.gridSnapStep)
-  const updatePreviewGeometry = (bounds: PreviewBounds) => {
+  // GSI-fork fix: these helpers were re-created on every render which caused
+  // the main subscription useEffect (deps include both) to tear down every
+  // single render. Teardown calls `draftNode.destroy()` which deletes the
+  // node being placed, triggering re-render → infinite loop ("Maximum
+  // update depth exceeded" on first item click). Wrapping in useCallback
+  // with empty deps is safe because both only touch refs + a stable
+  // setState.
+  const updatePreviewGeometry = useCallback((bounds: PreviewBounds) => {
     const [width, height, depth] = bounds.dimensions
     const [centerX, centerY, centerZ] = bounds.center
     const signature = `${width.toFixed(4)}:${height.toFixed(4)}:${depth.toFixed(4)}:${centerX.toFixed(4)}:${centerY.toFixed(4)}:${centerZ.toFixed(4)}`
@@ -334,9 +341,9 @@ export function usePlacementCoordinator(config: PlacementCoordinatorConfig): Rea
     const oldBasePlaneGeometry = basePlaneRef.current.geometry
     basePlaneRef.current.geometry = nextBasePlaneGeometry
     oldBasePlaneGeometry.dispose()
-  }
+  }, [])
 
-  const updateDimensionGuides = (bounds: PreviewBounds) => {
+  const updateDimensionGuides = useCallback((bounds: PreviewBounds) => {
     setDimensionBounds((current) => {
       if (
         current &&
@@ -438,7 +445,7 @@ export function usePlacementCoordinator(config: PlacementCoordinatorConfig): Rea
     applyPoints(measurementWidthRef, widthPoints)
     applyPoints(measurementDepthRef, depthPoints)
     applyPoints(measurementHeightRef, heightPoints)
-  }
+  }, [])
 
   useEffect(() => {
     if (!asset) return
