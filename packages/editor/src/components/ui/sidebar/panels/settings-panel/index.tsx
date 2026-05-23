@@ -298,7 +298,7 @@ export function SettingsPanel({
       {/* Visibility Section (only for cloud projects) */}
       {projectId && !isLocalProject && (
         <div className="space-y-3">
-          <label className="font-medium text-muted-foreground text-xs uppercase">Widoczność</label>
+          <label className="block font-medium text-muted-foreground text-xs uppercase">Widoczność</label>
           <div className="flex items-center justify-between">
             <div>
               <div className="font-medium text-sm">Publiczne</div>
@@ -356,7 +356,7 @@ export function SettingsPanel({
 
       {/* Export Section */}
       <div className="space-y-2">
-        <label className="font-medium text-muted-foreground text-xs uppercase">Eksportuj</label>
+        <label className="block font-medium text-muted-foreground text-xs uppercase">Eksportuj</label>
         <Button
           className="w-full justify-start gap-2"
           onClick={() => exportScene?.('glb')}
@@ -380,7 +380,7 @@ export function SettingsPanel({
       {/* Thumbnail Section (only for cloud projects) */}
       {projectId && !isLocalProject && (
         <div className="space-y-2">
-          <label className="font-medium text-muted-foreground text-xs uppercase">Miniatura</label>
+          <label className="block font-medium text-muted-foreground text-xs uppercase">Miniatura</label>
           <Button
             className="w-full justify-start gap-2"
             disabled={isGeneratingThumbnail}
@@ -395,7 +395,9 @@ export function SettingsPanel({
 
       {/* Save/Load Section */}
       <div className="space-y-2">
-        <label className="font-medium text-muted-foreground text-xs uppercase">Save & Load</label>
+        <label className="block font-medium text-muted-foreground text-xs uppercase">
+          Zapis i wczytanie
+        </label>
 
         <Button className="w-full justify-start gap-2" onClick={handleSaveBuild} variant="outline">
           <Save className="size-4" />Zapisz projekt</Button>
@@ -424,22 +426,26 @@ export function SettingsPanel({
 
       {/* Audio Section */}
       <div className="space-y-2">
-        <label className="font-medium text-muted-foreground text-xs uppercase">Dźwięk</label>
+        <label className="block font-medium text-muted-foreground text-xs uppercase">Dźwięk</label>
         <AudioSettingsDialog />
       </div>
 
       {/* Keyboard Section */}
       <div className="space-y-2">
-        <label className="font-medium text-muted-foreground text-xs uppercase">Klawiatura</label>
+        <label className="block font-medium text-muted-foreground text-xs uppercase">Klawiatura</label>
         <KeyboardShortcutsDialog />
       </div>
 
       {/* Scene Graph */}
       <div className="space-y-1">
-        <label className="font-medium text-muted-foreground text-xs uppercase">Scene Graph</label>
+        <label className="block font-medium text-muted-foreground text-xs uppercase">
+          Graf sceny
+        </label>
         <Dialog>
           <DialogTrigger asChild>
-            <Button className="h-auto justify-start p-0 text-sm" variant="link">Eksploruj graf sceny</Button>
+            <Button className="h-auto justify-start p-0 text-sm" variant="link">
+              Eksploruj graf sceny
+            </Button>
           </DialogTrigger>
           <DialogContent className="h-[80vh] max-w-[95vw] gap-0 overflow-hidden border-0 bg-[#1e1e1e] p-0 shadow-none sm:max-w-5xl">
             <DialogTitle className="sr-only">Scene Graph</DialogTitle>

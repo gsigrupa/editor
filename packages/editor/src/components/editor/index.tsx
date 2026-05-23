@@ -335,19 +335,25 @@ type CameraControlHint = {
   alternativeKeys?: ShortcutKey[]
 }
 
+// GSI fork: hints zaktualizowane do nowych skrótów (H/O toggle + middle/right
+// mouse alternative). Pan tylko przez H (Spacja idzie do Select tool).
 const EDITOR_CAMERA_CONTROL_HINTS: CameraControlHint[] = [
   {
-    action: 'Pan',
-    keys: [{ value: 'Space' }, { value: 'Left click' }],
+    action: 'Przesuwanie',
+    keys: [{ value: 'H' }],
   },
-  { action: 'Rotate', keys: [{ value: 'Right click' }] },
-  { action: 'Zoom', keys: [{ value: 'Scroll' }] },
+  {
+    action: 'Obrót',
+    keys: [{ value: 'O' }],
+    alternativeKeys: [{ value: 'Right click' }],
+  },
+  { action: 'Powiększenie', keys: [{ value: 'Scroll' }] },
 ]
 
 const PREVIEW_CAMERA_CONTROL_HINTS: CameraControlHint[] = [
-  { action: 'Pan', keys: [{ value: 'Left click' }] },
-  { action: 'Rotate', keys: [{ value: 'Right click' }] },
-  { action: 'Zoom', keys: [{ value: 'Scroll' }] },
+  { action: 'Przesuwanie', keys: [{ value: 'Left click' }] },
+  { action: 'Obrót', keys: [{ value: 'Right click' }] },
+  { action: 'Powiększenie', keys: [{ value: 'Scroll' }] },
 ]
 
 const CAMERA_SHORTCUT_KEY_META: Record<string, { icon?: string; label: string; text?: string }> = {
@@ -357,7 +363,7 @@ const CAMERA_SHORTCUT_KEY_META: Record<string, { icon?: string; label: string; t
   },
   'Middle click': {
     icon: 'qlementine-icons:mouse-middle-button-16',
-    label: 'Middle click',
+    label: 'Środkowy klik',
   },
   'Right click': {
     icon: 'ph:mouse-right-click-fill',
@@ -365,12 +371,11 @@ const CAMERA_SHORTCUT_KEY_META: Record<string, { icon?: string; label: string; t
   },
   Scroll: {
     icon: 'qlementine-icons:mouse-middle-button-16',
-    label: 'Scroll wheel',
+    label: 'Scroll',
   },
-  Space: {
-    icon: 'lucide:space',
-    label: 'Spacja',
-  },
+  // GSI fork: nowe persistent camera tools (SketchUp toggle).
+  H: { text: 'H', label: 'H' },
+  O: { text: 'O', label: 'O' },
 }
 
 function readCameraControlsHintDismissed(): boolean {

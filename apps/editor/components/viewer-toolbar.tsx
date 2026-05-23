@@ -187,11 +187,7 @@ function LevelModeToggle() {
   return (
     <ToolbarTooltip label={label}>
       <button
-        className={cn(
-          TOOLBAR_BTN,
-          'w-auto gap-1.5 px-2.5',
-          !isDefault && 'bg-white/10 text-foreground/90',
-        )}
+        className={cn(TOOLBAR_BTN, !isDefault && 'bg-white/10 text-foreground/90')}
         onClick={cycle}
         type="button"
       >
@@ -202,7 +198,6 @@ function LevelModeToggle() {
         ) : (
           <IconifyIcon height={14} icon="charm:stack-push" width={14} />
         )}
-        <span className="font-medium text-xs">{levelModeLabels[levelMode] ?? 'Stack'}</span>
       </button>
     </ToolbarTooltip>
   )
@@ -224,7 +219,6 @@ function WallModeToggle() {
       <button
         className={cn(
           TOOLBAR_BTN,
-          'w-auto gap-1.5 px-2.5',
           wallMode !== 'cutaway'
             ? 'bg-white/10'
             : 'opacity-60 grayscale hover:opacity-100 hover:grayscale-0',
@@ -233,7 +227,6 @@ function WallModeToggle() {
         type="button"
       >
         <Image alt="" className="h-4 w-4 object-contain" height={16} src={config.icon} width={16} />
-        <span className="font-medium text-xs">{config.label}</span>
       </button>
     </ToolbarTooltip>
   )
@@ -253,13 +246,11 @@ function RenderModeMenu() {
             aria-label={`Render: ${active.name}`}
             className={cn(
               TOOLBAR_BTN,
-              'w-auto gap-1.5 px-2.5',
               shading === 'rendered' && 'bg-white/10 text-foreground/90',
             )}
             type="button"
           >
             <ActiveIcon className="h-3.5 w-3.5" />
-            <span className="font-medium text-xs">{active.name}</span>
           </button>
         </DropdownMenuTrigger>
       </ToolbarTooltip>
@@ -293,11 +284,10 @@ function SceneThemeMenu() {
         <DropdownMenuTrigger asChild>
           <button
             aria-label={`Scene theme: ${active.name}`}
-            className={cn(TOOLBAR_BTN, 'w-28 gap-1.5 px-2.5 text-foreground/90')}
+            className={cn(TOOLBAR_BTN, 'text-foreground/90')}
             type="button"
           >
             <SwatchBook className="h-3.5 w-3.5 shrink-0" />
-            <span className="truncate font-medium text-xs">{active.name}</span>
           </button>
         </DropdownMenuTrigger>
       </ToolbarTooltip>
