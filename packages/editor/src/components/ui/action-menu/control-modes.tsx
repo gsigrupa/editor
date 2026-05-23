@@ -35,7 +35,7 @@ const controls: ControlConfig[] = [
   {
     id: 'select',
     imageSrc: '/icons/select.png',
-    label: 'Select',
+    label: 'Zaznacz',
     shortcut: 'V',
     color: 'hover:bg-blue-500/20 hover:text-blue-400',
     activeColor: 'bg-blue-500/20 text-blue-400',
@@ -43,21 +43,21 @@ const controls: ControlConfig[] = [
   {
     id: 'box-select',
     iconifyIcon: 'mdi:select-drag',
-    label: 'Box select',
+    label: 'Zaznacz prostokątem',
     color: 'hover:bg-white/5',
     activeColor: 'bg-white/10 hover:bg-white/10',
   },
   {
     id: 'site-edit',
     imageSrc: '/icons/site.png',
-    label: 'Edit site',
+    label: 'Edytuj działkę',
     color: 'hover:bg-white/5',
     activeColor: 'bg-white/10 hover:bg-white/10',
   },
   {
     id: 'build',
     imageSrc: '/icons/build.png',
-    label: 'Build',
+    label: 'Buduj',
     shortcut: 'B',
     color: 'hover:bg-green-500/20 hover:text-green-400',
     activeColor: 'bg-green-500/20 text-green-400',
@@ -65,7 +65,7 @@ const controls: ControlConfig[] = [
   {
     id: 'material-paint',
     imageSrc: '/icons/paint.png',
-    label: 'Material Paint',
+    label: 'Materiały',
     shortcut: 'P',
     color: 'hover:bg-amber-500/20 hover:text-amber-400',
     activeColor: 'bg-amber-500/20 text-amber-400',
@@ -73,7 +73,7 @@ const controls: ControlConfig[] = [
   {
     id: 'furnish',
     imageSrc: '/icons/couch.png',
-    label: 'Furnish',
+    label: 'Umebluj',
     shortcut: 'F',
     color: 'hover:bg-green-500/20 hover:text-green-400',
     activeColor: 'bg-green-500/20 text-green-400',
@@ -81,7 +81,7 @@ const controls: ControlConfig[] = [
   {
     id: 'zone',
     imageSrc: '/icons/zone.png',
-    label: 'Zone',
+    label: 'Strefa',
     shortcut: 'Z',
     color: 'hover:bg-green-500/20 hover:text-green-400',
     activeColor: 'bg-green-500/20 text-green-400',
@@ -89,7 +89,7 @@ const controls: ControlConfig[] = [
   {
     id: 'delete',
     icon: Trash2,
-    label: 'Delete',
+    label: 'Usuń',
     shortcut: 'D',
     color: 'hover:bg-red-500/20 hover:text-red-400',
     activeColor: 'bg-red-500/20 text-red-400',
@@ -237,10 +237,10 @@ export function ControlModes() {
             label={
               isSiteButton
                 ? isActive
-                  ? 'Exit site editing'
+                  ? 'Zakończ edycję działki'
                   : canEnterSiteEdit
-                    ? 'Edit site'
-                    : 'Site editing (ground level only)'
+                    ? 'Edytuj działkę'
+                    : 'Edycja działki (tylko parter)'
                 : c.label
             }
             onClick={() => handleClick(c.id)}

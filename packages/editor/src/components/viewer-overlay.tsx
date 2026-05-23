@@ -27,48 +27,48 @@ type ProjectOwner = {
 }
 
 const levelModeLabels: Record<'stacked' | 'exploded' | 'solo', string> = {
-  stacked: 'Stacked',
-  exploded: 'Exploded',
-  solo: 'Solo',
+  stacked: 'Złożone',
+  exploded: 'Rozłożone',
+  solo: 'Pojedyncze',
 }
 
 const levelModeBadgeLabels: Record<'manual' | 'stacked' | 'exploded' | 'solo', string> = {
   manual: 'Stack',
   stacked: 'Stack',
-  exploded: 'Exploded',
-  solo: 'Solo',
+  exploded: 'Rozłożone',
+  solo: 'Pojedyncze',
 }
 
 const wallModeConfig = {
   up: {
     icon: (props: any) => (
-      <img alt="Full Height" height={28} src="/icons/room.png" width={28} {...props} />
+      <img alt="Pełna wysokość" height={28} src="/icons/room.png" width={28} {...props} />
     ),
-    label: 'Full Height',
+    label: 'Pełna wysokość',
   },
   cutaway: {
     icon: (props: any) => (
-      <img alt="Cutaway" height={28} src="/icons/wallcut.png" width={28} {...props} />
+      <img alt="Przekrój" height={28} src="/icons/wallcut.png" width={28} {...props} />
     ),
-    label: 'Cutaway',
+    label: 'Przekrój',
   },
   down: {
     icon: (props: any) => (
-      <img alt="Low" height={28} src="/icons/walllow.png" width={28} {...props} />
+      <img alt="Niska" height={28} src="/icons/walllow.png" width={28} {...props} />
     ),
-    label: 'Low',
+    label: 'Niska',
   },
 }
 
 const getNodeName = (node: AnyNode): string => {
   if ('name' in node && node.name) return node.name
-  if (node.type === 'wall') return 'Wall'
-  if (node.type === 'fence') return 'Fence'
-  if (node.type === 'item') return (node as { asset: { name: string } }).asset?.name || 'Item'
-  if (node.type === 'slab') return 'Slab'
-  if (node.type === 'ceiling') return 'Ceiling'
-  if (node.type === 'roof') return 'Roof'
-  if (node.type === 'roof-segment') return 'Roof Segment'
+  if (node.type === 'wall') return 'Ściana'
+  if (node.type === 'fence') return 'Ogrodzenie'
+  if (node.type === 'item') return (node as { asset: { name: string } }).asset?.name || 'Element'
+  if (node.type === 'slab') return 'Płyta podłogowa'
+  if (node.type === 'ceiling') return 'Sufit'
+  if (node.type === 'roof') return 'Dach'
+  if (node.type === 'roof-segment') return 'Segment dachu'
   return node.type
 }
 
@@ -163,7 +163,7 @@ export const ViewerOverlay = ({
             )}
             <div className="min-w-0">
               <div className="truncate font-medium text-foreground text-sm">
-                {projectName || 'Untitled'}
+                {projectName || 'Bez nazwy'}
               </div>
               {owner?.username && (
                 <Link
@@ -194,7 +194,7 @@ export const ViewerOverlay = ({
                       className={`truncate transition-colors ${level ? 'text-muted-foreground hover:text-foreground' : 'font-medium text-foreground'}`}
                       onClick={() => handleBreadcrumbClick('building')}
                     >
-                      {building.name || 'Building'}
+                      {building.name || 'Budynek'}
                     </button>
                   </>
                 )}
@@ -335,7 +335,7 @@ export const ViewerOverlay = ({
                     ? 'bg-white/10'
                     : 'opacity-60 grayscale hover:bg-white/5 hover:opacity-100 hover:grayscale-0'
                 }
-                label={`Scans: ${showScans ? 'Visible' : 'Hidden'}`}
+                label={`Skany: ${showScans ? 'Widoczne' : 'Ukryte'}`}
                 onClick={() => useViewer.getState().setShowScans(!showScans)}
                 size="icon"
                 tooltipSide="top"
@@ -356,7 +356,7 @@ export const ViewerOverlay = ({
                     ? 'bg-white/10'
                     : 'opacity-60 grayscale hover:bg-white/5 hover:opacity-100 hover:grayscale-0'
                 }
-                label={`Guides: ${showGuides ? 'Visible' : 'Hidden'}`}
+                label={`Pomocnicze: ${showGuides ? 'Widoczne' : 'Ukryte'}`}
                 onClick={() => useViewer.getState().setShowGuides(!showGuides)}
                 size="icon"
                 tooltipSide="top"
