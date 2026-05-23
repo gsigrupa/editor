@@ -93,8 +93,11 @@ export const useKeyboard = ({
       }
       // GSI fork: Spacja jako Select tool (SketchUp convention). 'V'
       // zostaje jako alias dla muscle-memory z upstream Pascal'a.
+      // stopPropagation: zapobiega native button activation gdy focus
+      // jest na buttonie (Radix tabs/dropdown defaults na Space).
       if ((e.key === ' ' || e.code === 'Space' || e.key === 'v') && !e.metaKey && !e.ctrlKey) {
         e.preventDefault()
+        e.stopPropagation()
         useEditor.getState().setMode('select')
         useEditor.getState().setFloorplanSelectionTool('click')
       } else if (e.key === 'b' && !e.metaKey && !e.ctrlKey) {
@@ -334,8 +337,13 @@ export const useKeyboard = ({
         }
       }
     }
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
+    // GSI fork: capture phase żeby globalne shortcuts (Spacja, H, O, B,
+    // 1/2/3) odpalały się PRZED native button activation. Bez capture,
+    // gdy focus jest na buttonie (np. tab toolbar, dropdown trigger),
+    // Radix/native button intercept'uje Spacja i shortcut nie trafia
+    // do tego handlera dopóki user nie kliknie poza button (focus body).
+    window.addEventListener('keydown', handleKeyDown, { capture: true })
+    return () => window.removeEventListener('keydown', handleKeyDown, { capture: true })
   }, [disabled, isVersionPreviewMode])
 
   return null
