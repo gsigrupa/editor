@@ -1,6 +1,6 @@
-import { formatLevelName } from '../i18n'
 'use client'
 
+import { formatLevelName } from '../i18n'
 import {
   type AnyNode,
   type AnyNodeId,
