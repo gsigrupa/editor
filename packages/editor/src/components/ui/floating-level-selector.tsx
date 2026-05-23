@@ -504,8 +504,11 @@ export function FloatingLevelSelector() {
   const reversedLevels = [...levels].reverse()
   const sortableLevelIds = reversedLevels.map((level) => level.id)
 
+  // GSI fork: theme-aware — Pascal upstream miał hardcoded bg-neutral-800
+  // co nie reagowało na light mode toggle. Semantic tokens bg-muted /
+  // bg-accent działają z Tailwind dark variant cascade.
   const addButtonClass =
-    'absolute left-1/2 z-10 flex h-4 w-4 -translate-x-1/2 items-center justify-center rounded-full border border-border/80 bg-neutral-800 text-muted-foreground/60 shadow-md transition-colors hover:bg-neutral-700 hover:text-foreground'
+    'absolute left-1/2 z-10 flex h-4 w-4 -translate-x-1/2 items-center justify-center rounded-full border border-border/80 bg-muted text-muted-foreground/60 shadow-md transition-colors hover:bg-accent hover:text-foreground'
 
   return (
     <>
