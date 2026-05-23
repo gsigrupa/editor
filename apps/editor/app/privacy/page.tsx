@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy',
+  title: 'Polityka prywatności',
   description: 'Privacy Policy for Pascal Editor and the Pascal platform.',
 }
 
@@ -15,24 +15,22 @@ export default function PrivacyPage() {
             <Link
               className="text-muted-foreground transition-colors hover:text-foreground"
               href="/"
-            >
-              Home
-            </Link>
+            >Strona główna</Link>
             <span className="text-muted-foreground">/</span>
             <Link
               className="text-muted-foreground transition-colors hover:text-foreground"
               href="/terms"
             >Regulamin</Link>
             <span className="text-muted-foreground">|</span>
-            <span className="font-medium text-foreground">Privacy Policy</span>
+            <span className="font-medium text-foreground">Polityka prywatności</span>
           </nav>
         </div>
       </header>
 
       <main className="container mx-auto max-w-3xl px-6 py-12">
         <article className="prose prose-neutral dark:prose-invert max-w-none">
-          <h1 className="mb-2 font-bold text-3xl">Privacy Policy</h1>
-          <p className="mb-8 text-muted-foreground text-sm">Effective Date: February 20, 2026</p>
+          <h1 className="mb-2 font-bold text-3xl">Polityka prywatności</h1>
+          <p className="mb-8 text-muted-foreground text-sm">Data wejścia w życie: 20 lutego 2026</p>
 
           <section className="mb-8 space-y-4">
             <h2 className="font-semibold text-xl">1. Introduction</h2>
@@ -49,8 +47,8 @@ export default function PrivacyPage() {
             <h3 className="mt-4 font-medium text-lg">Informacje o koncie</h3>
             <p className="text-foreground/90 leading-relaxed">Gdy tworzysz konto, zbieramy:</p>
             <ul className="list-disc space-y-2 pl-6 text-foreground/90">
-              <li>Email address</li>
-              <li>Name</li>
+              <li>Adres e-mail</li>
+              <li>Nazwa</li>
               <li>Profile picture/avatar</li>
               <li>OAuth provider data (from Google when you sign in with Google)</li>
             </ul>
@@ -81,7 +79,7 @@ export default function PrivacyPage() {
                 settings)
               </li>
               <li>Respond to support requests</li>
-              <li>Ensure platform security and prevent abuse</li>
+              <li>Zapewnić bezpieczeństwo platformy i zapobiec nadużyciom</li>
             </ul>
           </section>
 
@@ -140,7 +138,7 @@ export default function PrivacyPage() {
               <li>Uzyskaj dostęp do swoich danych osobowych</li>
               <li>Request correction of inaccurate data</li>
               <li>Request deletion of your data</li>
-              <li>Export your project data</li>
+              <li>Eksportuj dane projektu</li>
               <li>Opt out of marketing communications</li>
             </ul>
             <p className="mt-4 text-foreground/90 leading-relaxed">

@@ -218,9 +218,7 @@ function LevelRow({
                 }}
                 type="button"
               >
-                <Copy className="h-3 w-3" />
-                Duplicate level
-              </button>
+                <Copy className="h-3 w-3" />Duplikuj poziom</button>
               <button
                 className="flex w-full items-center gap-2 rounded-md px-2.5 py-1.5 text-left text-muted-foreground text-xs transition-colors hover:bg-white/10 hover:text-foreground"
                 onClick={(e) => {
@@ -229,9 +227,7 @@ function LevelRow({
                 }}
                 type="button"
               >
-                <Copy className="h-3 w-3" />
-                Duplicate with options...
-              </button>
+                <Copy className="h-3 w-3" />Duplikuj z opcjami...</button>
               {onPaste && (
                 <button
                   className="flex w-full items-center gap-2 rounded-md px-2.5 py-1.5 text-left text-muted-foreground text-xs transition-colors hover:bg-white/10 hover:text-foreground"

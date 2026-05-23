@@ -20,7 +20,7 @@ const DUPLICATE_PRESETS: Array<{
 }> = [
   {
     id: 'everything',
-    label: 'Everything',
+    label: 'Wszystko',
     description: 'Konstrukcja, materiały, meble i odniesienia.',
   },
   {
@@ -68,7 +68,7 @@ export function LevelDuplicateDialog({
     <Dialog onOpenChange={onOpenChange} open={open}>
       <DialogContent className="sm:max-w-md" showCloseButton={false}>
         <DialogHeader>
-          <DialogTitle>Duplicate Level</DialogTitle>
+          <DialogTitle>Duplikuj poziom</DialogTitle>
           <DialogDescription>Choose what to copy from {getLevelLabel(level)}.</DialogDescription>
         </DialogHeader>
 
@@ -101,9 +101,7 @@ export function LevelDuplicateDialog({
             className="cursor-pointer rounded-md bg-primary px-4 py-2 text-primary-foreground text-sm transition-opacity hover:opacity-90"
             onClick={() => onConfirm(preset)}
             type="button"
-          >
-            Duplicate
-          </button>
+          >Duplikuj</button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

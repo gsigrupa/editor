@@ -571,7 +571,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'easel',
     category: 'furniture',
-    name: 'Easel',
+    name: 'Sztaluga',
     tags: [],
     thumbnail: '/items/easel/thumbnail.webp',
     src: '/items/easel/model.glb',
@@ -584,7 +584,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'electric-panel',
     category: 'kitchen',
-    name: 'Electric Panel',
+    name: 'Skrzynka elektryczna',
     tags: [],
     thumbnail: '/items/electric-panel/thumbnail.webp',
     src: '/items/electric-panel/model.glb',
@@ -597,7 +597,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'ev-wall-charger',
     category: 'furniture',
-    name: 'Ev Wall Charger',
+    name: 'Ładowarka EV',
     tags: [],
     thumbnail: '/items/ev-wall-charger/thumbnail.webp',
     src: '/items/ev-wall-charger/model.glb',
@@ -610,7 +610,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'exercise-bike',
     category: 'furniture',
-    name: 'Exercise Bike',
+    name: 'Rower stacjonarny',
     tags: [],
     thumbnail: '/items/exercise-bike/thumbnail.webp',
     src: '/items/exercise-bike/model.glb',
@@ -623,7 +623,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'exit-sign',
     category: 'furniture',
-    name: 'Exit Sign',
+    name: 'Znak wyjście',
     tags: [],
     thumbnail: '/items/exit-sign/thumbnail.webp',
     src: '/items/exit-sign/model.glb',
@@ -636,7 +636,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'fence',
     category: 'outdoor',
-    name: 'Fence',
+    name: 'Ogrodzenie',
     tags: [],
     thumbnail: '/items/fence/thumbnail.webp',
     src: '/items/fence/model.glb',
@@ -649,7 +649,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'fir-tree',
     category: 'outdoor',
-    name: 'Fir Tree',
+    name: 'Świerk',
     tags: [],
     thumbnail: '/items/fir-tree/thumbnail.webp',
     src: '/items/fir-tree/model.glb',
@@ -662,7 +662,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'fire-alarm',
     category: 'appliance',
-    name: 'Fire Alarm',
+    name: 'Alarm pożarowy',
     tags: [],
     thumbnail: '/items/fire-alarm/thumbnail.webp',
     src: '/items/fire-alarm/model.glb',
@@ -675,7 +675,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'fire-detector',
     category: 'furniture',
-    name: 'Fire Detector',
+    name: 'Czujnik pożaru',
     tags: [],
     thumbnail: '/items/fire-detector/thumbnail.webp',
     src: '/items/fire-detector/model.glb',
@@ -688,7 +688,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'fire-extinguisher',
     category: 'furniture',
-    name: 'Fire Extinguisher',
+    name: 'Gaśnica',
     tags: [],
     thumbnail: '/items/fire-extinguisher/thumbnail.webp',
     src: '/items/fire-extinguisher/model.glb',
@@ -701,7 +701,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'flat-screen-tv',
     category: 'appliance',
-    name: 'Flat Screen Tv',
+    name: 'Telewizor płaski',
     tags: [],
     thumbnail: '/items/flat-screen-tv/thumbnail.webp',
     src: '/items/flat-screen-tv/model.glb',
@@ -714,7 +714,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'floor-lamp',
     category: 'furniture',
-    name: 'Floor Lamp',
+    name: 'Lampa podłogowa',
     tags: [],
     thumbnail: '/items/floor-lamp/thumbnail.webp',
     src: '/items/floor-lamp/model.glb',
@@ -727,7 +727,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'freezer',
     category: 'furniture',
-    name: 'Freezer',
+    name: 'Zamrażarka',
     tags: [],
     thumbnail: '/items/freezer/thumbnail.webp',
     src: '/items/freezer/model.glb',
@@ -740,7 +740,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'fridge',
     category: 'kitchen',
-    name: 'Fridge',
+    name: 'Lodówka',
     tags: [],
     thumbnail: '/items/fridge/thumbnail.webp',
     src: '/items/fridge/model.glb',
@@ -753,7 +753,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'fruits',
     category: 'furniture',
-    name: 'Fruits',
+    name: 'Owoce',
     tags: [],
     thumbnail: '/items/fruits/thumbnail.webp',
     src: '/items/fruits/model.glb',
@@ -766,7 +766,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'frying-pan',
     category: 'kitchen',
-    name: 'Frying Pan',
+    name: 'Patelnia',
     tags: [],
     thumbnail: '/items/frying-pan/thumbnail.webp',
     src: '/items/frying-pan/model.glb',
@@ -779,7 +779,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'glass-door',
     category: 'furniture',
-    name: 'Glass Door',
+    name: 'Drzwi szklane',
     tags: [],
     thumbnail: '/items/glass-door/thumbnail.webp',
     src: '/items/glass-door/model.glb',
@@ -792,7 +792,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'guitar',
     category: 'furniture',
-    name: 'Guitar',
+    name: 'Gitara',
     tags: [],
     thumbnail: '/items/guitar/thumbnail.webp',
     src: '/items/guitar/model.glb',
@@ -805,7 +805,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'hedge',
     category: 'furniture',
-    name: 'Hedge',
+    name: 'Żywopłot',
     tags: [],
     thumbnail: '/items/hedge/thumbnail.webp',
     src: '/items/hedge/model.glb',
@@ -818,7 +818,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'high-fence',
     category: 'outdoor',
-    name: 'High Fence',
+    name: 'Wysokie ogrodzenie',
     tags: [],
     thumbnail: '/items/high-fence/thumbnail.webp',
     src: '/items/high-fence/model.glb',
@@ -831,7 +831,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'hood',
     category: 'furniture',
-    name: 'Hood',
+    name: 'Okap',
     tags: [],
     thumbnail: '/items/hood/thumbnail.webp',
     src: '/items/hood/model.glb',
@@ -857,7 +857,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'indoor-plant',
     category: 'outdoor',
-    name: 'Indoor Plant',
+    name: 'Roślina doniczkowa',
     tags: [],
     thumbnail: '/items/indoor-plant/thumbnail.webp',
     src: '/items/indoor-plant/model.glb',
@@ -870,7 +870,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'iron',
     category: 'furniture',
-    name: 'Iron',
+    name: 'Żelazko',
     tags: [],
     thumbnail: '/items/iron/thumbnail.webp',
     src: '/items/iron/model.glb',
@@ -883,7 +883,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'ironing-board',
     category: 'furniture',
-    name: 'Ironing Board',
+    name: 'Deska do prasowania',
     tags: [],
     thumbnail: '/items/ironing-board/thumbnail.webp',
     src: '/items/ironing-board/model.glb',
@@ -896,7 +896,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'kettle',
     category: 'furniture',
-    name: 'Kettle',
+    name: 'Czajnik',
     tags: [],
     thumbnail: '/items/kettle/thumbnail.webp',
     src: '/items/kettle/model.glb',
@@ -909,7 +909,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'kitchen',
     category: 'kitchen',
-    name: 'Kitchen',
+    name: 'Kuchnia',
     tags: [],
     thumbnail: '/items/kitchen/thumbnail.webp',
     src: '/items/kitchen/model.glb',
@@ -922,7 +922,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'kitchen-cabinet',
     category: 'kitchen',
-    name: 'Kitchen Cabinet',
+    name: 'Szafka kuchenna',
     tags: [],
     thumbnail: '/items/kitchen-cabinet/thumbnail.webp',
     src: '/items/kitchen-cabinet/model.glb',
@@ -935,7 +935,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'kitchen-counter',
     category: 'kitchen',
-    name: 'Kitchen Counter',
+    name: 'Blat kuchenny',
     tags: [],
     thumbnail: '/items/kitchen-counter/thumbnail.webp',
     src: '/items/kitchen-counter/model.glb',
@@ -948,7 +948,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'kitchen-fridge',
     category: 'kitchen',
-    name: 'Kitchen Fridge',
+    name: 'Lodówka kuchenna',
     tags: [],
     thumbnail: '/items/kitchen-fridge/thumbnail.webp',
     src: '/items/kitchen-fridge/model.glb',
@@ -961,7 +961,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'kitchen-shelf',
     category: 'kitchen',
-    name: 'Kitchen Shelf',
+    name: 'Półka kuchenna',
     tags: [],
     thumbnail: '/items/kitchen-shelf/thumbnail.webp',
     src: '/items/kitchen-shelf/model.glb',
@@ -974,7 +974,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'kitchen-utensils',
     category: 'kitchen',
-    name: 'Kitchen Utensils',
+    name: 'Akcesoria kuchenne',
     tags: [],
     thumbnail: '/items/kitchen-utensils/thumbnail.webp',
     src: '/items/kitchen-utensils/model.glb',
@@ -987,7 +987,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'laundry-bag',
     category: 'furniture',
-    name: 'Laundry Bag',
+    name: 'Worek na pranie',
     tags: [],
     thumbnail: '/items/laundry-bag/thumbnail.webp',
     src: '/items/laundry-bag/model.glb',
@@ -1000,7 +1000,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'livingroom-chair',
     category: 'furniture',
-    name: 'Livingroom Chair',
+    name: 'Fotel salonowy',
     tags: [],
     thumbnail: '/items/livingroom-chair/thumbnail.webp',
     src: '/items/livingroom-chair/model.glb',
@@ -1013,7 +1013,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'lounge-chair',
     category: 'furniture',
-    name: 'Lounge Chair',
+    name: 'Leżak',
     tags: [],
     thumbnail: '/items/lounge-chair/thumbnail.webp',
     src: '/items/lounge-chair/model.glb',
@@ -1026,7 +1026,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'low-fence',
     category: 'outdoor',
-    name: 'Low Fence',
+    name: 'Niskie ogrodzenie',
     tags: [],
     thumbnail: '/items/low-fence/thumbnail.webp',
     src: '/items/low-fence/model.glb',
@@ -1039,7 +1039,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'medium-fence',
     category: 'outdoor',
-    name: 'Medium Fence',
+    name: 'Średnie ogrodzenie',
     tags: [],
     thumbnail: '/items/medium-fence/thumbnail.webp',
     src: '/items/medium-fence/model.glb',
@@ -1052,7 +1052,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'microwave',
     category: 'kitchen',
-    name: 'Microwave',
+    name: 'Mikrofalówka',
     tags: [],
     thumbnail: '/items/microwave/thumbnail.webp',
     src: '/items/microwave/model.glb',
@@ -1065,7 +1065,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'office-chair',
     category: 'furniture',
-    name: 'Office Chair',
+    name: 'Fotel biurowy',
     tags: [],
     thumbnail: '/items/office-chair/thumbnail.webp',
     src: '/items/office-chair/model.glb',
@@ -1182,7 +1182,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'pool-table',
     category: 'outdoor',
-    name: 'Pool Table',
+    name: 'Stół bilardowy',
     tags: [],
     thumbnail: '/items/pool-table/thumbnail.webp',
     src: '/items/pool-table/model.glb',
@@ -1299,7 +1299,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'shelf',
     category: 'furniture',
-    name: 'Shelf',
+    name: 'Półka',
     tags: [],
     thumbnail: '/items/shelf/thumbnail.webp',
     src: '/items/shelf/model.glb',

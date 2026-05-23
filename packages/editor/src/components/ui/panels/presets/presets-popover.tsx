@@ -488,9 +488,7 @@ function PresetRow({
               </DropdownMenuItem>
             )}
             <DropdownMenuItem onClick={onStartRename}>
-              <Pencil className="h-3.5 w-3.5" />
-              Rename
-            </DropdownMenuItem>
+              <Pencil className="h-3.5 w-3.5" />Zmień nazwę</DropdownMenuItem>
             <DropdownMenuItem onClick={onDeleteRequest} variant="destructive">
               <Trash2 className="h-3.5 w-3.5" />Usuń</DropdownMenuItem>
           </DropdownMenuContent>

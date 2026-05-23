@@ -15,18 +15,14 @@ export default function TermsPage() {
             <Link
               className="text-muted-foreground transition-colors hover:text-foreground"
               href="/"
-            >
-              Home
-            </Link>
+            >Strona główna</Link>
             <span className="text-muted-foreground">/</span>
             <span className="font-medium text-foreground">Regulamin</span>
             <span className="text-muted-foreground">|</span>
             <Link
               className="text-muted-foreground transition-colors hover:text-foreground"
               href="/privacy"
-            >
-              Privacy Policy
-            </Link>
+            >Polityka prywatności</Link>
           </nav>
         </div>
       </header>
@@ -34,7 +30,7 @@ export default function TermsPage() {
       <main className="container mx-auto max-w-3xl px-6 py-12">
         <article className="prose prose-neutral dark:prose-invert max-w-none">
           <h1 className="mb-2 font-bold text-3xl">Regulamin</h1>
-          <p className="mb-8 text-muted-foreground text-sm">Effective Date: February 20, 2026</p>
+          <p className="mb-8 text-muted-foreground text-sm">Data wejścia w życie: 20 lutego 2026</p>
 
           <section className="mb-8 space-y-4">
             <h2 className="font-semibold text-xl">1. Introduction</h2>
@@ -83,7 +79,7 @@ export default function TermsPage() {
               <li>Attempt to gain unauthorized access to the Platform or its systems</li>
               <li>Interfere with or disrupt the Platform&apos;s infrastructure</li>
               <li>Upload malicious code, viruses, or harmful content</li>
-              <li>Harass, abuse, or harm other users</li>
+              <li>Nękać, znieważać ani szkodzić innym użytkownikom</li>
               <li>Use the Platform to send spam or unsolicited communications</li>
             </ul>
           </section>

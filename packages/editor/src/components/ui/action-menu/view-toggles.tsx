@@ -269,7 +269,7 @@ function GuidesControl() {
               <img alt="" className="h-4 w-4 object-contain" src="/icons/floorplan.png" />
             </span>
             <div className="min-w-0 flex-1">
-              <p className="font-medium text-foreground text-sm">Guide images</p>
+              <p className="font-medium text-foreground text-sm">Obrazy pomocnicze</p>
               {hasGuides && (
                 <p className="text-muted-foreground text-xs">
                   {guides.length} guide image{guides.length !== 1 ? 's' : ''} on this level

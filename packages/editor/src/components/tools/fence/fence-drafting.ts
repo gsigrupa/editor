@@ -157,7 +157,7 @@ export function createFenceOnCurrentLevel(
 
   const fenceCount = Object.values(nodes).filter((node) => node.type === 'fence').length
   const fence = FenceNode.parse({
-    name: `Fence ${fenceCount + 1}`,
+    name: `Ogrodzenie ${fenceCount + 1}`,
     start,
     end,
   })

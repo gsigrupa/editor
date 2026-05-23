@@ -21,7 +21,7 @@ export function ItemHelper({ showEsc }: ItemHelperProps) {
       </div>
       <div className="flex items-center gap-2 text-sm">
         <ShortcutToken value="Shift" />
-        <span className="text-muted-foreground">Free place</span>
+        <span className="text-muted-foreground">Wolne miejsce</span>
       </div>
       {showEsc && (
         <div className="flex items-center gap-2 text-sm">

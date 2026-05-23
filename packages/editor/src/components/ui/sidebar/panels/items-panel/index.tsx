@@ -209,9 +209,7 @@ export function ItemsPanel({
                   )}
                   onClick={() => setActivePlacementTag(null)}
                   type="button"
-                >
-                  All
-                </button>
+                >Wszystko</button>
                 {placementTags.map((tag) => {
                   const count = placementCount(tag)
                   const isActive = activePlacementTag === tag

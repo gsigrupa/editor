@@ -110,9 +110,7 @@ export function CollectionsPopover({ nodeId, collectionIds, children }: Collecti
             }}
             type="button"
           >
-            <Plus className="h-3 w-3" />
-            New
-          </button>
+            <Plus className="h-3 w-3" />Nowy</button>
         </div>
 
         {/* Create input */}
@@ -301,9 +299,7 @@ export function CollectionsPopover({ nodeId, collectionIds, children }: Collecti
                               setRenameColor(collection.color ?? '')
                             }}
                           >
-                            <Pencil className="h-3.5 w-3.5" />
-                            Rename
-                          </DropdownMenuItem>
+                            <Pencil className="h-3.5 w-3.5" />Zmień nazwę</DropdownMenuItem>
                           <DropdownMenuItem
                             onClick={() => setDeletingId(collection.id)}
                             variant="destructive"

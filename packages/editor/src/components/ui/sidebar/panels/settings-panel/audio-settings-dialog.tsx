@@ -40,7 +40,7 @@ export function AudioSettingsDialog() {
           {/* Master Volume */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <label className="font-medium text-sm">Master Volume</label>
+              <label className="font-medium text-sm">Głośność główna</label>
               <span className="text-muted-foreground text-sm">{masterVolume}%</span>
             </div>
             <Slider

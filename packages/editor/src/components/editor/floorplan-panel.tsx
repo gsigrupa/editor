@@ -5994,7 +5994,7 @@ export function FloorplanPanel() {
       const { createNode, nodes } = useScene.getState()
       const slabCount = Object.values(nodes).filter((node) => node.type === 'slab').length
       const slab = SlabNode.parse({
-        name: `Slab ${slabCount + 1}`,
+        name: `Płyta ${slabCount + 1}`,
         polygon: points.map(([x, z]) => [x, z] as [number, number]),
       })
 
@@ -6015,7 +6015,7 @@ export function FloorplanPanel() {
       const zoneCount = Object.values(nodes).filter((node) => node.type === 'zone').length
       const zone = ZoneNodeSchema.parse({
         color: PALETTE_COLORS[zoneCount % PALETTE_COLORS.length],
-        name: `Zone ${zoneCount + 1}`,
+        name: `Strefa ${zoneCount + 1}`,
         polygon: points.map(([x, z]) => [x, z] as [number, number]),
       })
 
@@ -8315,8 +8315,8 @@ export function FloorplanPanel() {
                 >
                   <option value="meters">Meters</option>
                   <option value="centimeters">Centymetry</option>
-                  <option value="feet">Feet</option>
-                  <option value="inches">Inches</option>
+                  <option value="feet">Stopy</option>
+                  <option value="inches">Cale</option>
                 </select>
               </div>
               <span

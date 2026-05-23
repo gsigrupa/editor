@@ -1340,9 +1340,7 @@ export const FirstPersonOverlay = ({ onExit }: { onExit: () => void }) => {
         >
           <kbd className="rounded border border-border/50 bg-accent/50 px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground">
             ESC
-          </kbd>
-          Exit Street View
-        </button>
+          </kbd>Wyjdź z widoku ulicznego</button>
       </div>
 
       {!hasPlacedSpawn && (

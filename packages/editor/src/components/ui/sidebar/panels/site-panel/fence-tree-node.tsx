@@ -51,7 +51,7 @@ export const FenceTreeNode = memo(function FenceTreeNode({
       isVisible={node.visible !== false}
       label={
         <InlineRenameInput
-          defaultName="Fence"
+          defaultName="Ogrodzenie"
           isEditing={isEditing}
           nodeId={node.id}
           onStartEditing={() => setIsEditing(true)}

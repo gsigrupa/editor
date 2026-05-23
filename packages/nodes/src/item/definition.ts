@@ -59,7 +59,7 @@ export const itemDefinition: NodeDefinition<typeof ItemNode> = {
       asset: {
         id: 'placeholder',
         category: 'misc',
-        name: 'Item',
+        name: 'Element',
         thumbnail: '',
         src: 'asset:placeholder',
         dimensions: [1, 1, 1],

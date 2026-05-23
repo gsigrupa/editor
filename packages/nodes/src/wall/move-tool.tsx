@@ -302,7 +302,7 @@ function buildBridgeWallCreates(args: {
     const { id: _id, parentId: _parentId, children: _children, ...sourceWall } = plan.wall
     const bridgeWall = WallSchema.parse({
       ...sourceWall,
-      name: `Wall ${wallCount + creates.length + 1}`,
+      name: `Ściana ${wallCount + creates.length + 1}`,
       start: plan.originalPoint,
       end: nextPoint,
       children: [],

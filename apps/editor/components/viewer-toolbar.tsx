@@ -78,9 +78,9 @@ const levelModeLabels: Record<string, string> = {
 
 const wallModeOrder = ['cutaway', 'up', 'down'] as const
 const wallModeConfig: Record<string, { icon: string; label: string }> = {
-  up: { icon: '/icons/room.png', label: 'Full height' },
+  up: { icon: '/icons/room.png', label: 'Pełna wysokość' },
   cutaway: { icon: '/icons/wallcut.png', label: 'Przekrój' },
-  down: { icon: '/icons/walllow.png', label: 'Low' },
+  down: { icon: '/icons/walllow.png', label: 'Niska' },
 }
 
 function ViewModeControl() {
@@ -329,7 +329,7 @@ function PreviewButton() {
         type="button"
       >
         <Eye className="h-3.5 w-3.5 shrink-0" />
-        <span>Preview</span>
+        <span>Podgląd</span>
       </button>
     </ToolbarTooltip>
   )

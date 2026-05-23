@@ -32,7 +32,7 @@ const KEY_DISPLAY_MAP: Record<string, string> = {
 
 const SHORTCUT_CATEGORIES: ShortcutCategory[] = [
   {
-    title: 'Editor Navigation',
+    title: 'Nawigacja edytora',
     shortcuts: [
       { keys: ['1'], action: 'Switch to Site phase' },
       { keys: ['2'], action: 'Switch to Structure phase' },
@@ -66,7 +66,7 @@ const SHORTCUT_CATEGORIES: ShortcutCategory[] = [
     ],
   },
   {
-    title: 'Selection',
+    title: 'Zaznaczenie',
     shortcuts: [
       {
         keys: ['Cmd/Ctrl', 'Left click'],
@@ -86,7 +86,7 @@ const SHORTCUT_CATEGORIES: ShortcutCategory[] = [
     ],
   },
   {
-    title: 'Item Placement',
+    title: 'Umieszczanie elementu',
     shortcuts: [
       { keys: ['R'], action: 'Rotate item clockwise, or toggle selected door open/closed' },
       { keys: ['T'], action: 'Rotate item counter-clockwise, or close selected door' },
@@ -144,13 +144,11 @@ export function KeyboardShortcutsDialog() {
     <Dialog>
       <DialogTrigger asChild>
         <Button className="w-full justify-start gap-2" variant="outline">
-          <Keyboard className="size-4" />
-          Keyboard Shortcuts
-        </Button>
+          <Keyboard className="size-4" />Skróty klawiszowe</Button>
       </DialogTrigger>
       <DialogContent className="flex max-h-[85vh] flex-col overflow-hidden p-0 sm:max-w-3xl">
         <DialogHeader className="shrink-0 border-b px-6 py-4">
-          <DialogTitle>Keyboard Shortcuts</DialogTitle>
+          <DialogTitle>Skróty klawiszowe</DialogTitle>
           <DialogDescription>
             Shortcuts are context-aware and depend on the current phase or tool.
           </DialogDescription>

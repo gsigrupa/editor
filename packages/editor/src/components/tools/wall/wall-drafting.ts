@@ -459,7 +459,7 @@ export function createWallOnCurrentLevel(
 
   const wallCount = Object.values(nodes).filter((node) => node.type === 'wall').length
   const wall = WallSchema.parse({
-    name: `Wall ${wallCount + 1}`,
+    name: `Ściana ${wallCount + 1}`,
     start: resolvedStart,
     end: resolvedEnd,
   })

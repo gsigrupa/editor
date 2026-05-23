@@ -61,7 +61,7 @@ export const WindowTreeNode = memo(function WindowTreeNode({
       isVisible={isVisible}
       label={
         <InlineRenameInput
-          defaultName="Window"
+          defaultName="Okno"
           isEditing={isEditing}
           nodeId={nodeId as AnyNodeId}
           onStartEditing={handleStartEditing}

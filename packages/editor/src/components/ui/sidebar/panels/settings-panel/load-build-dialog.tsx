@@ -46,11 +46,11 @@ function statsRows(stats: BuildStats): StatRow[] {
     [
       { icon: MapPin, label: 'Działki', count: stats.byType.site ?? 0 },
       { icon: Building2, label: 'Budynki', count: stats.byType.building ?? 0 },
-      { icon: Layers, label: 'Levels', count: stats.byType.level ?? 0 },
+      { icon: Layers, label: 'Poziomy', count: stats.byType.level ?? 0 },
       { icon: Square, label: 'Ściany', count: stats.byType.wall ?? 0 },
       { icon: DoorOpen, label: 'Drzwi', count: stats.byType.door ?? 0 },
       { icon: AppWindow, label: 'Okna', count: stats.byType.window ?? 0 },
-      { icon: Box, label: 'Items', count: stats.byType.item ?? 0 },
+      { icon: Box, label: 'Elementy', count: stats.byType.item ?? 0 },
       { icon: Square, label: 'Płyty', count: stats.byType.slab ?? 0 },
       { icon: Square, label: 'Sufity', count: stats.byType.ceiling ?? 0 },
       { icon: Square, label: 'Strefy', count: stats.byType.zone ?? 0 },
@@ -161,7 +161,7 @@ export function LoadBuildDialog({ pending, onCancel, onConfirm }: Props) {
                   })}
                   {stats.floorAreaM2 > 0 && (
                     <div className="flex items-center justify-between border-t px-3 py-2">
-                      <span className="text-muted-foreground text-sm">Floor area</span>
+                      <span className="text-muted-foreground text-sm">Powierzchnia podłogi</span>
                       <span className="font-medium text-sm">
                         {formatFloorArea(stats.floorAreaM2)}
                       </span>

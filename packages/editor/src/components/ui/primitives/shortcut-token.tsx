@@ -6,11 +6,11 @@ import { cn } from '../../../lib/utils'
 const MOUSE_SHORTCUTS = {
   Click: {
     icon: 'ph:mouse-left-click-fill',
-    label: 'Left click',
+    label: 'Lewy klik',
   },
   'Left click': {
     icon: 'ph:mouse-left-click-fill',
-    label: 'Left click',
+    label: 'Lewy klik',
   },
   'Middle click': {
     icon: 'qlementine-icons:mouse-middle-button-16',
@@ -18,7 +18,7 @@ const MOUSE_SHORTCUTS = {
   },
   'Right click': {
     icon: 'ph:mouse-right-click-fill',
-    label: 'Right click',
+    label: 'Prawy klik',
   },
 } as const
 

@@ -149,7 +149,7 @@ export function PaintPanel() {
               }
               value={currentProps.side}
             >
-              <option value="front">Front</option>
+              <option value="front">Przód</option>
               <option value="back">Wstecz</option>
               <option value="double">Podwójne</option>
             </select>

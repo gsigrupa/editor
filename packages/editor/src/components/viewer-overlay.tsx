@@ -183,9 +183,7 @@ export const ViewerOverlay = ({
                 <button
                   className="text-muted-foreground transition-colors hover:text-foreground"
                   onClick={() => handleBreadcrumbClick('root')}
-                >
-                  Site
-                </button>
+                >Działka</button>
 
                 {building && (
                   <>
@@ -238,9 +236,7 @@ export const ViewerOverlay = ({
         {/* Level List (only when building is selected) */}
         {building && levels.length > 0 && (
           <div className="pointer-events-auto flex w-48 flex-col overflow-hidden rounded-2xl border border-border/40 bg-background/95 py-1 shadow-lg backdrop-blur-xl transition-colors duration-200 ease-out">
-            <span className="px-3 py-2 font-medium text-[10px] text-muted-foreground uppercase tracking-wider">
-              Levels
-            </span>
+            <span className="px-3 py-2 font-medium text-[10px] text-muted-foreground uppercase tracking-wider">Poziomy</span>
             <div className="flex flex-col">
               {levels.map((lvl) => {
                 const isSelected = lvl.id === selection.levelId

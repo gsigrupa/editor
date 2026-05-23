@@ -116,7 +116,7 @@ export function EditorCommands() {
       },
       {
         id: 'editor.tool.item',
-        label: 'Item Tool',
+        label: 'Narzędzie element',
         group: 'Scene',
         icon: <Package className="h-4 w-4" />,
         keywords: ['furniture', 'object', 'asset', 'furnish'],
@@ -154,7 +154,7 @@ export function EditorCommands() {
       },
       {
         id: 'editor.mode.material-paint',
-        label: 'Material Paint',
+        label: 'Materiały',
         group: 'Scene',
         icon: <PaintBucket className="h-4 w-4" />,
         keywords: ['paint', 'material', 'texture', 'bucket', 'surface'],
@@ -171,7 +171,7 @@ export function EditorCommands() {
       // ── Levels ───────────────────────────────────────────────────────────
       {
         id: 'editor.level.goto',
-        label: 'Go to Level',
+        label: 'Idź do poziomu',
         group: 'Levels',
         icon: <ArrowRight className="h-4 w-4" />,
         keywords: ['level', 'floor', 'go', 'navigate', 'switch', 'select'],
@@ -254,7 +254,7 @@ export function EditorCommands() {
       },
       {
         id: 'editor.viewer.level-mode',
-        label: 'Level Mode',
+        label: 'Tryb poziomu',
         group: 'Viewer Controls',
         icon: <SquareStack className="h-4 w-4" />,
         keywords: ['level', 'floor', 'exploded', 'stacked', 'solo'],
@@ -350,7 +350,7 @@ export function EditorCommands() {
       // ── Export & Share ───────────────────────────────────────────────────
       {
         id: 'editor.export.json',
-        label: 'Export Scene (JSON)',
+        label: 'Eksportuj scenę (JSON)',
         group: 'Export & Share',
         icon: <FileJson className="h-4 w-4" />,
         keywords: ['export', 'download', 'json', 'save', 'data'],
@@ -372,7 +372,7 @@ export function EditorCommands() {
         ? [
             {
               id: 'editor.export.glb',
-              label: 'Export 3D Model (GLB)',
+              label: 'Eksportuj model 3D (GLB)',
               group: 'Export & Share',
               icon: <Box className="h-4 w-4" />,
               keywords: ['export', 'glb', 'gltf', '3d', 'model', 'download'],

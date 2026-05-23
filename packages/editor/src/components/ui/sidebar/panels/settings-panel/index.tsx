@@ -300,7 +300,7 @@ export function SettingsPanel({
           <label className="font-medium text-muted-foreground text-xs uppercase">Widoczność</label>
           <div className="flex items-center justify-between">
             <div>
-              <div className="font-medium text-sm">Public</div>
+              <div className="font-medium text-sm">Publiczne</div>
               <div className="text-muted-foreground text-xs">
                 {projectVisibility?.isPrivate ? 'Only you' : 'Anyone'} can view
               </div>
@@ -345,31 +345,25 @@ export function SettingsPanel({
 
       {/* Export Section */}
       <div className="space-y-2">
-        <label className="font-medium text-muted-foreground text-xs uppercase">Export</label>
+        <label className="font-medium text-muted-foreground text-xs uppercase">Eksportuj</label>
         <Button
           className="w-full justify-start gap-2"
           onClick={() => exportScene?.('glb')}
           variant="outline"
         >
-          <Download className="size-4" />
-          Export GLB
-        </Button>
+          <Download className="size-4" />Eksportuj GLB</Button>
         <Button
           className="w-full justify-start gap-2"
           onClick={() => exportScene?.('stl')}
           variant="outline"
         >
-          <Download className="size-4" />
-          Export STL
-        </Button>
+          <Download className="size-4" />Eksportuj STL</Button>
         <Button
           className="w-full justify-start gap-2"
           onClick={() => exportScene?.('obj')}
           variant="outline"
         >
-          <Download className="size-4" />
-          Export OBJ
-        </Button>
+          <Download className="size-4" />Eksportuj OBJ</Button>
       </div>
 
       {/* Thumbnail Section (only for cloud projects) */}
@@ -393,18 +387,14 @@ export function SettingsPanel({
         <label className="font-medium text-muted-foreground text-xs uppercase">Save & Load</label>
 
         <Button className="w-full justify-start gap-2" onClick={handleSaveBuild} variant="outline">
-          <Save className="size-4" />
-          Save Build
-        </Button>
+          <Save className="size-4" />Zapisz projekt</Button>
 
         <Button
           className="w-full justify-start gap-2"
           onClick={() => fileInputRef.current?.click()}
           variant="outline"
         >
-          <Upload className="size-4" />
-          Load Build
-        </Button>
+          <Upload className="size-4" />Wczytaj projekt</Button>
 
         <input
           accept="application/json"
@@ -429,7 +419,7 @@ export function SettingsPanel({
 
       {/* Keyboard Section */}
       <div className="space-y-2">
-        <label className="font-medium text-muted-foreground text-xs uppercase">Keyboard</label>
+        <label className="font-medium text-muted-foreground text-xs uppercase">Klawiatura</label>
         <KeyboardShortcutsDialog />
       </div>
 
@@ -438,9 +428,7 @@ export function SettingsPanel({
         <label className="font-medium text-muted-foreground text-xs uppercase">Scene Graph</label>
         <Dialog>
           <DialogTrigger asChild>
-            <Button className="h-auto justify-start p-0 text-sm" variant="link">
-              Explore scene graph
-            </Button>
+            <Button className="h-auto justify-start p-0 text-sm" variant="link">Eksploruj graf sceny</Button>
           </DialogTrigger>
           <DialogContent className="h-[80vh] max-w-[95vw] gap-0 overflow-hidden border-0 bg-[#1e1e1e] p-0 shadow-none sm:max-w-5xl">
             <DialogTitle className="sr-only">Scene Graph</DialogTitle>

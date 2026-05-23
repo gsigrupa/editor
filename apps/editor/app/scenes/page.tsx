@@ -52,11 +52,9 @@ export default async function ScenesPage() {
             <Link
               className="text-muted-foreground transition-colors hover:text-foreground"
               href="/"
-            >
-              Home
-            </Link>
+            >Strona główna</Link>
             <span className="text-muted-foreground">/</span>
-            <span className="font-medium text-foreground">Scenes</span>
+            <span className="font-medium text-foreground">Sceny</span>
           </nav>
           <CreateSceneButton />
         </div>
