@@ -24,7 +24,8 @@ import { Popover, PopoverContent, PopoverTrigger } from '../primitives/popover'
 import { Tooltip, TooltipContent, TooltipTrigger } from '../primitives/tooltip'
 import { ActionButton } from './action-button'
 
-const MAX_FILE_SIZE = 200 * 1024 * 1024 // 200MB
+// GSI fork: 250 MB (typowe GLB skanu pomieszczenia z LiDARu). Upstream Pascal mial 200 MB.
+const MAX_FILE_SIZE = 250 * 1024 * 1024 // 250 MB
 const ACCEPTED_FILE_TYPES = '.glb,.gltf,image/jpeg,image/png,image/webp,image/gif'
 const GRID_SNAP_STEPS: GridSnapStep[] = [0.5, 0.25, 0.1, 0.05]
 
@@ -110,7 +111,7 @@ function UploadButton({ onError }: { onError: (message: string | null) => void }
       onError(null)
 
       if (file.size > MAX_FILE_SIZE) {
-        onError('File is too large. Maximum size is 200 MB.')
+        onError('Plik za duży. Maksymalny rozmiar: 250 MB.')
         return
       }
 

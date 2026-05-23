@@ -379,7 +379,8 @@ const ReferenceItem = memo(function ReferenceItem({
   )
 })
 
-const MAX_FILE_SIZE = 200 * 1024 * 1024 // 200MB
+// GSI fork: 250 MB (typowe GLB skanu pomieszczenia z LiDARu). Upstream Pascal mial 200 MB.
+const MAX_FILE_SIZE = 250 * 1024 * 1024 // 250 MB
 
 interface LevelReferencesProps {
   levelId: string
@@ -447,7 +448,7 @@ const LevelReferences = memo(function LevelReferences({
         .getState()
         .setError(
           levelId,
-          `File is too large (${(file.size / 1024 / 1024).toFixed(0)} MB). Maximum size is 200 MB.`,
+          `Plik za duży (${(file.size / 1024 / 1024).toFixed(0)} MB). Maksymalny rozmiar: 250 MB.`,
         )
       return
     }
@@ -471,7 +472,9 @@ const LevelReferences = memo(function LevelReferences({
 
     if (!projectId) {
       useUploadStore.getState().startUpload(levelId, 'scan', file.name)
-      useUploadStore.getState().setError(levelId, 'No active project. Please open a project first.')
+      useUploadStore
+        .getState()
+        .setError(levelId, 'Brak aktywnego projektu. Otwórz lub utwórz scenę pierwsza.')
       return
     }
 
@@ -959,7 +962,7 @@ const LayerToggle = memo(function LayerToggle() {
     <div className="relative flex items-center gap-1 border-border/50 border-b bg-muted p-1">
       <button
         className={cn(
-          'relative flex flex-1 cursor-pointer flex-col items-center justify-center rounded-md py-2 font-medium text-[10px] transition-all duration-200',
+          'relative flex flex-1 cursor-pointer flex-col items-center justify-center rounded-md py-2 font-medium text-[10px] uppercase tracking-wider transition-all duration-200',
           activeTab === 'structure'
             ? 'text-foreground'
             : 'text-muted-foreground hover:bg-white/5 hover:text-foreground',
@@ -994,7 +997,7 @@ const LayerToggle = memo(function LayerToggle() {
 
       <button
         className={cn(
-          'relative flex flex-1 cursor-pointer flex-col items-center justify-center rounded-md py-2 font-medium text-[10px] transition-all duration-200',
+          'relative flex flex-1 cursor-pointer flex-col items-center justify-center rounded-md py-2 font-medium text-[10px] uppercase tracking-wider transition-all duration-200',
           activeTab === 'furnish'
             ? 'text-foreground'
             : 'text-muted-foreground hover:bg-white/5 hover:text-foreground',
@@ -1028,7 +1031,7 @@ const LayerToggle = memo(function LayerToggle() {
 
       <button
         className={cn(
-          'relative flex flex-1 cursor-pointer flex-col items-center justify-center rounded-md py-2 font-medium text-[10px] transition-all duration-200',
+          'relative flex flex-1 cursor-pointer flex-col items-center justify-center rounded-md py-2 font-medium text-[10px] uppercase tracking-wider transition-all duration-200',
           activeTab === 'zones'
             ? 'text-foreground'
             : 'text-muted-foreground hover:bg-white/5 hover:text-foreground',

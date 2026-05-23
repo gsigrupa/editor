@@ -69,10 +69,10 @@ const VIEW_MODES: { id: ViewMode; label: string; icon: React.ReactNode }[] = [
   {
     id: '2d',
     label: '2D',
-    // GSI fork: lucide Grid2X2 zamiast /icons/blueprint.png — PNG bez alpha
-    // (8-bit colormap z bialym tlem) staje sie niewidoczny na bialym tle
-    // toolbar'a w light mode. Lucide SVG renderuje sie currentColor.
-    icon: <Grid2X2 className="h-3.5 w-3.5" />,
+    // GSI fork: Iconify SVG floor plan zamiast /icons/blueprint.png — PNG
+    // bez alpha (8-bit colormap z bialym tlem) staje sie niewidoczny w
+    // light mode toolbar. SVG renderuje sie currentColor.
+    icon: <IconifyIcon height={14} icon="material-symbols:floor-plan" width={14} />,
   },
   {
     id: 'split',
