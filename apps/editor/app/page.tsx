@@ -42,12 +42,12 @@ export default function Home() {
           <div className="pointer-events-auto flex items-center gap-3 rounded-full border border-border/60 bg-background/90 px-4 py-1.5 text-xs shadow-sm backdrop-blur">
             <span className="text-muted-foreground">Edytor lokalny — sceny nie są zapisywane.</span>
             <Link className="font-medium text-foreground hover:underline" href="/scenes">
-              Otwórz ostatnie sceny
+              Otwórz
             </Link>
             <span aria-hidden className="text-muted-foreground">
               ·
             </span>
-            <Link className="font-medium text-foreground hover:underline" href="/scenes">Utwórz nowy</Link>
+            <Link className="font-medium text-foreground hover:underline" href="/scenes">Nowy</Link>
           </div>
         </div>
       )}
