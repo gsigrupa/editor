@@ -66,12 +66,31 @@ function validateAuth(request: Request): NextResponse | null {
   const token = process.env.PASCAL_SCENE_API_TOKEN
   if (!token) {
     if (isLoopbackRequest(request)) return null
+    // GSI fork: same-origin bypass — gdy klient woła API z tej samej
+    // domeny co serwer (np. Pascal UI na gsi-plan-3d.vercel.app woła
+    // /api/scenes), nie wymagaj tokenu. Upstream Pascal forced 503 bez
+    // env var, ale klient i tak nie wysyla tokenu — czyli 503 byl
+    // hard-block dla prod. Same-origin requests sa de facto zaufane
+    // (z naszego deployu).
+    if (isSameOriginRequest(request)) return null
     return sceneApiJson(request, { error: 'scene_api_token_required' }, { status: 503 })
   }
 
   const supplied = bearerToken(request) ?? request.headers.get('x-pascal-scene-token')
   if (supplied && safeEqual(supplied, token)) return null
   return sceneApiJson(request, { error: 'unauthorized' }, { status: 401 })
+}
+
+function isSameOriginRequest(request: Request): boolean {
+  const origin = request.headers.get('origin')
+  if (!origin) return false
+  try {
+    const requestUrl = new URL(request.url)
+    const originUrl = new URL(origin)
+    return requestUrl.origin === originUrl.origin
+  } catch {
+    return false
+  }
 }
 
 function validateRateLimit(request: Request): NextResponse | null {
