@@ -255,8 +255,18 @@ export const useKeyboard = ({
           }
         }
       } else if ((e.key === 't' || e.key === 'T') && !isVersionPreviewMode) {
-        // Rotate selected node counter-clockwise
+        // GSI fork: T = SketchUp-style Tape Measure tool gdy nic nie zaznaczone.
+        // Gdy 1 node selected → fallback do legacy rotate CCW (door/window/item).
+        // SketchUp parity: T to standardowy skrót dla miarki.
         const selectedNodeIds = useViewer.getState().selection.selectedIds as AnyNodeId[]
+        if (selectedNodeIds.length === 0) {
+          e.preventDefault()
+          useEditor.getState().setPhase('structure')
+          useEditor.getState().setStructureLayer('elements')
+          useEditor.getState().setMode('build')
+          useEditor.getState().setTool('measure')
+          return
+        }
         if (selectedNodeIds.length === 1) {
           const node = useScene.getState().nodes[selectedNodeIds[0]!]
           if (node?.type === 'door') {

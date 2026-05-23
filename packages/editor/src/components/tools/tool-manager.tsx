@@ -12,6 +12,7 @@ import useEditor, { type Phase, type Tool } from '../../store/use-editor'
 import { ColumnTool } from './column/column-tool'
 import { ElevatorTool } from './elevator/elevator-tool'
 import { MoveTool } from './item/move-tool'
+import { MeasureTool } from './measure/measure-tool'
 import { RoofTool } from './roof/roof-tool'
 import { getRegistryAffordanceTool } from './shared/affordance-dispatch'
 import { SiteBoundaryEditor } from './site/site-boundary-editor'
@@ -45,6 +46,7 @@ const tools: Record<Phase, Partial<Record<Tool, React.FC>>> = {
     roof: RoofTool,
     stair: StairTool,
     zone: ZoneTool,
+    measure: MeasureTool, // GSI fork: SketchUp-style tape measure
   },
   furnish: {},
 }

@@ -76,6 +76,7 @@ export type StructureTool =
   | 'solar-panel'
   | 'skylight'
   | 'dormer'
+  | 'measure' // GSI fork: SketchUp-style tape measure (M key)
 
 // Furnish mode tools (items and decoration)
 export type FurnishTool = 'item'
