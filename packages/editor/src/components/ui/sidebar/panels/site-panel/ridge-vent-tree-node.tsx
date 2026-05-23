@@ -42,7 +42,7 @@ export const RidgeVentTreeNode = memo(function RidgeVentTreeNode({
     [nodeId, setSelection],
   )
 
-  const defaultName = node?.name || 'Ridge Vent'
+  const defaultName = node?.name || 'Wywietrznik kalenicowy'
 
   return (
     <TreeNodeWrapper

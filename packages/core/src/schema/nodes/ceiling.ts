@@ -14,7 +14,7 @@ export const CeilingNode = BaseNode.extend({
   polygon: z.array(z.tuple([z.number(), z.number()])),
   holes: z.array(z.array(z.tuple([z.number(), z.number()]))).default([]),
   holeMetadata: z.array(SurfaceHoleMetadata).default([]),
-  height: z.number().default(2.5), // Height in meters
+  height: z.number().default(2.7), // GSI fork: 270 cm (typowa wysokość PL po wykończeniu). Upstream Pascal mial 2.5.
   autoFromWalls: z.boolean().default(false),
 }).describe(
   dedent`

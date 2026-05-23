@@ -91,6 +91,7 @@ type SelectableNodeType =
 type ModifierKeys = {
   meta: boolean
   ctrl: boolean
+  shift: boolean
 }
 
 type PaintPreviewCleanup = () => void
@@ -574,10 +575,14 @@ const computeNextIds = (
   event?: any,
   modifierKeys?: ModifierKeys,
 ): string[] => {
+  // GSI fork: Shift = multi-select toggle (intuicyjne; Cmd/Ctrl konfliktuje
+  // z systemowym shortcut'em na MacOS i nie jest standardem CAD/3D).
+  // Cmd/Ctrl trzymane jako alias — muscle memory z Pascal upstream.
+  const isShift = event?.shiftKey || event?.nativeEvent?.shiftKey || modifierKeys?.shift
   const isMeta = event?.metaKey || event?.nativeEvent?.metaKey || modifierKeys?.meta
   const isCtrl = event?.ctrlKey || event?.nativeEvent?.ctrlKey || modifierKeys?.ctrl
 
-  if (isMeta || isCtrl) {
+  if (isShift || isMeta || isCtrl) {
     if (selectedIds.includes(node.id)) {
       return selectedIds.filter((id) => id !== node.id)
     }
@@ -806,6 +811,7 @@ export const SelectionManager = () => {
   const modifierKeysRef = useRef<ModifierKeys>({
     meta: false,
     ctrl: false,
+    shift: false,
   })
   const clickHandledRef = useRef(false)
 
@@ -1182,16 +1188,19 @@ export const SelectionManager = () => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Meta') modifierKeysRef.current.meta = true
       if (event.key === 'Control') modifierKeysRef.current.ctrl = true
+      if (event.key === 'Shift') modifierKeysRef.current.shift = true
     }
 
     const onKeyUp = (event: KeyboardEvent) => {
       if (event.key === 'Meta') modifierKeysRef.current.meta = false
       if (event.key === 'Control') modifierKeysRef.current.ctrl = false
+      if (event.key === 'Shift') modifierKeysRef.current.shift = false
     }
 
     const clearModifiers = () => {
       modifierKeysRef.current.meta = false
       modifierKeysRef.current.ctrl = false
+      modifierKeysRef.current.shift = false
     }
 
     window.addEventListener('keydown', onKeyDown)

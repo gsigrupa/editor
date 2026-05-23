@@ -46,7 +46,7 @@ export const SlabTreeNode = memo(function SlabTreeNode({
   const handleStopEditing = useCallback(() => setIsEditing(false), [])
 
   const area = calculatePolygonArea(polygon).toFixed(1)
-  const defaultName = `Slab (${area}m²)`
+  const defaultName = `Płyta (${area} m²)`
 
   return (
     <TreeNodeWrapper

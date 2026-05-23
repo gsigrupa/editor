@@ -10,6 +10,11 @@ export const ZoneNode = BaseNode.extend({
   polygon: z.array(z.tuple([z.number(), z.number()])),
   // Visual styling
   color: z.string().default('#3b82f6'), // Default blue
+  // GSI fork: auto-generated zone z closed wall loop (analog do slab.autoFromWalls).
+  // Pozwala space-detection synchronizować zone z polygon pokoju automatycznie.
+  // Bez tej flagi zone ręcznie utworzona przez user'a (`Strefy` tool) — auto-sync
+  // jej nie dotyka.
+  autoFromWalls: z.boolean().default(false),
   metadata: z.json().optional().default({}),
 }).describe(
   dedent`
@@ -20,6 +25,7 @@ export const ZoneNode = BaseNode.extend({
   - name: zone name
   - polygon: array of [x, z] points defining the zone boundary
   - color: hex color for visual styling
+  - autoFromWalls: GSI fork — auto-generated from detected room polygon
   - metadata: zone metadata (optional)
   `,
 )

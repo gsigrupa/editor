@@ -89,7 +89,9 @@ export const useKeyboard = ({
         useEditor.getState().setStructureLayer('zones')
         useEditor.getState().setMode('build')
       }
-      if (e.key === 'v' && !e.metaKey && !e.ctrlKey) {
+      // GSI fork: Spacja jako Select tool (SketchUp convention). 'V'
+      // zostaje jako alias dla muscle-memory z upstream Pascal'a.
+      if ((e.key === ' ' || e.code === 'Space' || e.key === 'v') && !e.metaKey && !e.ctrlKey) {
         e.preventDefault()
         useEditor.getState().setMode('select')
         useEditor.getState().setFloorplanSelectionTool('click')

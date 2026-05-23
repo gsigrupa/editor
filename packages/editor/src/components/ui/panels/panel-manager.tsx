@@ -32,6 +32,7 @@ import { getNodeDisplay } from './node-display'
 import { PaintPanel } from './paint-panel'
 import { ParametricInspector } from './parametric-inspector'
 import { ReferencePanel } from './reference-panel'
+import { WallMultiSelectPanel } from './wall-multi-select-panel'
 
 type MovableNode =
   | ItemNode
@@ -187,6 +188,22 @@ export function PanelManager() {
     const id = selectedIds[0]
     return id ? (s.nodes[id as AnyNodeId] ?? null) : null
   })
+  // GSI fork: multi-select wall aggregate. Gdy ≥1 zaznaczona ściana
+  // (i więcej niż 1 obiekt total), renderujemy WallMultiSelectPanel
+  // który pokazuje sumę długości + powierzchni. Subskrybujemy tylko
+  // count żeby re-render strict: panel sam czyta walls przez useScene.
+  const selectedWallCount = useScene((s) => {
+    if (selectedIds.length < 2) return 0
+    let count = 0
+    for (const id of selectedIds) {
+      if (s.nodes[id as AnyNodeId]?.type === 'wall') count += 1
+    }
+    return count
+  })
+  const setSelection = useViewer((s) => s.setSelection)
+  const closeMultiWallPanel = useCallback(() => {
+    setSelection({ selectedIds: [] })
+  }, [setSelection])
 
   if (isMobile) {
     if (selectedReferenceId) {
@@ -213,6 +230,11 @@ export function PanelManager() {
     !activePaintMaterial.materialPreset
   ) {
     return <PaintPanel />
+  }
+
+  // GSI fork: multi-select wall aggregate (Shift+klik na wielu ścianach).
+  if (selectedWallCount > 0 && selectedIds.length > 1) {
+    return <WallMultiSelectPanel ids={selectedIds} onClose={closeMultiWallPanel} />
   }
 
   return panelForType(selectedNodeType)

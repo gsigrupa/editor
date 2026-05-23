@@ -695,10 +695,15 @@ function getElevatorResizeSign(handle: ElevatorResizeHandle) {
   return handle.endsWith('positive') ? 1 : -1
 }
 
-function getSelectionModifierKeys(event?: { metaKey?: boolean; ctrlKey?: boolean }) {
+function getSelectionModifierKeys(event?: {
+  metaKey?: boolean
+  ctrlKey?: boolean
+  shiftKey?: boolean
+}) {
   return {
     meta: Boolean(event?.metaKey),
     ctrl: Boolean(event?.ctrlKey),
+    shift: Boolean(event?.shiftKey),
   }
 }
 

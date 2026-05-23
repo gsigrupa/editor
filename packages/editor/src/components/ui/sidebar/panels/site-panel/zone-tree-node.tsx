@@ -36,7 +36,7 @@ export const ZoneTreeNode = memo(function ZoneTreeNode({
 
   // Calculate approximate area from polygon
   const area = calculatePolygonArea(polygon).toFixed(1)
-  const defaultName = `Zone (${area}m²)`
+  const defaultName = `Strefa (${area} m²)`
 
   return (
     <TreeNodeWrapper

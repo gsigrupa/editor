@@ -1088,7 +1088,7 @@ const ZoneItem = memo(function ZoneItem({ zone, isLast }: { zone: ZoneNode; isLa
   }, [isSelected])
 
   const area = calculatePolygonArea(zone.polygon).toFixed(1)
-  const defaultName = `Zone (${area}m²)`
+  const defaultName = `Strefa (${area} m²)`
 
   const handleClick = () => {
     setSelection({ zoneId: zone.id })
@@ -1275,7 +1275,9 @@ const ContentSection = memo(function ContentSection() {
 
   if (!level) {
     return (
-      <div className="px-3 py-4 text-muted-foreground text-sm">Select a level to view content</div>
+      <div className="px-3 py-4 text-muted-foreground text-sm">
+        Wybierz poziom aby zobaczyć zawartość
+      </div>
     )
   }
 
@@ -1289,7 +1291,7 @@ const ContentSection = memo(function ContentSection() {
     if (levelZones.length === 0) {
       return (
         <div className="px-3 py-4 text-muted-foreground text-sm">
-          No zones on this level.{' '}
+          Brak stref na tym poziomie.{' '}
           <button className="cursor-pointer text-primary hover:underline" onClick={handleAddZone}>Dodaj</button>
         </div>
       )
@@ -1305,7 +1307,9 @@ const ContentSection = memo(function ContentSection() {
   }
 
   if (elementChildren.length === 0) {
-    return <div className="px-3 py-4 text-muted-foreground text-sm">No elements on this level</div>
+    return (
+      <div className="px-3 py-4 text-muted-foreground text-sm">Brak elementów na tym poziomie</div>
+    )
   }
   return (
     <TreeNodeDragProvider>

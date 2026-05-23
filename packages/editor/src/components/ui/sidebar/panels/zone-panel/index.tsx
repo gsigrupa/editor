@@ -150,7 +150,7 @@ export function ZonePanel() {
     <div className="py-1">
       {levelZones.length === 0 ? (
         <div className="px-3 py-4 text-muted-foreground text-sm">
-          No zones on this level.{' '}
+          Brak stref na tym poziomie.{' '}
           <button className="cursor-pointer text-primary hover:underline" onClick={handleAddZone}>Dodaj</button>
         </div>
       ) : (

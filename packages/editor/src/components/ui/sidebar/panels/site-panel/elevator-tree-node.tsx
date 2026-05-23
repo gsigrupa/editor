@@ -57,7 +57,7 @@ export const ElevatorTreeNode = memo(function ElevatorTreeNode({
       isVisible={isVisible}
       label={
         <InlineRenameInput
-          defaultName={node?.name || 'Elevator'}
+          defaultName={node?.name || 'Winda'}
           isEditing={isEditing}
           nodeId={nodeId}
           onStartEditing={() => setIsEditing(true)}

@@ -76,7 +76,7 @@ export const CeilingTreeNode = memo(function CeilingTreeNode({
   const handleStopEditing = useCallback(() => setIsEditing(false), [])
 
   const area = calculatePolygonArea(polygon).toFixed(1)
-  const defaultName = `Ceiling (${area}m²)`
+  const defaultName = `Sufit (${area} m²)`
 
   return (
     <TreeNodeWrapper

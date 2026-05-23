@@ -149,12 +149,12 @@ export function CeilingPanel() {
     <PanelWrapper
       icon="/icons/ceiling.png"
       onClose={handleClose}
-      title={node.name || 'Ceiling'}
+      title={node.name || 'Sufit'}
       width={320}
     >
-      <PanelSection title="Height">
+      <PanelSection title="Wysokość">
         <SliderControl
-          label="Height"
+          label="Wysokość"
           max={6}
           min={0}
           onChange={(v) => handleUpdate({ height: v })}
@@ -164,21 +164,25 @@ export function CeilingPanel() {
           value={Math.round(node.height * 1000) / 1000}
         />
 
+        {/* GSI fork: 270 cm jako Standard (typowa PL po wykonczeniu). */}
         <div className="mt-2 grid grid-cols-3 gap-1.5 px-1 pb-1">
-          <ActionButton label="Low (2.4m)" onClick={() => handleUpdate({ height: 2.4 })} />
-          <ActionButton label="Standard (2.5m)" onClick={() => handleUpdate({ height: 2.5 })} />
-          <ActionButton label="High (3.0m)" onClick={() => handleUpdate({ height: 3.0 })} />
+          <ActionButton label="Niski (2,4 m)" onClick={() => handleUpdate({ height: 2.4 })} />
+          <ActionButton
+            label="Standard (2,7 m)"
+            onClick={() => handleUpdate({ height: 2.7 })}
+          />
+          <ActionButton label="Wysoki (3,0 m)" onClick={() => handleUpdate({ height: 3.0 })} />
         </div>
       </PanelSection>
 
-      <PanelSection title="Info">
+      <PanelSection title="Informacje">
         <div className="flex items-center justify-between px-2 py-1 text-muted-foreground text-sm">
-          <span>Area</span>
-          <span className="font-mono text-white">{area.toFixed(2)} m²</span>
+          <span>Powierzchnia</span>
+          <span className="font-mono tabular-nums text-foreground">{area.toFixed(2)} m²</span>
         </div>
       </PanelSection>
 
-      <PanelSection title="Holes">
+      <PanelSection title="Otwory">
         {node.holes && node.holes.length > 0 ? (
           <div className="flex flex-col gap-1 pb-2">
             {node.holes.map((hole, index) => {
@@ -187,7 +191,8 @@ export function CeilingPanel() {
                 editingHole?.nodeId === selectedId && editingHole?.holeIndex === index
               const source = node.holeMetadata?.[index]?.source ?? 'manual'
               const isAutoHole = source !== 'manual'
-              const autoLabel = source === 'elevator' ? 'Auto elevator cutout' : 'Auto stair cutout'
+              const autoLabel =
+                source === 'elevator' ? 'Auto-otwór: winda' : 'Auto-otwór: schody'
               return (
                 <div
                   className={`flex items-center justify-between rounded-lg border p-2 transition-colors ${
@@ -199,20 +204,20 @@ export function CeilingPanel() {
                 >
                   <div className="min-w-0 flex-1">
                     <p
-                      className={`font-medium text-xs ${isEditing ? 'text-primary' : 'text-white'}`}
+                      className={`font-medium text-xs ${isEditing ? 'text-primary' : 'text-foreground'}`}
                     >
-                      Hole {index + 1} {isEditing && '(Editing)'}
+                      Otwór {index + 1} {isEditing && '(edycja)'}
                     </p>
                     <p className="text-[10px] text-muted-foreground">
-                      {holeArea.toFixed(2)} m² · {hole.length} pts ·{' '}
-                      {isAutoHole ? autoLabel : 'Manual'}
+                      {holeArea.toFixed(2)} m² · {hole.length} pkt ·{' '}
+                      {isAutoHole ? autoLabel : 'Ręczny'}
                     </p>
                   </div>
                   <div className="flex items-center gap-1">
                     {isEditing ? (
                       <ActionButton
                         className="h-7 bg-primary text-primary-foreground hover:bg-primary/90"
-                        label="Done"
+                        label="Gotowe"
                         onClick={() => setEditingHole(null)}
                       />
                     ) : isAutoHole ? (
@@ -243,7 +248,7 @@ export function CeilingPanel() {
             })}
           </div>
         ) : (
-          <div className="px-2 py-3 text-center text-muted-foreground text-xs">No holes</div>
+          <div className="px-2 py-3 text-center text-muted-foreground text-xs">Brak otworów</div>
         )}
 
         <div className="px-1 pt-1 pb-1">
@@ -258,7 +263,11 @@ export function CeilingPanel() {
       </PanelSection>
 
       <ActionGroup>
-        <ActionButton icon={<Move className="h-3.5 w-3.5" />} label="Move" onClick={handleMove} />
+        <ActionButton
+          icon={<Move className="h-3.5 w-3.5" />}
+          label="Przenieś"
+          onClick={handleMove}
+        />
       </ActionGroup>
     </PanelWrapper>
   )

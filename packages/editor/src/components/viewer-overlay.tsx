@@ -177,9 +177,9 @@ function SceneThemeMenu() {
 }
 
 const EDGE_OPTIONS = [
-  { id: 'off', name: 'Off', detail: 'No edge lines' },
-  { id: 'soft', name: 'Soft', detail: 'Faint outline of major creases' },
-  { id: 'strong', name: 'Strong', detail: 'Crisp, opaque edge lines' },
+  { id: 'off', name: 'Wyłączone', detail: 'Bez linii krawędzi' },
+  { id: 'soft', name: 'Miękkie', detail: 'Delikatny zarys głównych załamań' },
+  { id: 'strong', name: 'Mocne', detail: 'Wyraźne, nieprzezroczyste linie' },
 ] as const satisfies readonly { id: EdgeMode; name: string; detail: string }[]
 
 function EdgesMenu() {
@@ -194,7 +194,7 @@ function EdgesMenu() {
               ? 'text-muted-foreground/80 hover:bg-white/5 hover:text-foreground'
               : 'bg-white/10 text-foreground'
           }
-          label={`Edges: ${active.name}`}
+          label={`Krawędzie: ${active.name}`}
           size="icon"
           tooltipSide="top"
           variant="ghost"

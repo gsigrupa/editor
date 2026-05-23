@@ -4,6 +4,8 @@ import {
   SlabNode,
   type SlabNode as SlabNodeType,
   type WallNode,
+  ZoneNode,
+  type ZoneNode as ZoneNodeType,
 } from '../schema'
 import {
   getSceneHistoryPauseDepth,
@@ -48,7 +50,10 @@ export type AutoSlabSyncPlan = {
 }
 
 const DEFAULT_AUTO_SLAB_ELEVATION = 0.05
-const DEFAULT_AUTO_CEILING_HEIGHT = 2.5
+// GSI fork: 270 cm (typowo PL). Upstream Pascal mial 2.5. Spojnosc z
+// DEFAULT_WALL_HEIGHT (core/systems/wall/wall-footprint.ts) i ceiling
+// schema default (core/schema/nodes/ceiling.ts).
+const DEFAULT_AUTO_CEILING_HEIGHT = 2.7
 const ROOM_CURVE_TOLERANCE = 0.04
 const MAX_CURVE_SUBDIVISION_DEPTH = 6
 const AUTO_SLAB_POLYGON_SIMPLIFY_TOLERANCE = 0.08
@@ -440,16 +445,22 @@ export function resolveWallSurfaceSides(
   }
 }
 
+// GSI fork: auto-naming po PL ("Pomieszczenie N Podłoga/Sufit"). Regex
+// match backward-compat dla starych scen z EN names ("Room N Slab/Ceiling")
+// — żeby kontynuować nowy index gdy user otwiera scenę sprzed forka.
 function nextAutoRoomName(
   nodes: Array<{
     name?: string
   }>,
-  suffix: 'Slab' | 'Ceiling',
+  suffix: 'Podłoga' | 'Sufit',
 ) {
   let maxIndex = 0
 
   for (const node of nodes) {
-    const match = /^Room\s+(\d+)(?:\s+(?:Slab|Ceiling))?$/i.exec((node.name ?? '').trim())
+    const match =
+      /^(?:Room|Pomieszczenie)\s+(\d+)(?:\s+(?:Slab|Ceiling|Podłoga|Sufit))?$/i.exec(
+        (node.name ?? '').trim(),
+      )
     if (!match) continue
     const index = Number(match[1])
     if (Number.isFinite(index)) {
@@ -457,7 +468,7 @@ function nextAutoRoomName(
     }
   }
 
-  return `Room ${maxIndex + 1} ${suffix}`
+  return `Pomieszczenie ${maxIndex + 1} ${suffix}`
 }
 
 function sameTuplePolygon(current: Array<[number, number]>, next: Array<[number, number]>) {
@@ -608,7 +619,7 @@ export function planAutoSlabsForLevel(
     const room = detected[index]
     if (!room) continue
 
-    const name = nextAutoRoomName(plannedSlabsForNaming, 'Slab')
+    const name = nextAutoRoomName(plannedSlabsForNaming, 'Podłoga')
     plannedSlabsForNaming.push({ name })
 
     slabsToCreate.push(
@@ -768,7 +779,7 @@ function syncAutoCeilingsForLevel(
     const room = detected[index]
     if (!room) continue
 
-    const name = nextAutoRoomName(plannedCeilingsForNaming, 'Ceiling')
+    const name = nextAutoRoomName(plannedCeilingsForNaming, 'Sufit')
     plannedCeilingsForNaming.push({ name })
 
     ceilingsToCreate.push(
@@ -792,6 +803,109 @@ function syncAutoCeilingsForLevel(
 
   if (ceilingsToCreate.length > 0) {
     sceneStore.getState().createNodes(ceilingsToCreate.map((node) => ({ node, parentId: levelId })))
+  }
+}
+
+// GSI fork: nextAutoZoneName — naming dla auto-zone bez suffix (zone reprezentuje
+// całe pomieszczenie jako entity, nie konkretny element jak slab/ceiling).
+// Regex match backward-compat ze starymi "Room N" + slab/ceiling suffix.
+function nextAutoZoneName(nodes: Array<{ name?: string }>) {
+  let maxIndex = 0
+  for (const node of nodes) {
+    const match = /^(?:Room|Pomieszczenie)\s+(\d+)/i.exec((node.name ?? '').trim())
+    if (!match) continue
+    const index = Number(match[1])
+    if (Number.isFinite(index)) {
+      maxIndex = Math.max(maxIndex, index)
+    }
+  }
+  return `Pomieszczenie ${maxIndex + 1}`
+}
+
+// GSI fork: planAutoZonesForLevel — analog do planAutoSlabsForLevel.
+// Tworzy/aktualizuje/usuwa zones z autoFromWalls=true na podstawie
+// wykrytych pokoi. Ręcznie utworzone zones (autoFromWalls=false)
+// nie są ruszane.
+export function planAutoZonesForLevel(
+  roomPolygons: Point2D[][],
+  existingZones: ZoneNodeType[],
+) {
+  const existingAuto = existingZones.filter((zone) => zone.autoFromWalls === true)
+
+  const detected = roomPolygons.map((polygon) => ({
+    poly: polygon,
+    tuple: polygon.map(pointToTuple),
+  }))
+
+  const matchedExistingIds = new Set<string>()
+  const matchedDetectedIdx = new Set<number>()
+
+  // Match istniejących auto-zones z detected pokojami po polygon equality
+  for (const zone of existingAuto) {
+    for (let i = 0; i < detected.length; i += 1) {
+      if (matchedDetectedIdx.has(i)) continue
+      const room = detected[i]
+      if (!room) continue
+      if (sameTuplePolygon(zone.polygon as Array<[number, number]>, room.tuple)) {
+        matchedExistingIds.add(zone.id)
+        matchedDetectedIdx.add(i)
+        break
+      }
+    }
+  }
+
+  const zonesToDelete = existingAuto
+    .filter((zone) => !matchedExistingIds.has(zone.id))
+    .map((zone) => zone.id)
+
+  // Zones to update — gdy istniejąca auto-zone ma polygon różny od najbliższego
+  // pasującego pokoju (centroid-based fuzzy match). Pominięte na razie dla
+  // prostoty: bezpieczniej delete+create niż update wrong polygon.
+  const zonesToUpdate: Array<{ id: string; data: { polygon: Array<[number, number]> } }> = []
+
+  const plannedZonesForNaming: Array<{ name?: string }> = [...existingZones]
+  const zonesToCreate: ZoneNodeType[] = []
+  for (let index = 0; index < detected.length; index += 1) {
+    if (matchedDetectedIdx.has(index)) continue
+    const room = detected[index]
+    if (!room) continue
+
+    const name = nextAutoZoneName(plannedZonesForNaming)
+    plannedZonesForNaming.push({ name })
+
+    zonesToCreate.push(
+      ZoneNode.parse({
+        name,
+        polygon: room.poly.map(pointToTuple),
+        color: '#3b82f6',
+        autoFromWalls: true,
+      }),
+    )
+  }
+
+  return {
+    create: zonesToCreate,
+    update: zonesToUpdate,
+    delete: zonesToDelete,
+  }
+}
+
+function syncAutoZonesForLevel(
+  levelId: string,
+  roomPolygons: Point2D[][],
+  existingZones: ZoneNodeType[],
+  sceneStore: any,
+) {
+  const plan = planAutoZonesForLevel(roomPolygons, existingZones)
+
+  if (plan.delete.length > 0) {
+    sceneStore.getState().deleteNodes(plan.delete)
+  }
+  if (plan.update.length > 0) {
+    sceneStore.getState().updateNodes(plan.update)
+  }
+  if (plan.create.length > 0) {
+    sceneStore.getState().createNodes(plan.create.map((node) => ({ node, parentId: levelId })))
   }
 }
 
@@ -843,6 +957,10 @@ function runSpaceDetection(
     const ceilings = Object.values(nodes).filter(
       (node: any) => node?.type === 'ceiling' && node.parentId === levelId,
     )
+    // GSI fork: auto-zones synchronizowane z detected pokojami (analog slab/ceiling).
+    const zones = Object.values(nodes).filter(
+      (node: any) => node?.type === 'zone' && node.parentId === levelId,
+    )
 
     const { wallUpdates, spaces, roomPolygons } = detectSpacesFromWalls(levelId, walls)
 
@@ -873,6 +991,15 @@ function runSpaceDetection(
       levelId,
       roomPolygons,
       ceilings.map((ceiling: any) => CeilingNode.parse(ceiling)),
+      sceneStore,
+    )
+    // GSI fork: zone z polygon = pokój. Daje user'owi możliwość rename
+    // pomieszczenia (zone ma name field) bez ręcznego rysowania w trybie
+    // strefy (który snap'uje do grida i nie matchuje wymiarów ścian).
+    syncAutoZonesForLevel(
+      levelId,
+      roomPolygons,
+      zones.map((zone: any) => ZoneNode.parse(zone)),
       sceneStore,
     )
 

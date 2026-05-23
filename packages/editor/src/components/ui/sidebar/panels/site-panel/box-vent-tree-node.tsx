@@ -42,7 +42,7 @@ export const BoxVentTreeNode = memo(function BoxVentTreeNode({
     [nodeId, setSelection],
   )
 
-  const defaultName = node?.name || 'Box Vent'
+  const defaultName = node?.name || 'Wywietrznik kostkowy'
 
   return (
     <TreeNodeWrapper

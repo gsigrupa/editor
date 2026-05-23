@@ -34,44 +34,44 @@ const SHORTCUT_CATEGORIES: ShortcutCategory[] = [
   {
     title: 'Nawigacja edytora',
     shortcuts: [
-      { keys: ['1'], action: 'Switch to Site phase' },
-      { keys: ['2'], action: 'Switch to Structure phase' },
-      { keys: ['3'], action: 'Switch to Furnish phase' },
-      { keys: ['S'], action: 'Switch to Structure layer' },
-      { keys: ['F'], action: 'Switch to Furnish layer' },
-      { keys: ['Z'], action: 'Switch to Zones layer' },
+      { keys: ['1'], action: 'Faza Teren' },
+      { keys: ['2'], action: 'Faza Konstrukcja' },
+      { keys: ['3'], action: 'Faza Umebluj' },
+      { keys: ['S'], action: 'Warstwa konstrukcji' },
+      { keys: ['F'], action: 'Warstwa umeblowania' },
+      { keys: ['Z'], action: 'Warstwa stref' },
       {
         keys: ['Cmd/Ctrl', 'Arrow Up'],
-        action: 'Select next level in the active building',
+        action: 'Następne piętro w aktywnym budynku',
       },
       {
         keys: ['Cmd/Ctrl', 'Arrow Down'],
-        action: 'Select previous level in the active building',
+        action: 'Poprzednie piętro w aktywnym budynku',
       },
-      { keys: ['Cmd/Ctrl', 'B'], action: 'Toggle sidebar' },
+      { keys: ['Cmd/Ctrl', 'B'], action: 'Przełącz panel boczny' },
     ],
   },
   {
-    title: 'Modes & History',
+    title: 'Tryby i historia',
     shortcuts: [
-      { keys: ['V'], action: 'Switch to Select mode' },
-      { keys: ['B'], action: 'Switch to Build mode' },
+      { keys: ['Space'], action: 'Tryb zaznaczania (alias: V)' },
+      { keys: ['B'], action: 'Tryb budowania' },
       {
         keys: ['Esc'],
-        action: 'Cancel the active tool and return to Select mode',
+        action: 'Anuluj aktywne narzędzie i wróć do trybu zaznaczania',
       },
-      { keys: ['Delete / Backspace'], action: 'Delete selected objects' },
-      { keys: ['Cmd/Ctrl', 'Z'], action: 'Undo' },
-      { keys: ['Cmd/Ctrl', 'Shift', 'Z'], action: 'Redo' },
+      { keys: ['Delete / Backspace'], action: 'Usuń zaznaczone obiekty' },
+      { keys: ['Cmd/Ctrl', 'Z'], action: 'Cofnij' },
+      { keys: ['Cmd/Ctrl', 'Shift', 'Z'], action: 'Powtórz' },
     ],
   },
   {
     title: 'Zaznaczenie',
     shortcuts: [
       {
-        keys: ['Cmd/Ctrl', 'Left click'],
-        action: 'Add or remove an object from multi-selection',
-        note: 'Works while in Select mode.',
+        keys: ['Shift', 'Lewy klik'],
+        action: 'Dodaj lub usuń obiekt z zaznaczenia (multi-select)',
+        note: 'Działa w trybie zaznaczania. Cmd/Ctrl też zadziała (alias).',
       },
     ],
   },
@@ -80,20 +80,25 @@ const SHORTCUT_CATEGORIES: ShortcutCategory[] = [
     shortcuts: [
       {
         keys: ['Shift'],
-        action: 'Temporarily disable angle snapping while drawing walls, slabs, and ceilings',
-        note: 'Hold while drawing.',
+        action: 'Tymczasowo wyłącz przyciąganie kątowe (ściany, podłogi, sufity)',
+        note: 'Przytrzymaj podczas rysowania.',
+      },
+      {
+        keys: ['0-9', 'Enter'],
+        action: 'Wpisz długość ściany (np. 105 + Enter — w aktywnej jednostce)',
+        note: 'Działa po pierwszym kliku ściany.',
       },
     ],
   },
   {
     title: 'Umieszczanie elementu',
     shortcuts: [
-      { keys: ['R'], action: 'Rotate item clockwise, or toggle selected door open/closed' },
-      { keys: ['T'], action: 'Rotate item counter-clockwise, or close selected door' },
+      { keys: ['R'], action: 'Obróć obiekt zgodnie z ruchem wskazówek / przełącz drzwi otwarte/zamknięte' },
+      { keys: ['T'], action: 'Obróć obiekt przeciwnie do wskazówek / zamknij wybrane drzwi' },
       {
         keys: ['Shift'],
-        action: 'Temporarily bypass placement validation constraints',
-        note: 'Hold while placing.',
+        action: 'Tymczasowo pomiń walidację umiejscowienia',
+        note: 'Przytrzymaj podczas umieszczania.',
       },
     ],
   },
@@ -102,13 +107,13 @@ const SHORTCUT_CATEGORIES: ShortcutCategory[] = [
     shortcuts: [
       {
         keys: ['Middle click'],
-        action: 'Pan camera',
-        note: 'Drag with the middle mouse button, or hold Space while dragging with the left mouse button.',
+        action: 'Przesuwanie kamery',
+        note: 'Przeciągnij środkowym przyciskiem myszy lub przytrzymaj Space + lewy przycisk.',
       },
       {
         keys: ['Right click'],
-        action: 'Orbit camera',
-        note: 'Drag with the right mouse button.',
+        action: 'Orbita kamery',
+        note: 'Przeciągnij prawym przyciskiem myszy.',
       },
     ],
   },
@@ -150,7 +155,7 @@ export function KeyboardShortcutsDialog() {
         <DialogHeader className="shrink-0 border-b px-6 py-4">
           <DialogTitle>Skróty klawiszowe</DialogTitle>
           <DialogDescription>
-            Shortcuts are context-aware and depend on the current phase or tool.
+            Skróty są zależne od aktualnej fazy i wybranego narzędzia.
           </DialogDescription>
         </DialogHeader>
 

@@ -36,7 +36,9 @@ const controls: ControlConfig[] = [
     id: 'select',
     imageSrc: '/icons/select.png',
     label: 'Zaznacz',
-    shortcut: 'V',
+    // GSI fork: Spacja jako głowny shortcut (SketchUp convention), V jako alias.
+    // Symbol '␣' (U+2423 OPEN BOX) konwencja dla klawisza Space w UI shortcut badges.
+    shortcut: '␣',
     color: 'hover:bg-blue-500/20 hover:text-blue-400',
     activeColor: 'bg-blue-500/20 text-blue-400',
   },

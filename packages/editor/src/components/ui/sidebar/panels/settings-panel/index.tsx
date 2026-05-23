@@ -343,8 +343,8 @@ export function SettingsPanel({
           </div>
           <div className="flex items-center justify-between">
             <div>
-              <div className="font-medium text-sm">Shadows</div>
-              <div className="text-muted-foreground text-xs">Cast shadows from lights</div>
+              <div className="font-medium text-sm">Cienie</div>
+              <div className="text-muted-foreground text-xs">Rzucaj cienie od źródeł światła</div>
             </div>
             <Switch
               checked={shadows}

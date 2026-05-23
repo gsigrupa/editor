@@ -119,16 +119,20 @@ export default function WallPanel() {
   const curveOffset = getClampedWallCurveOffset(node)
   const maxCurveOffset = getMaxWallCurveOffset(node)
 
+  // GSI fork: powierzchnia ściany = długość (uwzględnia krzywiznę) × wysokość.
+  // Liczona dla "info" widoku, niezależna od grubości / openings.
+  const wallAreaM2 = length * height
+
   return (
     <PanelWrapper
       icon="/icons/wall.png"
       onClose={handleClose}
-      title={node.name || 'Wall'}
+      title={node.name || 'Ściana'}
       width={280}
     >
-      <PanelSection title="Dimensions">
+      <PanelSection title="Wymiary">
         <SliderControl
-          label="Length"
+          label="Długość"
           max={20}
           min={0.1}
           onChange={handleUpdateLength}
@@ -138,7 +142,7 @@ export default function WallPanel() {
           value={length}
         />
         <SliderControl
-          label="Height"
+          label="Wysokość"
           max={6}
           min={0.1}
           onChange={(v) => handleUpdate({ height: Math.max(0.1, v) })}
@@ -148,7 +152,7 @@ export default function WallPanel() {
           value={Math.round(height * 100) / 100}
         />
         <SliderControl
-          label="Thickness"
+          label="Grubość"
           max={1}
           min={0.05}
           onChange={(v) => handleUpdate({ thickness: Math.max(0.05, v) })}
@@ -159,7 +163,7 @@ export default function WallPanel() {
         />
         {!hasWallChildrenBlockingCurve && (
           <SliderControl
-            label="Curve"
+            label="Krzywizna"
             max={Math.max(0.01, maxCurveOffset)}
             min={-Math.max(0.01, maxCurveOffset)}
             onChange={(v) => handleUpdate({ curveOffset: normalizeWallCurveOffset(node, v) })}
@@ -171,13 +175,26 @@ export default function WallPanel() {
         )}
       </PanelSection>
 
-      <PanelSection title="Actions">
+      <PanelSection title="Informacje">
+        <div className="flex items-center justify-between px-2 py-1 text-muted-foreground text-sm">
+          <span>Powierzchnia</span>
+          <span className="font-mono tabular-nums text-foreground">
+            {wallAreaM2.toFixed(2)} m²
+          </span>
+        </div>
+      </PanelSection>
+
+      <PanelSection title="Akcje">
         <ActionGroup>
-          <ActionButton icon={<Move className="h-3.5 w-3.5" />} label="Move" onClick={handleMove} />
+          <ActionButton
+            icon={<Move className="h-3.5 w-3.5" />}
+            label="Przenieś"
+            onClick={handleMove}
+          />
           {!hasWallChildrenBlockingCurve && (
             <ActionButton
               icon={<Spline className="h-3.5 w-3.5" />}
-              label="Curve"
+              label="Zakrzyw"
               onClick={handleCurve}
             />
           )}
