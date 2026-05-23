@@ -1023,6 +1023,51 @@ const AUTO_ROOM_NAME_PATTERN = /^(?:.+?)\s+(Podłoga|Sufit|Slab|Ceiling)$/i
 // → "Kuchnia"), znajdź auto-slab + auto-ceiling z polygon match i zaktualizuj
 // ich nazwy na "<nowa nazwa> Podłoga" i "<nowa nazwa> Sufit". User-rename'd
 // slab/ceiling (name nie matchuje AUTO_ROOM_NAME_PATTERN) nie są ruszane.
+/**
+ * GSI fork: rotation-invariant polygon match. sameTuplePolygon jest
+ * strict-order (porównuje element-by-element), ale slab/ceiling i zone
+ * w jednej scenie często mają ten sam polygon zaczynający się od innego
+ * vertex'a (detection rotuje punkty w zależności od kierunku detekcji
+ * pętli ścian). Cascade rename musi je matchować mimo rotacji.
+ *
+ * Implementacja: próbuje wszystkie N rotacji + odwrotny order (reverse
+ * winding) — dla typowych pokoi z 4-12 wierzchołkami koszt < 1 ms.
+ */
+function samePolygonAnyRotation(
+  a: Array<[number, number]>,
+  b: Array<[number, number]>,
+): boolean {
+  if (a.length !== b.length) return false
+  const n = a.length
+  if (n === 0) return true
+  // Try all N rotations of b matching a's start.
+  for (let offset = 0; offset < n; offset++) {
+    let ok = true
+    for (let i = 0; i < n; i++) {
+      const bp = b[(i + offset) % n]
+      if (a[i]?.[0] !== bp?.[0] || a[i]?.[1] !== bp?.[1]) {
+        ok = false
+        break
+      }
+    }
+    if (ok) return true
+  }
+  // Reverse winding direction + try all rotations of reversed b.
+  const bRev = [...b].reverse()
+  for (let offset = 0; offset < n; offset++) {
+    let ok = true
+    for (let i = 0; i < n; i++) {
+      const bp = bRev[(i + offset) % n]
+      if (a[i]?.[0] !== bp?.[0] || a[i]?.[1] !== bp?.[1]) {
+        ok = false
+        break
+      }
+    }
+    if (ok) return true
+  }
+  return false
+}
+
 function cascadeZoneNameToSlabsAndCeilings(
   sceneStore: any,
   changedZones: Array<{ zone: ZoneNodeType; previousName: string }>,
@@ -1048,9 +1093,11 @@ function cascadeZoneNameToSlabsAndCeilings(
     const zonePolygon = zone.polygon as Array<[number, number]>
     const newName = zone.name
 
-    // Znajdź auto-slab z polygon match
+    // Znajdź auto-slab z polygon match — rotation-invariant bo slab i
+    // zone mogą być detected w innej kolejności wierzchołków mimo że
+    // pokrywają identyczny obrys ścian.
     const matchedSlab = allSlabs.find((slab) =>
-      sameTuplePolygon(slab.polygon as Array<[number, number]>, zonePolygon),
+      samePolygonAnyRotation(slab.polygon as Array<[number, number]>, zonePolygon),
     )
     if (matchedSlab && AUTO_ROOM_NAME_PATTERN.test(matchedSlab.name ?? '')) {
       const expectedName = `${newName} Podłoga`
@@ -1059,9 +1106,9 @@ function cascadeZoneNameToSlabsAndCeilings(
       }
     }
 
-    // Auto-ceiling z polygon match
+    // Auto-ceiling z polygon match — rotation-invariant (patrz wyżej).
     const matchedCeiling = allCeilings.find((ceiling) =>
-      sameTuplePolygon(ceiling.polygon as Array<[number, number]>, zonePolygon),
+      samePolygonAnyRotation(ceiling.polygon as Array<[number, number]>, zonePolygon),
     )
     if (matchedCeiling && AUTO_ROOM_NAME_PATTERN.test(matchedCeiling.name ?? '')) {
       const expectedName = `${newName} Sufit`
