@@ -82,15 +82,26 @@ function validateAuth(request: Request): NextResponse | null {
 }
 
 function isSameOriginRequest(request: Request): boolean {
-  const origin = request.headers.get('origin')
-  if (!origin) return false
+  let requestUrl: URL
   try {
-    const requestUrl = new URL(request.url)
-    const originUrl = new URL(origin)
-    return requestUrl.origin === originUrl.origin
+    requestUrl = new URL(request.url)
   } catch {
     return false
   }
+  const origin = request.headers.get('origin')
+  if (origin) {
+    try {
+      return requestUrl.origin === new URL(origin).origin
+    } catch {
+      return false
+    }
+  }
+  // GSI fork: server-side fetch (np. ScenePage RSC woła /api/scenes/[id])
+  // NIE wysyla origin header — sprawdz host header. Jezeli host matches
+  // request URL host, to zaufana request z tej samej Vercel deployment.
+  const host = request.headers.get('x-forwarded-host') ?? request.headers.get('host')
+  if (host && requestUrl.host === host) return true
+  return false
 }
 
 function validateRateLimit(request: Request): NextResponse | null {
