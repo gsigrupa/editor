@@ -243,18 +243,13 @@ function GridVisibilityToggle() {
 }
 
 function UnitToggle() {
-  const unit = useViewer((state) => state.unit)
-  const setUnit = useViewer((state) => state.setUnit)
-
+  // GSI fork: tylko cm (metric ×100). Imperial usunięty z UI — toggle hidden,
+  // wyświetlamy statyczny label "cm" jako info-only.
   return (
-    <ToolbarTooltip label={unit === 'metric' ? 'Metric (m)' : 'Imperial (ft)'}>
-      <button
-        className={TOOLBAR_BTN}
-        onClick={() => setUnit(unit === 'metric' ? 'imperial' : 'metric')}
-        type="button"
-      >
-        <span className="font-semibold text-[10px]">{unit === 'metric' ? 'm' : 'ft'}</span>
-      </button>
+    <ToolbarTooltip label="Centymetry">
+      <div className={TOOLBAR_BTN} aria-label="Jednostka: centymetry">
+        <span className="font-semibold text-[10px]">cm</span>
+      </div>
     </ToolbarTooltip>
   )
 }

@@ -2241,18 +2241,9 @@ function formatArea(
   const scaledAreaSqM =
     metersPerUnit && metersPerUnit > 0 ? areaSqM * metersPerUnit * metersPerUnit : areaSqM
 
-  if (unit === 'imperial') {
-    const areaSqFt = scaledAreaSqM * 10.763_910_4
-    return (
-      <>
-        {Math.round(areaSqFt).toLocaleString()}
-        <tspan dx="0.12em">ft</tspan>
-        <tspan baselineShift="super" fontSize="0.75em">
-          2
-        </tspan>
-      </>
-    )
-  }
+  // GSI fork: powierzchnia zawsze w m² (czytelniejsze niż cm² dla podłóg).
+  // _unit ignorowane — toggle imperial usunięty z UI.
+  void unit
   return (
     <>
       {Number.parseFloat(scaledAreaSqM.toFixed(1))}

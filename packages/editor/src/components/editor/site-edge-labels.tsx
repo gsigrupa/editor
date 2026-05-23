@@ -8,15 +8,9 @@ import { createPortal, useFrame } from '@react-three/fiber'
 import { useMemo, useRef, useState } from 'react'
 import type { Object3D } from 'three'
 
-function formatMeasurement(value: number, unit: 'metric' | 'imperial') {
-  if (unit === 'imperial') {
-    const feet = value * 3.280_84
-    const wholeFeet = Math.floor(feet)
-    const inches = Math.round((feet - wholeFeet) * 12)
-    if (inches === 12) return `${wholeFeet + 1}'0"`
-    return `${wholeFeet}'${inches}"`
-  }
-  return `${Number.parseFloat(value.toFixed(2))}m`
+function formatMeasurement(value: number, _unit: 'metric' | 'imperial') {
+  // GSI fork: tylko metric, format cm. Imperial usunięty.
+  return `${Math.round(value * 100)} cm`
 }
 
 export function SiteEdgeLabels() {

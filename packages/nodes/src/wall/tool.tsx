@@ -87,15 +87,9 @@ type AngleSource = {
   draftVector: WallPlanPoint
 }
 
-function formatMeasurement(value: number, unit: 'metric' | 'imperial') {
-  if (unit === 'imperial') {
-    const feet = value * 3.280_84
-    const wholeFeet = Math.floor(feet)
-    const inches = Math.round((feet - wholeFeet) * 12)
-    if (inches === 12) return `${wholeFeet + 1}'0"`
-    return `${wholeFeet}'${inches}"`
-  }
-  return `${Number.parseFloat(value.toFixed(2))}m`
+function formatMeasurement(value: number, _unit: 'metric' | 'imperial') {
+  // GSI fork: cm only (×100). Imperial usunięty.
+  return `${Math.round(value * 100)} cm`
 }
 
 function clamp(value: number, min: number, max: number) {
