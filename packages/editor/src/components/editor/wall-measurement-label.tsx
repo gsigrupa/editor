@@ -56,9 +56,11 @@ type WallFaceLine = {
   end: Point2D
 }
 
-function formatMeasurement(value: number, _unit: 'metric' | 'imperial') {
-  // GSI fork: tylko metric, format cm (×100). Imperial path usunięty (toggle hidden).
-  // value to meters z 3D sceny — np. 1.05 m → "105 cm".
+function formatMeasurement(value: number, _unit: 'metric' | 'imperial', lengthUnit: 'm' | 'cm' | 'mm' = 'cm') {
+  // GSI fork: user-selectable lengthUnit (m / cm / mm). value zawsze w metrach
+  // ze sceny, konwersja per unit.
+  if (lengthUnit === 'mm') return `${Math.round(value * 1000)} mm`
+  if (lengthUnit === 'm') return `${Number.parseFloat(value.toFixed(2))} m`
   return `${Math.round(value * 100)} cm`
 }
 
@@ -512,6 +514,7 @@ function WallMeasurementAnnotation({ wall }: { wall: WallNode }) {
   const nodes = useScene((state) => state.nodes)
   const theme = useViewer((state) => state.theme)
   const unit = useViewer((state) => state.unit)
+  const lengthUnit = useViewer((state) => state.lengthUnit)
   const isNight = theme === 'dark'
   const color = isNight ? '#ffffff' : '#111111'
   const shadowColor = isNight ? '#111111' : '#ffffff'
@@ -537,8 +540,8 @@ function WallMeasurementAnnotation({ wall }: { wall: WallNode }) {
     }
     return total
   }, [guide, wall])
-  const label = formatMeasurement(length, unit)
-  const heightLabel = `H ${formatMeasurement(wall.height ?? DEFAULT_WALL_HEIGHT, unit)}`
+  const label = formatMeasurement(length, unit, lengthUnit)
+  const heightLabel = `H ${formatMeasurement(wall.height ?? DEFAULT_WALL_HEIGHT, unit, lengthUnit)}`
 
   if (!(guide && Number.isFinite(length) && length >= 0.01)) return null
 

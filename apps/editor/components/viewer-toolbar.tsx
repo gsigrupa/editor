@@ -243,13 +243,29 @@ function GridVisibilityToggle() {
 }
 
 function UnitToggle() {
-  // GSI fork: tylko cm (metric ×100). Imperial usunięty z UI — toggle hidden,
-  // wyświetlamy statyczny label "cm" jako info-only.
+  // GSI fork: cycle m → cm → mm → m (klik). Persisted w useViewer.lengthUnit.
+  // Imperial usunięty z UI — store.unit zostaje 'metric' fixed.
+  const lengthUnit = useViewer((state) => state.lengthUnit)
+  const setLengthUnit = useViewer((state) => state.setLengthUnit)
+
+  const cycle = () => {
+    const next: 'm' | 'cm' | 'mm' =
+      lengthUnit === 'm' ? 'cm' : lengthUnit === 'cm' ? 'mm' : 'm'
+    setLengthUnit(next)
+  }
+
+  const labelMap = { m: 'Metry', cm: 'Centymetry', mm: 'Milimetry' } as const
+
   return (
-    <ToolbarTooltip label="Centymetry">
-      <div className={TOOLBAR_BTN} aria-label="Jednostka: centymetry">
-        <span className="font-semibold text-[10px]">cm</span>
-      </div>
+    <ToolbarTooltip label={`${labelMap[lengthUnit]} (klik = zmień)`}>
+      <button
+        className={TOOLBAR_BTN}
+        onClick={cycle}
+        type="button"
+        aria-label={`Jednostka: ${labelMap[lengthUnit]}`}
+      >
+        <span className="font-semibold text-[10px]">{lengthUnit}</span>
+      </button>
     </ToolbarTooltip>
   )
 }

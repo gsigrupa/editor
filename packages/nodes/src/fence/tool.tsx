@@ -85,8 +85,10 @@ type AngleSource = {
   draftVector: FencePlanPoint
 }
 
-function formatMeasurement(value: number, _unit: 'metric' | 'imperial') {
-  // GSI fork: cm only. Imperial usunięty.
+function formatMeasurement(value: number, _unit: 'metric' | 'imperial', lengthUnit: 'm' | 'cm' | 'mm' = 'cm') {
+  // GSI fork: cm/m/mm user-selectable. Imperial usunięty.
+  if (lengthUnit === 'mm') return `${Math.round(value * 1000)} mm`
+  if (lengthUnit === 'm') return `${Number.parseFloat(value.toFixed(2))} m`
   return `${Math.round(value * 100)} cm`
 }
 
@@ -342,7 +344,7 @@ function getDraftMeasurementState(
   const length = Math.hypot(dx, dz)
   if (length < 0.01) return null
   return {
-    lengthLabel: formatMeasurement(length, unit),
+    lengthLabel: formatMeasurement(length, unit, useViewer.getState().lengthUnit),
     lengthPosition: [(start[0] + end[0]) / 2, baseY + DRAFT_LABEL_Y, (start[1] + end[1]) / 2],
     angleLabels: getDraftAngleLabels(start, end, segments, baseY),
   }

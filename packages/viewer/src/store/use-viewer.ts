@@ -36,6 +36,10 @@ type ViewerState = {
   unit: 'metric' | 'imperial'
   setUnit: (unit: 'metric' | 'imperial') => void
 
+  /** GSI fork: wybor metric sub-unit dla display (m/cm/mm). Default 'cm'. */
+  lengthUnit: 'm' | 'cm' | 'mm'
+  setLengthUnit: (unit: 'm' | 'cm' | 'mm') => void
+
   levelMode: 'stacked' | 'exploded' | 'solo' | 'manual'
   setLevelMode: (mode: 'stacked' | 'exploded' | 'solo' | 'manual') => void
 
@@ -98,6 +102,9 @@ const useViewer = create<ViewerState>()(
 
       unit: 'metric',
       setUnit: (unit) => set({ unit }),
+
+      lengthUnit: 'cm',
+      setLengthUnit: (lengthUnit) => set({ lengthUnit }),
 
       levelMode: 'stacked',
       setLevelMode: (mode) => set({ levelMode: mode }),
@@ -210,6 +217,7 @@ const useViewer = create<ViewerState>()(
         cameraMode: state.cameraMode,
         theme: state.theme,
         unit: state.unit,
+        lengthUnit: state.lengthUnit,
         levelMode: state.levelMode,
         wallMode: state.wallMode,
         projectPreferences: state.projectPreferences,

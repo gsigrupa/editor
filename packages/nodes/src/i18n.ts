@@ -9,3 +9,9 @@ export function formatLevelName(level: number): string {
   const depth = -level
   return depth === 1 ? 'Piwnica' : `Piwnica ${depth}`
 }
+
+export function formatLength(meters: number, lengthUnit: 'm' | 'cm' | 'mm'): string {
+  if (lengthUnit === 'mm') return `${Math.round(meters * 1000)} mm`
+  if (lengthUnit === 'cm') return `${Math.round(meters * 100)} cm`
+  return `${Number.parseFloat(meters.toFixed(2))} m`
+}

@@ -8,8 +8,9 @@ import { createPortal, useFrame } from '@react-three/fiber'
 import { useMemo, useRef, useState } from 'react'
 import type { Object3D } from 'three'
 
-function formatMeasurement(value: number, _unit: 'metric' | 'imperial') {
-  // GSI fork: tylko metric, format cm. Imperial usunięty.
+function formatMeasurement(value: number, _unit: 'metric' | 'imperial', lengthUnit: 'm' | 'cm' | 'mm' = 'cm') {
+  if (lengthUnit === 'mm') return `${Math.round(value * 1000)} mm`
+  if (lengthUnit === 'm') return `${Number.parseFloat(value.toFixed(2))} m`
   return `${Math.round(value * 100)} cm`
 }
 
@@ -24,6 +25,7 @@ export function SiteEdgeLabels() {
     return node?.type === 'site' ? (node as SiteNode) : null
   })
   const unit = useViewer((state) => state.unit)
+  const lengthUnit = useViewer((state) => state.lengthUnit)
   const theme = useViewer((state) => state.theme)
 
   const siteNodeId = siteNode?.id
@@ -80,7 +82,7 @@ export function SiteEdgeLabels() {
               textShadow: `-1.5px -1.5px 0 ${shadowColor}, 1.5px -1.5px 0 ${shadowColor}, -1.5px 1.5px 0 ${shadowColor}, 1.5px 1.5px 0 ${shadowColor}, 0 0 4px ${shadowColor}, 0 0 4px ${shadowColor}`,
             }}
           >
-            {formatMeasurement(edge.dist, unit)}
+            {formatMeasurement(edge.dist, unit, lengthUnit)}
           </div>
         </Html>
       ))}
