@@ -330,44 +330,58 @@ export function findWallSnapTarget(
 ): WallPlanPoint | null {
   const ignoreWallIds = new Set(options?.ignoreWallIds ?? [])
   const radiusSquared = (options?.radius ?? WALL_JOIN_SNAP_RADIUS) ** 2
-  let bestTarget: WallPlanPoint | null = null
-  let bestDistanceSquared = Number.POSITIVE_INFINITY
+
+  // GSI fork: endpoints (narożniki) PRIORYTET nad projection (snap wzdłuż
+  // edge'a). Bez tego cursor blisko narożnika ALE bliżej do edge'a wzdłuż
+  // ściany → snap do edge zamiast do corner'a. Przy precyzji 1mm i typowych
+  // pomieszczeniach (krótkie wall'e blisko siebie) to gubiło corner snap.
+  //
+  // Algorytm: 2 pass'y. Pass 1 — szukaj najbliższego endpointa w radius.
+  // Pass 2 — gdy brak endpointa, szukaj najbliższej projekcji w radius.
+  let bestEndpoint: WallPlanPoint | null = null
+  let bestEndpointDistSq = Number.POSITIVE_INFINITY
+  let bestProjection: WallPlanPoint | null = null
+  let bestProjectionDistSq = Number.POSITIVE_INFINITY
 
   for (const wall of walls) {
     if (ignoreWallIds.has(wall.id)) {
       continue
     }
 
-    const candidates: Array<WallPlanPoint | null> = [wall.start, wall.end]
-
+    // Endpoints — start + end (oraz sampled points curve'a jeśli curved).
+    const endpointCandidates: Array<WallPlanPoint> = [wall.start, wall.end]
     if (isCurvedWall(wall)) {
       const sampleCount = Math.max(8, Math.ceil(getWallCurveLength(wall) / 0.3))
       for (let index = 0; index <= sampleCount; index += 1) {
         const frame = getWallCurveFrameAt(wall, index / sampleCount)
-        candidates.push([frame.point.x, frame.point.y])
+        endpointCandidates.push([frame.point.x, frame.point.y])
       }
-    } else {
-      candidates.push(projectPointOntoWall(point, wall))
     }
-    for (const candidate of candidates) {
-      if (!candidate) {
-        continue
+    for (const candidate of endpointCandidates) {
+      const d = distanceSquared(point, candidate)
+      if (d <= radiusSquared && d < bestEndpointDistSq) {
+        bestEndpoint = candidate
+        bestEndpointDistSq = d
       }
+    }
 
-      const candidateDistanceSquared = distanceSquared(point, candidate)
-      if (
-        candidateDistanceSquared > radiusSquared ||
-        candidateDistanceSquared >= bestDistanceSquared
-      ) {
-        continue
+    // Projection — tylko dla nie-curved walls.
+    if (!isCurvedWall(wall)) {
+      const projected = projectPointOntoWall(point, wall)
+      if (projected) {
+        const d = distanceSquared(point, projected)
+        if (d <= radiusSquared && d < bestProjectionDistSq) {
+          bestProjection = projected
+          bestProjectionDistSq = d
+        }
       }
-
-      bestTarget = candidate
-      bestDistanceSquared = candidateDistanceSquared
     }
   }
 
-  return bestTarget
+  // Endpoint wygrywa zawsze gdy znaleziony w radius — niezależnie od tego
+  // czy projekcja jest bliżej. Bez tego user mierzący w narożnik (1mm
+  // grid precyzja) gubił snap gdy minimalnie zboczył wzdłuż ściany.
+  return bestEndpoint ?? bestProjection
 }
 
 export function snapWallDraftPoint(args: {
@@ -380,6 +394,36 @@ export function snapWallDraftPoint(args: {
   const { point, walls, start, angleSnap = false, ignoreWallIds } = args
   const step = getWallGridStep()
   const angleStep = getWallAngleSnapStep(step)
+
+  // GSI fork: corner snap ZAWSZE wygrywa nad angle snap. Bez tego —
+  // angle snap (np. 45° z startu) wymuszał basePoint w miejscu odległym
+  // od cursora, a findWallSnapTarget szukał endpointa wokół tego
+  // wymuszonego basePoint, NIE wokół realnego cursora. User celujący
+  // w corner pod kątem !=45° gubił snap.
+  //
+  // Algorytm:
+  // 1. Szukaj endpointa wokół RAW point (cursor) — najmniejszy radius
+  //    (15cm zamiast pełnego 35cm) bo tu chcemy precyzji.
+  // 2. Jeśli znaleziony → użyj jako wynik (corner snap dominuje).
+  // 3. W przeciwnym razie → standard flow (angle/grid snap → edge snap).
+  const cornerSnap = findWallSnapTarget(point, walls, {
+    ignoreWallIds,
+    radius: 0.15,
+  })
+  // Heuristic: czy znaleziony candidate to faktycznie endpoint czy projekcja?
+  // findWallSnapTarget zwraca z prioritetem endpoint, więc jeśli rezultat
+  // dokładnie matchuje któryś wall.start/end → na pewno corner.
+  if (cornerSnap) {
+    const isExactEndpoint = walls.some(
+      (w) =>
+        (w.start[0] === cornerSnap[0] && w.start[1] === cornerSnap[1]) ||
+        (w.end[0] === cornerSnap[0] && w.end[1] === cornerSnap[1]),
+    )
+    if (isExactEndpoint) {
+      return cornerSnap
+    }
+  }
+
   const basePoint =
     start && angleSnap
       ? snapPointTo45Degrees(start, point, step, angleStep)
