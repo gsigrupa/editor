@@ -37,11 +37,25 @@ import {
 /**
  * GSI fork: button "Wróć do projektu" w viewer toolbar (lewa strona).
  * Styl matchujący Pascal toolbar (TOOLBAR_CONTAINER pattern), pozycja
- * przed CollapseSidebarButton + ViewModeControl. Klik → postMessage do
- * GSI parent z prośbą o nawigację (parent czeka 1.2s na flush autosave,
- * potem push do /app/inwestycje/[id]?tab=model3d).
+ * pomiędzy CollapseSidebarButton a ViewModeControl. Klik → postMessage
+ * do GSI parent z prośbą o nawigację (parent czeka 1.2s na flush
+ * autosave, potem push do /app/inwestycje/[id]?tab=model3d).
+ *
+ * `mounted` flag — Pascal v2 layout renderuje viewerToolbar tylko gdy
+ * Editor jest hydrated po stronie klienta (server-side renderuje
+ * sąsiednie buttons jako CollapseSidebarButton + ViewModeControl tylko).
+ * Bez mounted nasz dodatkowy button powoduje hydration mismatch
+ * ("Server: aria-label=3D / Client: aria-label=Wróć…"). Pierwszy render
+ * po stronie klienta = null (matches SSR), potem useEffect → button.
  */
 function BackToProjectButton({ parentOrigin }: { parentOrigin: string }) {
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) return null
+
   const handleClick = () => {
     if (typeof window === 'undefined' || !window.parent || window.parent === window) return
     window.parent.postMessage({ type: 'gsi:navigate-back' }, parentOrigin)
