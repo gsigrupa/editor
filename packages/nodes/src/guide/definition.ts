@@ -38,7 +38,7 @@ export const guideDefinition: NodeDefinition<typeof GuideNode> = {
   },
 
   presentation: {
-    label: 'Guide',
+    label: 'Pomocnicze',
     description: 'Pomocnicze odniesienie (linia, powierzchnia, łuk).',
     icon: { kind: 'url', src: '/icons/blueprint.png' },
     paletteSection: 'site',

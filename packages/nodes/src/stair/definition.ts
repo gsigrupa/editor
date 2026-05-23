@@ -45,7 +45,7 @@ export const stairDefinition: NodeDefinition<typeof StairNode> = {
   floorplan: buildStairFloorplan,
 
   presentation: {
-    label: 'Stair',
+    label: 'Schody',
     description:
       'A stair composed of one or more flights with configurable treads, risers, railings.',
     icon: { kind: 'url', src: '/icons/stairs.png' },

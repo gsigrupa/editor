@@ -58,12 +58,12 @@ export const windowDefinition: NodeDefinition<typeof WindowNode> = {
   floorplanMoveTarget: windowFloorplanMoveTarget,
 
   toolHints: [
-    { key: 'Left click', label: 'Place window on wall' },
+    { key: 'Lewy klik', label: 'Umieść okno na ścianie' },
     { key: 'Esc', label: 'Cancel' },
   ],
 
   presentation: {
-    label: 'Window',
+    label: 'Okno',
     description: 'Okno wycięte w ścianie. Animowane otwieranie/zamykanie dla okien uchylnych.',
     icon: { kind: 'url', src: '/icons/window.png' },
     paletteSection: 'structure',

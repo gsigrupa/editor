@@ -67,7 +67,7 @@ export const columnDefinition: NodeDefinition<typeof ColumnNode> = {
   floorplan: buildColumnFloorplan,
 
   presentation: {
-    label: 'Column',
+    label: 'Słup',
     description: 'Parametryczny słup z konfigurowalnym przekrojem, bazą i głowicą.',
     icon: { kind: 'url', src: '/icons/column.png' },
     paletteSection: 'structure',

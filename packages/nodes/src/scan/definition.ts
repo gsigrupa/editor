@@ -37,7 +37,7 @@ export const scanDefinition: NodeDefinition<typeof ScanNode> = {
   },
 
   presentation: {
-    label: 'Scan',
+    label: 'Skan 3D',
     description: 'Zaimportowany skan mesh (LiDAR / fotogrametria) jako odniesienie sceny.',
     icon: { kind: 'url', src: '/icons/mesh.png' },
     paletteSection: 'site',

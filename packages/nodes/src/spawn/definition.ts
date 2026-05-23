@@ -50,12 +50,12 @@ export const spawnDefinition: NodeDefinition<typeof SpawnNode> = {
   floorplan: buildSpawnFloorplan,
   tool: () => import('./tool'),
   toolHints: [
-    { key: 'Left click', label: 'Place spawn point' },
+    { key: 'Lewy klik', label: 'Place spawn point' },
     { key: 'Esc', label: 'Cancel' },
   ],
 
   presentation: {
-    label: 'Spawn Point',
+    label: 'Punkt startowy',
     description: 'Player or camera origin within a level. One per level.',
     icon: { kind: 'url', src: '/icons/site.png' },
     paletteSection: 'structure',

@@ -642,7 +642,7 @@ export default function DoorPanel() {
               )
             }
             options={[
-              { label: 'Door', value: 'door' },
+              { label: 'Drzwi', value: 'door' },
               { label: 'Opening', value: 'opening' },
               { label: 'Garage', value: 'garage' },
             ]}

@@ -102,12 +102,12 @@ export const shelfDefinition: NodeDefinition<typeof ShelfNode> = {
   preview: () => import('./preview'),
   tool: () => import('./tool'),
   toolHints: [
-    { key: 'Left click', label: 'Place shelf' },
+    { key: 'Lewy klik', label: 'Umieść półkę' },
     { key: 'Esc', label: 'Cancel' },
   ],
 
   presentation: {
-    label: 'Shelf',
+    label: 'Półka',
     description: 'Konfigurowalna półka. Elementy umieszczane na każdym poziomie.',
     icon: { kind: 'url', src: '/icons/shelf.png' },
     paletteSection: 'furnish',

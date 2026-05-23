@@ -94,13 +94,13 @@ export const slabDefinition: NodeDefinition<typeof SlabNode> = {
   },
 
   toolHints: [
-    { key: 'Left click', label: 'Trace slab outline' },
-    { key: 'Enter', label: 'Finish slab' },
-    { key: 'Esc', label: 'Cancel' },
+    { key: 'Lewy klik', label: 'Obrysuj płytę' },
+    { key: 'Enter', label: 'Zakończ płytę' },
+    { key: 'Esc', label: 'Anuluj' },
   ],
 
   presentation: {
-    label: 'Slab',
+    label: 'Płyta podłogowa',
     description: 'Płyta podłogowa ograniczona wielokątem, zawierająca elementy.',
     icon: { kind: 'url', src: '/icons/floor.png' },
     paletteSection: 'structure',

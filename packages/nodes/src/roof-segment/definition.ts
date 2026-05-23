@@ -39,7 +39,7 @@ export const roofSegmentDefinition: NodeDefinition<typeof RoofSegmentNode> = {
   floorplan: buildRoofSegmentFloorplan,
 
   presentation: {
-    label: 'Roof Segment',
+    label: 'Segment dachu',
     description: 'Pojedyncza skośna połać dachu.',
     icon: { kind: 'url', src: '/icons/roof.png' },
     paletteSection: 'structure',

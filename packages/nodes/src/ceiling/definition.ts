@@ -96,13 +96,13 @@ export const ceilingDefinition: NodeDefinition<typeof CeilingNode> = {
   },
 
   toolHints: [
-    { key: 'Left click', label: 'Trace ceiling outline' },
-    { key: 'Enter', label: 'Finish ceiling' },
-    { key: 'Esc', label: 'Cancel' },
+    { key: 'Lewy klik', label: 'Obrysuj sufit' },
+    { key: 'Enter', label: 'Zakończ sufit' },
+    { key: 'Esc', label: 'Anuluj' },
   ],
 
   presentation: {
-    label: 'Ceiling',
+    label: 'Sufit',
     description: 'Sufit ograniczony wielokątem z elementami montowanymi.',
     icon: { kind: 'url', src: '/icons/ceiling.png' },
     paletteSection: 'structure',

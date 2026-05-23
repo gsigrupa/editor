@@ -15,11 +15,11 @@ export function BuildingHelper({ showRotate }: BuildingHelperProps) {
         <>
           <div className="flex items-center gap-2 text-sm">
             <ShortcutToken value="R" />
-            <span className="text-muted-foreground">Rotate counterclockwise</span>
+            <span className="text-muted-foreground">Obrót w lewo</span>
           </div>
           <div className="flex items-center gap-2 text-sm">
             <ShortcutToken value="T" />
-            <span className="text-muted-foreground">Rotate clockwise</span>
+            <span className="text-muted-foreground">Obrót w prawo</span>
           </div>
         </>
       )}

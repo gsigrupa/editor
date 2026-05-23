@@ -35,7 +35,7 @@ export const stairSegmentDefinition: NodeDefinition<typeof StairSegmentNode> = {
   },
 
   presentation: {
-    label: 'Stair Segment',
+    label: 'Segment schodów',
     description: 'Pojedynczy bieg schodów.',
     icon: { kind: 'url', src: '/icons/stairs.png' },
     paletteSection: 'structure',

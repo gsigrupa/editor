@@ -41,7 +41,7 @@ export const roofDefinition: NodeDefinition<typeof RoofNode> = {
   },
 
   presentation: {
-    label: 'Roof',
+    label: 'Dach',
     description: 'Dach skośny / kopertowy / dwuspadowy złożony z jednego lub więcej segmentów.',
     icon: { kind: 'url', src: '/icons/roof.png' },
     paletteSection: 'structure',

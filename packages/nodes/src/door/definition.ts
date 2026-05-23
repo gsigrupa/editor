@@ -78,12 +78,12 @@ export const doorDefinition: NodeDefinition<typeof DoorNode> = {
   floorplanMoveTarget: doorFloorplanMoveTarget,
 
   toolHints: [
-    { key: 'Left click', label: 'Place door on wall' },
+    { key: 'Lewy klik', label: 'Umieść drzwi na ścianie' },
     { key: 'Esc', label: 'Cancel' },
   ],
 
   presentation: {
-    label: 'Door',
+    label: 'Drzwi',
     description: 'Drzwi wycięte w ścianie. Animowane otwieranie/zamykanie.',
     icon: { kind: 'url', src: '/icons/door.png' },
     paletteSection: 'structure',

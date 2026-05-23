@@ -53,7 +53,7 @@ export const zoneDefinition: NodeDefinition<typeof ZoneNode> = {
   },
 
   presentation: {
-    label: 'Zone',
+    label: 'Strefa',
     description: 'Wielokątna strefa działki (trawnik, woda, nawierzchnia) z gradientowym materiałem.',
     icon: { kind: 'url', src: '/icons/zone.png' },
     paletteSection: 'site',

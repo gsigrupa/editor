@@ -41,7 +41,7 @@ export const elevatorDefinition: NodeDefinition<typeof ElevatorNode> = {
   floorplan: buildElevatorFloorplan,
 
   presentation: {
-    label: 'Elevator',
+    label: 'Winda',
     description: 'Wielopoziomowy szyb windy z konfigurowalnymi otworami na poziom.',
     icon: { kind: 'url', src: '/icons/wallcut.png' },
     paletteSection: 'structure',

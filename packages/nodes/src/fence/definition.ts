@@ -94,13 +94,13 @@ export const fenceDefinition: NodeDefinition<typeof FenceNode> = {
   },
 
   toolHints: [
-    { key: 'Left click', label: 'Set fence start / end' },
-    { key: 'Shift', label: 'Allow non-45° angles' },
-    { key: 'Esc', label: 'Cancel' },
+    { key: 'Lewy klik', label: 'Ustaw początek/koniec ogrodzenia' },
+    { key: 'Shift', label: 'Pozwól na dowolne kąty (nie 45°)' },
+    { key: 'Esc', label: 'Anuluj' },
   ],
 
   presentation: {
-    label: 'Fence',
+    label: 'Ogrodzenie',
     description: 'Prosty lub łukowy segment ogrodzenia z konfigurowalnymi słupkami i wypełnieniem.',
     icon: { kind: 'url', src: '/icons/fence.png' },
     paletteSection: 'structure',

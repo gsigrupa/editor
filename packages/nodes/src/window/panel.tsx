@@ -486,7 +486,7 @@ export default function WindowPanel() {
             })
           }
           options={[
-            { value: 'window', label: 'Window' },
+            { value: 'window', label: 'Okno' },
             { value: 'opening', label: 'Opening' },
           ]}
           value={node.openingKind ?? 'window'}

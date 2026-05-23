@@ -44,7 +44,7 @@ export const levelDefinition: NodeDefinition<typeof LevelNode> = {
   },
 
   presentation: {
-    label: 'Level',
+    label: 'Piętro',
     description: 'Pojedyncze piętro budynku, zawierające ściany / płyty / sufity / elementy.',
     icon: { kind: 'url', src: '/icons/level.png' },
     paletteSection: 'site',
