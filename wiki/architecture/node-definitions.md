@@ -12,7 +12,7 @@ This page covers those three fields. For the broader registry contract (schemas,
 
 | Field | Purpose | Pick it when |
 |---|---|---|
-| `geometry?: (node, ctx) => Object3D` | Pure builder. Returns the meshes for this node. | The kind has parametric meshes that should rebuild when `updateNode` runs. |
+| `geometry?: (node, ctx, shading, textures, colorPreset, sceneTheme) => Object3D` | Pure builder. Returns the meshes for this node. The appearance args (after `ctx`) are optional — take them only if the builder picks its own materials. | The kind has parametric meshes that should rebuild when `updateNode` runs. |
 | `renderer?: () => Promise<{ default: ComponentType<{ node }> }>` | Optional custom React component. Owns mesh creation. | The kind needs JSX-only features: `<Html>`, `useGLTF`, drei helpers, instancing, TSL shader materials, R3F portals. |
 | `system?: () => Promise<{ default: ComponentType }>` | Optional per-frame component (`useFrame` returning `null`). | The kind needs imperative work per frame: animations, opacity transitions, named-mesh material poking, cross-kind dirty cascades. |
 
@@ -49,8 +49,13 @@ Two framework components live in `packages/viewer/src/components/viewer/`:
   2. Otherwise → mount `<ParametricNodeRenderer>` — a thin empty `<group>` that registers with `sceneRegistry`, attaches pointer handlers via `useNodeEvents`, reads `useLiveTransforms` for drag overrides, and calls `useScene.getState().markDirty(node.id)` on mount.
 - **`<GeometrySystem>`** runs every frame:
   1. Read `dirtyNodes` from `useScene`.
-  2. For each dirty node whose kind has `def.geometry`, look up the registered `Group` from `sceneRegistry`, build a `GeometryContext`, call `def.geometry(node, ctx)`, dispose old children, attach the new ones, call `clearDirty(id)`.
-  3. Kinds with no `def.geometry` are skipped — their custom `def.renderer` handles geometry on its own.
+  2. For each dirty node whose kind has `def.geometry`, look up the registered `Group` from `sceneRegistry`, build a `GeometryContext`, call `def.geometry(node, ctx, shading, textures, colorPreset, sceneTheme)`, dispose old children, attach the new ones, call `clearDirty(id)`. It re-runs whenever any of those appearance values change.
+  3. After building, if `textures` is off and the kind declares `def.surfaceRole`, `GeometrySystem` overrides the built meshes' materials with the themed role colour (`applyDefaultSurfaceRole`).
+  4. Kinds with no `def.geometry` are skipped — their custom `def.renderer` handles geometry on its own.
+
+### `surfaceRole`
+
+A kind may declare `surfaceRole?: SurfaceRole` on its definition. It is a colour token only (`core` stores no material), used to resolve the per-role clay/theme colour for untextured surfaces. See [materials-and-themes](materials-and-themes.md).
 
 Per-kind `def.system` components mount alongside via `<RegisteredSystems>`. They run their own `useFrame` and can mark nodes dirty, address meshes by `getObjectByName`, advance animation state, etc. They run **in addition** to `GeometrySystem`, not instead of it.
 
@@ -204,6 +209,115 @@ The fix is to clone in the preview, mutate the clone, and reassign `mesh.materia
 If your kind declares `relations.hosts: [...]`, add `children: z.array(...).default([])` to the schema. `useScene.createNode(child, parentId)` writes `child.parentId = parentId` **and** appends `child.id` to `parent.children`. Without the field, the parent-side write is a no-op — `<ParametricNodeRenderer>`'s `n.children.map(...)` then has nothing to mount and the host renderer never sees the new child. Symptom: hosted node lives in `useScene.nodes` but no React mount fires, so the host's tree-node sidebar entry is empty and the 3D scene shows nothing where the host should pick it up.
 
 Migrations matter: if your kind shipped before hosting was added, patch existing nodes in `migrateNodes` so `Array.isArray(node.children)` holds for every loaded scene before the renderer reads it.
+
+## Capability reference
+
+### `capabilities.roofAccessory`
+
+Marks a kind as a roof-segment-mounted accessory (chimney, dormer, skylight, solar-panel, ridge-vent, box-vent). Presence tells the viewer's roof-merge loop two things:
+
+1. **Dirty cascade.** When the accessory is dirtied (move / resize / reparent), the host segment's parent roof queues a re-merge so its merged shell re-CSGs with the updated cut. The merge loop clears the accessory's dirty bit and queues the parent roof.
+2. **Optional CSG cut.** When `buildCut` is set, the merge loop subtracts the returned geometry from the host segment's shin / deck / wall brushes. Returned geometry must be **segment-local**; the viewer handles vertex welding, material group attachment, and `three-bvh-csg` brush wrapping so core stays free of three-bvh-csg deps.
+
+```ts
+type RoofAccessoryConfig = {
+  buildCut?: (node: AnyNode, hostSegment: AnyNode) => BufferGeometry | null
+}
+```
+
+Set `buildCut` for kinds that cut **through** the roof (skylight, dormer). Kinds that sit **on top** (vents, solar panels) declare the capability without `buildCut` — the cascade still fires but no CSG cut runs.
+
+```ts
+// skylight — cuts through the roof
+capabilities: {
+  roofAccessory: {
+    buildCut: (node, hostSegment) => buildSkylightRoofCut(node, hostSegment),
+  },
+},
+
+// box-vent — sits on top, no cut needed
+capabilities: {
+  roofAccessory: {},
+},
+```
+
+---
+
+### `capabilities.paint`
+
+Per-kind paint dispatch. Lets the editor's `selection-manager` route paint hover / click / preview through a generic dispatcher instead of adding an `if (node.type === '<kind>')` arm for every paintable kind.
+
+The capability owns four decisions:
+
+1. **`resolveRole`** — which logical surface the pointer clicked. Returns `null` when the face shouldn't be painted (interior slot, oblique normal, etc.).
+2. **`buildPatch`** — the node-update partial to commit on click.
+3. **`applyPreview`** — applies a preview material to the mesh subtree and returns a cleanup callback. Returns `null` when the mesh isn't mounted yet; the editor falls back to the not-allowed cursor.
+4. **`getEffectiveMaterial`** *(optional)* — reads the currently-effective material for a role, walking any parent-fallback chain. Drives the color picker's current-value indicator.
+
+```ts
+type PaintCapability = {
+  resolveRole: (args: PaintResolveArgs) => string | null
+  buildPatch: (args: PaintPatchArgs) => Partial<AnyNode>
+  applyPreview: (args: PaintPreviewArgs) => (() => void) | null
+  getEffectiveMaterial?: (args: PaintEffectiveMaterialArgs) => {
+    material: MaterialSchema | undefined
+    materialPreset: string | undefined
+  } | null
+}
+```
+
+Implement the capability in a `paint.ts` file next to `definition.ts`. Keep it pure — no `useScene`, no store mutation. Reference implementations: `packages/nodes/src/chimney/paint.ts` (body/top split), `packages/nodes/src/wall/paint.ts` (interior/exterior + normal-based disambiguation).
+
+```ts
+capabilities: {
+  paint: chimneyPaint,  // imported from ./paint.ts
+},
+```
+
+---
+
+### `keyboardActions`
+
+Registry-driven R / T key handlers. A kind that wants to override the R (`rotate clockwise`) or T (`rotate counter-clockwise`) keystroke sets this field on its `NodeDefinition` instead of extending the hand-written `if/else` chain in `use-keyboard.ts`.
+
+```ts
+type KeyboardActions = {
+  r?: KeyboardAction  // R / Shift+R primary action
+  t?: KeyboardAction  // T / Shift+T secondary action
+}
+
+type KeyboardAction = {
+  /**
+   * Return false to fall through to the editor's default rotation
+   * behaviour. Use this to short-circuit the action for non-operable
+   * type variants (e.g. a fixed skylight should rotate, not toggle).
+   */
+  appliesTo: (node: AnyNode) => boolean
+  /**
+   * Execute the action. The editor handles preventDefault and the
+   * shared sfx; only touch scene / interactive state here.
+   */
+  run: (node: AnyNode) => void
+}
+```
+
+```ts
+// skylight — R toggles open/closed on operable types; T forces close
+keyboardActions: {
+  r: {
+    appliesTo: (node) => node.type === 'skylight' && isOperableSkylightNode(node),
+    run: (node) => toggleSkylightOpenState(node.id),
+  },
+  t: {
+    appliesTo: (node) => node.type === 'skylight' && isOperableSkylightNode(node),
+    run: (node) => closeSkylightOpenState(node.id),
+  },
+},
+```
+
+Door and window still use legacy direct calls in `use-keyboard.ts`; migrating them under this capability is a follow-up.
+
+---
 
 ## See also
 

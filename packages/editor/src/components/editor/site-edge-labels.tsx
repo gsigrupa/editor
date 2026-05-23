@@ -2,7 +2,7 @@
 
 import type { SiteNode } from '@pascal-app/core'
 import { sceneRegistry, useScene } from '@pascal-app/core'
-import { useViewer } from '@pascal-app/viewer'
+import { getSceneTheme, useViewer } from '@pascal-app/viewer'
 import { Html } from '@react-three/drei'
 import { createPortal, useFrame } from '@react-three/fiber'
 import { useMemo, useRef, useState } from 'react'
@@ -26,11 +26,10 @@ export function SiteEdgeLabels() {
   })
   const unit = useViewer((state) => state.unit)
   const lengthUnit = useViewer((state) => state.lengthUnit)
-  const theme = useViewer((state) => state.theme)
+  const isNight = useViewer((state) => getSceneTheme(state.sceneTheme).appearance === 'dark')
 
   const siteNodeId = siteNode?.id
 
-  const isNight = theme === 'dark'
   const color = isNight ? '#ffffff' : '#111111'
   const shadowColor = isNight ? '#111111' : '#ffffff'
 

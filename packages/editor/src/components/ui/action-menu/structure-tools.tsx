@@ -32,6 +32,12 @@ export const tools: ToolConfig[] = [
   { id: 'zone', iconSrc: '/icons/zone.png', label: 'Strefa' },
   { id: 'spawn', iconSrc: '/icons/site.png', label: 'Punkt startowy' },
   { id: 'shelf', iconSrc: '/icons/shelf.png', label: 'Półka' },
+  // Roof-mounted accessories (box-vent / ridge-vent / chimney /
+  // solar-panel / skylight / dormer) are intentionally NOT in the top
+  // palette — they only make sense in the context of a selected roof.
+  // The roof inspector's "Add element" section is the entry point
+  // (`packages/nodes/src/roof/panel.tsx`), which activates the same
+  // registry-driven placement tools via `setTool(kind)`.
 ]
 
 export function StructureTools() {

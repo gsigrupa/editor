@@ -7,7 +7,13 @@ import {
   spatialGridManager,
   useScene,
 } from '@pascal-app/core'
-import { type HoverStyles, InteractiveSystem, useViewer, Viewer } from '@pascal-app/viewer'
+import {
+  getSceneTheme,
+  type HoverStyles,
+  InteractiveSystem,
+  useViewer,
+  Viewer,
+} from '@pascal-app/viewer'
 import {
   memo,
   type ReactNode,
@@ -88,6 +94,7 @@ const EDITOR_HOVER_STYLES: HoverStyles = {
     pulse: false,
   },
 }
+const EDITOR_DEFAULT_RENDER = { shading: 'solid' } as const
 
 /**
  * Wire up module-level singletons (spatial grid, space detection, SFX) for
@@ -896,7 +903,9 @@ const ViewerCanvas = memo(function ViewerCanvas({
           ) : null}
           <SelectionPersistenceManager enabled={hasLoadedInitialScene && !showLoader} />
           <Viewer
+            defaultRender={EDITOR_DEFAULT_RENDER}
             hoverStyles={EDITOR_HOVER_STYLES}
+            renderContext="editor"
             selectionManager={isFirstPersonMode ? 'default' : 'custom'}
           >
             <ViewerSceneContent
@@ -1023,17 +1032,20 @@ export default function Editor({
   }, [isVersionPreviewMode])
 
   // Theme sync — body.dark cascade'uje Tailwind dark variant na cały
-  // chrome (sidebar, top bar, bottom dock, panels). Sync z useViewer.theme
-  // żeby toggle Dark/Light w viewer top-right też przełączał UI.
-  // Default light (GSI Platform fork) — useViewer.theme initial = 'light'.
-  const theme = useViewer((s) => s.theme)
+  // chrome (sidebar, top bar, bottom dock, panels). Sync z aktywnym
+  // scene-theme appearance żeby toggle Dark/Light w viewer top-right
+  // też przełączał UI. Upstream PR #332 przeniósł theme z prostego
+  // `theme: 'light'|'dark'` na scene-themes z appearance per preset.
+  const isDarkAppearance = useViewer(
+    (s) => getSceneTheme(s.sceneTheme).appearance === 'dark',
+  )
   useEffect(() => {
-    if (theme === 'dark') {
+    if (isDarkAppearance) {
       document.body.classList.add('dark')
     } else {
       document.body.classList.remove('dark')
     }
-  }, [theme])
+  }, [isDarkAppearance])
 
   const showLoader = isLoading || isSceneLoading
 
@@ -1074,7 +1086,12 @@ export default function Editor({
   }, [isFirstPersonMode])
 
   const previewViewerContent = (
-    <Viewer hoverStyles={EDITOR_HOVER_STYLES} selectionManager="default">
+    <Viewer
+      defaultRender={EDITOR_DEFAULT_RENDER}
+      hoverStyles={EDITOR_HOVER_STYLES}
+      renderContext="editor"
+      selectionManager="default"
+    >
       <ExportManager />
       <ViewerZoneSystem />
       <CeilingSystem />

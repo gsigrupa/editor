@@ -10,6 +10,7 @@ export const shelfDefinition: NodeDefinition<typeof ShelfNode> = {
   schemaVersion: 2,
   schema: ShelfNode,
   category: 'furnish',
+  surfaceRole: 'joinery',
 
   defaults: () => ({
     object: 'node',
@@ -103,7 +104,7 @@ export const shelfDefinition: NodeDefinition<typeof ShelfNode> = {
   tool: () => import('./tool'),
   toolHints: [
     { key: 'Lewy klik', label: 'Umieść półkę' },
-    { key: 'Esc', label: 'Cancel' },
+    { key: 'Esc', label: 'Anuluj' },
   ],
 
   presentation: {

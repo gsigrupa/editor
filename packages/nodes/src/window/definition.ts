@@ -59,7 +59,7 @@ export const windowDefinition: NodeDefinition<typeof WindowNode> = {
 
   toolHints: [
     { key: 'Lewy klik', label: 'Umieść okno na ścianie' },
-    { key: 'Esc', label: 'Cancel' },
+    { key: 'Esc', label: 'Anuluj' },
   ],
 
   presentation: {

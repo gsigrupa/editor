@@ -51,7 +51,7 @@ export const spawnDefinition: NodeDefinition<typeof SpawnNode> = {
   tool: () => import('./tool'),
   toolHints: [
     { key: 'Lewy klik', label: 'Place spawn point' },
-    { key: 'Esc', label: 'Cancel' },
+    { key: 'Esc', label: 'Anuluj' },
   ],
 
   presentation: {
