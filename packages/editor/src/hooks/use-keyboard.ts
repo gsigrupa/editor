@@ -66,18 +66,31 @@ export const useKeyboard = ({
           // GSI fork: Esc wyłącza też persistent cameraTool (H/O).
           useEditor.getState().setCameraTool(null)
         }
-      } else if (e.key === '1' && !e.metaKey && !e.ctrlKey) {
-        e.preventDefault()
-        useEditor.getState().setPhase('site')
-        useEditor.getState().setMode('select')
-      } else if (e.key === '2' && !e.metaKey && !e.ctrlKey) {
-        e.preventDefault()
-        useEditor.getState().setPhase('structure')
-        useEditor.getState().setMode('select')
-      } else if (e.key === '3' && !e.metaKey && !e.ctrlKey) {
-        e.preventDefault()
-        useEditor.getState().setPhase('furnish')
-        useEditor.getState().setMode('select')
+      } else if (e.key >= '0' && e.key <= '9' && !e.metaKey && !e.ctrlKey) {
+        // GSI fork: gdy aktywny build tool (np. wall, slab) numeric input
+        // jest priorytetowy — np. SketchUp-style "wpisz długość ściany".
+        // Tool ma własny capture handler z stopImmediatePropagation,
+        // ale useKeyboard też jest capture i zarejestrowany wcześniej
+        // (więc fire'uje pierwszy). Bez tego return: digit triggeruje
+        // phase shortcut (setMode('select')) i wymontowuje wall tool
+        // PRZED tym jak tool'owy handler dotknie eventu.
+        if (useEditor.getState().mode === 'build') {
+          return
+        }
+        if (e.key === '1') {
+          e.preventDefault()
+          useEditor.getState().setPhase('site')
+          useEditor.getState().setMode('select')
+        } else if (e.key === '2') {
+          e.preventDefault()
+          useEditor.getState().setPhase('structure')
+          useEditor.getState().setMode('select')
+        } else if (e.key === '3') {
+          e.preventDefault()
+          useEditor.getState().setPhase('furnish')
+          useEditor.getState().setMode('select')
+        }
+        // Pozostałe cyfry 0,4-9 — brak globalnego shortcut, return bez akcji.
       } else if (e.key === 'f' && !e.metaKey && !e.ctrlKey) {
         if (isVersionPreviewMode) return
         e.preventDefault()

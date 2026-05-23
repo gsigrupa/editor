@@ -41,35 +41,39 @@ import {
  * do GSI parent z prośbą o nawigację (parent czeka 1.2s na flush
  * autosave, potem push do /app/inwestycje/[id]?tab=model3d).
  *
- * `mounted` flag — Pascal v2 layout renderuje viewerToolbar tylko gdy
- * Editor jest hydrated po stronie klienta (server-side renderuje
- * sąsiednie buttons jako CollapseSidebarButton + ViewModeControl tylko).
- * Bez mounted nasz dodatkowy button powoduje hydration mismatch
- * ("Server: aria-label=3D / Client: aria-label=Wróć…"). Pierwszy render
- * po stronie klienta = null (matches SSR), potem useEffect → button.
+ * `suppressHydrationWarning` na root div — Pascal v2 layout renderuje
+ * viewerToolbar tylko gdy Editor jest hydrated po stronie klienta,
+ * przez co server-side renderuje sąsiednie buttons (CollapseSidebar +
+ * ViewModeControl) w naszej pozycji. Bez suppress nasz dodatkowy
+ * button daje "Server: aria-label=3D / Client: aria-label=Wróć…"
+ * hydration error.
+ *
+ * Nie używamy `mounted` flagi (useState+useEffect) bo dodatkowy
+ * re-render triggerował remount globalnego useKeyboard po Editor
+ * re-renderze → listeners capture order się zmieniał → wall tool
+ * numeric input cyfry '1'/'2'/'3' były intercept'owane przez phase
+ * shortcuts useKeyboard. suppressHydrationWarning = brak re-renderu,
+ * brak regresji.
  */
 function BackToProjectButton({ parentOrigin }: { parentOrigin: string }) {
-  const [mounted, setMounted] = useState(false)
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  if (!mounted) return null
-
   const handleClick = () => {
     if (typeof window === 'undefined' || !window.parent || window.parent === window) return
     window.parent.postMessage({ type: 'gsi:navigate-back' }, parentOrigin)
   }
   return (
-    <div className="inline-flex h-8 items-stretch overflow-hidden rounded-xl border border-border bg-background/90 shadow-2xl backdrop-blur-md">
+    <div
+      className="inline-flex h-8 items-stretch overflow-hidden rounded-xl border border-border bg-background/90 shadow-2xl backdrop-blur-md"
+      suppressHydrationWarning
+    >
       <button
         aria-label="Wróć do projektu"
         className="flex items-center gap-1.5 px-3 text-muted-foreground/80 text-xs transition-colors hover:bg-accent hover:text-foreground/90"
         onClick={handleClick}
+        suppressHydrationWarning
         type="button"
       >
         <ArrowLeft className="h-3.5 w-3.5" />
-        <span>Wróć do projektu</span>
+        <span suppressHydrationWarning>Wróć do projektu</span>
       </button>
     </div>
   )
