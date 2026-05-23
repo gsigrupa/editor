@@ -1128,7 +1128,7 @@ export default function Editor({
         )}
 
         {!isLoading && isPreviewMode ? (
-          <div className="dark flex h-full w-full flex-col bg-neutral-100 text-foreground">
+          <div className="flex h-full w-full flex-col bg-neutral-100 text-foreground">
             <ViewerOverlay onBack={() => useEditor.getState().setPreviewMode(false)} />
             <div className="h-full w-full">{previewViewerContent}</div>
           </div>
@@ -1186,7 +1186,7 @@ export default function Editor({
 
   return (
     <PresetsProvider adapter={presetsAdapter}>
-      <div className="dark flex h-full w-full gap-3 bg-neutral-100 p-3 text-foreground">
+      <div className="flex h-full w-full gap-3 bg-neutral-100 p-3 text-foreground">
         {showLoader && (
           <div className="fixed inset-0 z-60">
             <SceneLoader />
