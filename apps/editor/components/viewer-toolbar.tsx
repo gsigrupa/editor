@@ -41,7 +41,7 @@ const TOOLBAR_CONTAINER =
   'inline-flex h-8 items-stretch overflow-hidden rounded-xl border border-border bg-background/90 shadow-2xl backdrop-blur-md'
 
 const TOOLBAR_BTN =
-  'flex w-8 items-center justify-center text-muted-foreground/80 transition-colors hover:bg-white/8 hover:text-foreground/90'
+  'flex w-8 items-center justify-center text-muted-foreground/80 transition-colors hover:bg-accent hover:text-foreground/90'
 
 function ToolbarTooltip({ children, label }: { children: ReactNode; label: string }) {
   return (
@@ -69,15 +69,10 @@ const VIEW_MODES: { id: ViewMode; label: string; icon: React.ReactNode }[] = [
   {
     id: '2d',
     label: '2D',
-    icon: (
-      <Image
-        alt=""
-        className="h-3.5 w-3.5 object-contain"
-        height={14}
-        src="/icons/blueprint.png"
-        width={14}
-      />
-    ),
+    // GSI fork: lucide Grid2X2 zamiast /icons/blueprint.png — PNG bez alpha
+    // (8-bit colormap z bialym tlem) staje sie niewidoczny na bialym tle
+    // toolbar'a w light mode. Lucide SVG renderuje sie currentColor.
+    icon: <Grid2X2 className="h-3.5 w-3.5" />,
   },
   {
     id: 'split',
@@ -121,9 +116,12 @@ function ViewModeControl() {
               aria-pressed={isActive}
               className={cn(
                 'flex items-center justify-center gap-1.5 px-2.5 font-medium text-xs transition-colors',
+                // GSI fork: bg-muted dla active state — bulk replace upstreamowego
+                // bg-white/10 (niewidoczne na bialym tle w light mode) na semantic
+                // tokens kompatybilne z dark+light theme.
                 isActive
-                  ? 'bg-white/10 text-foreground'
-                  : 'text-muted-foreground/70 hover:bg-white/8 hover:text-muted-foreground',
+                  ? 'bg-muted text-foreground'
+                  : 'text-muted-foreground/70 hover:bg-accent hover:text-muted-foreground',
               )}
               onClick={() => setViewMode(mode.id)}
               type="button"
@@ -187,7 +185,7 @@ function LevelModeToggle() {
   return (
     <ToolbarTooltip label={label}>
       <button
-        className={cn(TOOLBAR_BTN, !isDefault && 'bg-white/10 text-foreground/90')}
+        className={cn(TOOLBAR_BTN, !isDefault && 'bg-muted text-foreground/90')}
         onClick={cycle}
         type="button"
       >
@@ -220,7 +218,7 @@ function WallModeToggle() {
         className={cn(
           TOOLBAR_BTN,
           wallMode !== 'cutaway'
-            ? 'bg-white/10'
+            ? 'bg-muted'
             : 'opacity-60 grayscale hover:opacity-100 hover:grayscale-0',
         )}
         onClick={cycle}
@@ -246,7 +244,7 @@ function RenderModeMenu() {
             aria-label={`Render: ${active.name}`}
             className={cn(
               TOOLBAR_BTN,
-              shading === 'rendered' && 'bg-white/10 text-foreground/90',
+              shading === 'rendered' && 'bg-muted text-foreground/90',
             )}
             type="button"
           >
@@ -335,7 +333,7 @@ function EdgesMenu() {
         <DropdownMenuTrigger asChild>
           <button
             aria-label={`Edges: ${active.name}`}
-            className={cn(TOOLBAR_BTN, edges !== 'off' && 'bg-white/10 text-foreground/90')}
+            className={cn(TOOLBAR_BTN, edges !== 'off' && 'bg-muted text-foreground/90')}
             type="button"
           >
             <PenLine className="h-4 w-4" />
@@ -370,7 +368,7 @@ function GridVisibilityToggle() {
           TOOLBAR_BTN,
           'w-auto gap-1.5 px-2.5',
           showGrid
-            ? 'bg-white/10 text-foreground/90'
+            ? 'bg-muted text-foreground/90'
             : 'opacity-60 grayscale hover:opacity-100 hover:grayscale-0',
         )}
         onClick={() => setShowGrid(!showGrid)}
@@ -395,7 +393,7 @@ function ShadowsToggle() {
         className={cn(
           TOOLBAR_BTN,
           shadows
-            ? 'bg-white/10 text-foreground/90'
+            ? 'bg-muted text-foreground/90'
             : 'opacity-60 grayscale hover:opacity-100 hover:grayscale-0',
         )}
         onClick={() => setShadows(!shadows)}
@@ -444,7 +442,7 @@ function CameraModeToggle() {
       <button
         className={cn(
           TOOLBAR_BTN,
-          cameraMode === 'orthographic' && 'bg-white/10 text-foreground/90',
+          cameraMode === 'orthographic' && 'bg-muted text-foreground/90',
         )}
         onClick={() => setCameraMode(cameraMode === 'perspective' ? 'orthographic' : 'perspective')}
         type="button"
@@ -483,7 +481,7 @@ function PreviewButton() {
   return (
     <ToolbarTooltip label="Preview mode">
       <button
-        className="flex items-center gap-1.5 px-2.5 font-medium text-muted-foreground/80 text-xs transition-colors hover:bg-white/8 hover:text-foreground/90"
+        className="flex items-center gap-1.5 px-2.5 font-medium text-muted-foreground/80 text-xs transition-colors hover:bg-accent hover:text-foreground/90"
         onClick={() => useEditor.getState().setPreviewMode(true)}
         type="button"
       >
