@@ -21,22 +21,22 @@ const DUPLICATE_PRESETS: Array<{
   {
     id: 'everything',
     label: 'Everything',
-    description: 'Structure, materials, furniture, and references.',
+    description: 'Konstrukcja, materiały, meble i odniesienia.',
   },
   {
     id: 'structure',
-    label: 'Structure only',
-    description: 'Walls, slabs, roofs, stairs, windows, and doors without finishes.',
+    label: 'Tylko konstrukcja',
+    description: 'Ściany, płyty, dachy, schody, okna i drzwi bez wykończenia.',
   },
   {
     id: 'structure-materials',
     label: 'Structure + materials',
-    description: 'Structure with the current material and finish assignments.',
+    description: 'Konstrukcja z aktualnymi materiałami i wykończeniem.',
   },
   {
     id: 'structure-furniture',
     label: 'Structure + furniture',
-    description: 'Structure, finishes, and placed items, without guide references.',
+    description: 'Konstrukcja, wykończenie i umieszczone elementy, bez odniesień pomocniczych.',
   },
 ]
 
@@ -96,9 +96,7 @@ export function LevelDuplicateDialog({
             className="cursor-pointer rounded-md px-4 py-2 text-muted-foreground text-sm transition-colors hover:bg-accent"
             onClick={() => onOpenChange(false)}
             type="button"
-          >
-            Cancel
-          </button>
+          >Anuluj</button>
           <button
             className="cursor-pointer rounded-md bg-primary px-4 py-2 text-primary-foreground text-sm transition-opacity hover:opacity-90"
             onClick={() => onConfirm(preset)}

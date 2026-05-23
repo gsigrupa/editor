@@ -33,8 +33,8 @@ export function AudioSettingsDialog() {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Audio Settings</DialogTitle>
-          <DialogDescription>Adjust volume levels and mute settings</DialogDescription>
+          <DialogTitle>Ustawienia dźwięku</DialogTitle>
+          <DialogDescription>Wyreguluj głośność i ustawienia wyciszenia</DialogDescription>
         </DialogHeader>
         <div className="space-y-6 py-4">
           {/* Master Volume */}
@@ -70,7 +70,7 @@ export function AudioSettingsDialog() {
           {/* SFX Volume */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <label className="font-medium text-sm">Sound Effects</label>
+              <label className="font-medium text-sm">Efekty dźwiękowe</label>
               <span className="text-muted-foreground text-sm">{sfxVolume}%</span>
             </div>
             <Slider

@@ -2013,7 +2013,7 @@ function buildDraftWall(levelId: string, start: WallPlanPoint, end: WallPlanPoin
     object: 'node',
     id: 'wall_draft' as WallNode['id'],
     type: 'wall',
-    name: 'Draft wall',
+    name: 'Szkic ściany',
     parentId: levelId,
     visible: true,
     metadata: {},
@@ -4636,7 +4636,7 @@ export function FloorplanPanel() {
 
     const previewStair = StairNodeSchema.parse({
       id: 'stair_floorplan_preview',
-      name: 'Staircase preview',
+      name: 'Podgląd schodów',
       position: [stairBuildPreviewPoint[0], 0, stairBuildPreviewPoint[1]],
       rotation: stairBuildPreviewRotation,
       children: [floorplanPreviewStairSegment.id],
@@ -8277,9 +8277,7 @@ export function FloorplanPanel() {
             </div>
 
             <div className="mb-3 rounded-xl border border-border/70 bg-white/5 px-3 py-2">
-              <div className="text-[11px] text-muted-foreground uppercase tracking-wide">
-                Drawn line
-              </div>
+              <div className="text-[11px] text-muted-foreground uppercase tracking-wide">Narysowana linia</div>
               <div className="mt-1 font-medium text-sm">
                 {formatMeasurement(pendingReferenceScale.measuredLengthUnits, unit)}
               </div>
@@ -8316,7 +8314,7 @@ export function FloorplanPanel() {
                   value={referenceScaleUnit}
                 >
                   <option value="meters">Meters</option>
-                  <option value="centimeters">Centimeters</option>
+                  <option value="centimeters">Centymetry</option>
                   <option value="feet">Feet</option>
                   <option value="inches">Inches</option>
                 </select>
@@ -8343,9 +8341,7 @@ export function FloorplanPanel() {
                 className="h-8 rounded-lg border border-border px-3 font-medium text-muted-foreground text-xs transition hover:bg-white/8 hover:text-foreground"
                 onClick={() => setPendingReferenceScale(null)}
                 type="button"
-              >
-                Cancel
-              </button>
+              >Anuluj</button>
               <button
                 className="h-8 rounded-lg bg-foreground px-3 font-medium text-background text-xs transition hover:bg-foreground/90 disabled:cursor-not-allowed disabled:opacity-50"
                 disabled={!pendingReferenceMetersPerUnit}

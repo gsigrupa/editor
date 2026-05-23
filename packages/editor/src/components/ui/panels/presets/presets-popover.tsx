@@ -221,9 +221,7 @@ export function PresetsPopover({
           <div className="flex border-border/50 border-b">
             {tabs.includes('community') && (
               <TabButton active={tab === 'community'} onClick={() => setTab('community')}>
-                <Users className="h-3 w-3" />
-                Community
-              </TabButton>
+                <Users className="h-3 w-3" />Społeczność</TabButton>
             )}
             {tabs.includes('mine') && (
               <TabButton
@@ -381,16 +379,12 @@ function PresetRow({
             className="rounded-md bg-red-500/20 px-2 py-0.5 font-medium text-[11px] text-red-400 transition-colors hover:bg-red-500/30"
             onClick={onDeleteConfirm}
             type="button"
-          >
-            Delete
-          </button>
+          >Usuń</button>
           <button
             className="rounded-md px-2 py-0.5 font-medium text-[11px] text-muted-foreground transition-colors hover:bg-white/10"
             onClick={onDeleteCancel}
             type="button"
-          >
-            Cancel
-          </button>
+          >Anuluj</button>
         </div>
       </li>
     )
@@ -477,9 +471,7 @@ function PresetRow({
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" className="min-w-44" side="left">
             <DropdownMenuItem onClick={onOverwrite}>
-              <Save className="h-3.5 w-3.5" />
-              Update with current
-            </DropdownMenuItem>
+              <Save className="h-3.5 w-3.5" />Aktualizuj bieżącym</DropdownMenuItem>
             {showCommunityToggle && (
               <DropdownMenuItem onClick={onToggleCommunity}>
                 {preset.is_community ? (
@@ -500,9 +492,7 @@ function PresetRow({
               Rename
             </DropdownMenuItem>
             <DropdownMenuItem onClick={onDeleteRequest} variant="destructive">
-              <Trash2 className="h-3.5 w-3.5" />
-              Delete
-            </DropdownMenuItem>
+              <Trash2 className="h-3.5 w-3.5" />Usuń</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )}

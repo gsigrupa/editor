@@ -100,9 +100,7 @@ export function CollectionsPopover({ nodeId, collectionIds, children }: Collecti
         <div className="flex items-center justify-between border-border/50 border-b px-3 py-2.5">
           <div className="flex items-center gap-1.5">
             <Layers className="h-3.5 w-3.5 text-muted-foreground" />
-            <span className="font-semibold text-foreground text-xs tracking-tight">
-              Collections
-            </span>
+            <span className="font-semibold text-foreground text-xs tracking-tight">Kolekcje</span>
           </div>
           <button
             className="flex items-center gap-1 rounded-md px-2 py-1 font-medium text-[11px] text-muted-foreground transition-colors hover:bg-white/10 hover:text-foreground"
@@ -189,16 +187,12 @@ export function CollectionsPopover({ nodeId, collectionIds, children }: Collecti
                             setDeletingId(null)
                           }}
                           type="button"
-                        >
-                          Delete
-                        </button>
+                        >Usuń</button>
                         <button
                           className="rounded-md px-2 py-0.5 font-medium text-[11px] text-muted-foreground transition-colors hover:bg-white/10"
                           onClick={() => setDeletingId(null)}
                           type="button"
-                        >
-                          Cancel
-                        </button>
+                        >Anuluj</button>
                       </div>
                     </li>
                   )
@@ -314,9 +308,7 @@ export function CollectionsPopover({ nodeId, collectionIds, children }: Collecti
                             onClick={() => setDeletingId(collection.id)}
                             variant="destructive"
                           >
-                            <Trash2 className="h-3.5 w-3.5" />
-                            Delete
-                          </DropdownMenuItem>
+                            <Trash2 className="h-3.5 w-3.5" />Usuń</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </div>

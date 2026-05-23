@@ -297,7 +297,7 @@ export function SettingsPanel({
       {/* Visibility Section (only for cloud projects) */}
       {projectId && !isLocalProject && (
         <div className="space-y-3">
-          <label className="font-medium text-muted-foreground text-xs uppercase">Visibility</label>
+          <label className="font-medium text-muted-foreground text-xs uppercase">Widoczność</label>
           <div className="flex items-center justify-between">
             <div>
               <div className="font-medium text-sm">Public</div>
@@ -313,7 +313,7 @@ export function SettingsPanel({
           <div className="flex items-center justify-between">
             <div>
               <div className="font-medium text-sm">Show 3D Scans</div>
-              <div className="text-muted-foreground text-xs">Visible to public viewers</div>
+              <div className="text-muted-foreground text-xs">Widoczne publicznie</div>
             </div>
             <Switch
               checked={projectVisibility?.showScansPublic ?? true}
@@ -323,7 +323,7 @@ export function SettingsPanel({
           <div className="flex items-center justify-between">
             <div>
               <div className="font-medium text-sm">Show Floorplans</div>
-              <div className="text-muted-foreground text-xs">Visible to public viewers</div>
+              <div className="text-muted-foreground text-xs">Widoczne publicznie</div>
             </div>
             <Switch
               checked={projectVisibility?.showGuidesPublic ?? true}
@@ -333,7 +333,7 @@ export function SettingsPanel({
           <div className="flex items-center justify-between">
             <div>
               <div className="font-medium text-sm">Show Grid</div>
-              <div className="text-muted-foreground text-xs">Visible only in the editor</div>
+              <div className="text-muted-foreground text-xs">Widoczne tylko w edytorze</div>
             </div>
             <Switch
               checked={showGrid}
@@ -375,7 +375,7 @@ export function SettingsPanel({
       {/* Thumbnail Section (only for cloud projects) */}
       {projectId && !isLocalProject && (
         <div className="space-y-2">
-          <label className="font-medium text-muted-foreground text-xs uppercase">Thumbnail</label>
+          <label className="font-medium text-muted-foreground text-xs uppercase">Miniatura</label>
           <Button
             className="w-full justify-start gap-2"
             disabled={isGeneratingThumbnail}
@@ -423,7 +423,7 @@ export function SettingsPanel({
 
       {/* Audio Section */}
       <div className="space-y-2">
-        <label className="font-medium text-muted-foreground text-xs uppercase">Audio</label>
+        <label className="font-medium text-muted-foreground text-xs uppercase">Dźwięk</label>
         <AudioSettingsDialog />
       </div>
 
@@ -461,16 +461,14 @@ export function SettingsPanel({
 
       {/* Danger Zone */}
       <div className="space-y-2">
-        <label className="font-medium text-destructive text-xs uppercase">Danger Zone</label>
+        <label className="font-medium text-destructive text-xs uppercase">Strefa zagrożenia</label>
 
         <Button
           className="w-full justify-start gap-2"
           onClick={handleResetToDefault}
           variant="destructive"
         >
-          <Trash2 className="size-4" />
-          Clear & Start New
-        </Button>
+          <Trash2 className="size-4" />Wyczyść i zacznij nowy</Button>
       </div>
     </div>
   )

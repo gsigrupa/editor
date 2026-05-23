@@ -26,13 +26,13 @@ export function ItemHelper({ showEsc }: ItemHelperProps) {
       {showEsc && (
         <div className="flex items-center gap-2 text-sm">
           <ShortcutToken value="Esc" />
-          <span className="text-muted-foreground">Cancel</span>
+          <span className="text-muted-foreground">Anuluj</span>
         </div>
       )}
       {!showEsc && (
         <div className="flex items-center gap-2 text-sm">
           <ShortcutToken value="Right click" />
-          <span className="text-muted-foreground">Cancel</span>
+          <span className="text-muted-foreground">Anuluj</span>
         </div>
       )}
     </div>

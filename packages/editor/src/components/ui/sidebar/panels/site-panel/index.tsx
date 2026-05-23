@@ -164,8 +164,7 @@ const PropertyLineSection = memo(function PropertyLineSection() {
 
       {/* Measurements */}
       <div className="relative flex gap-3 pr-3 pb-2 pl-10">
-        <div className="text-muted-foreground text-xs">
-          Area: <span className="text-foreground">{area.toFixed(1)} m²</span>
+        <div className="text-muted-foreground text-xs">Powierzchnia:<span className="text-foreground">{area.toFixed(1)} m²</span>
         </div>
         <div className="text-muted-foreground text-xs">
           Perimeter: <span className="text-foreground">{perimeter.toFixed(1)} m</span>
@@ -218,9 +217,7 @@ const PropertyLineSection = memo(function PropertyLineSection() {
             className="mt-1.5 flex cursor-pointer items-center gap-1 rounded px-2 py-1 text-muted-foreground text-xs transition-colors hover:bg-accent/50 hover:text-foreground"
             onClick={handleAddPoint}
           >
-            <Plus className="h-3 w-3" />
-            Add point
-          </button>
+            <Plus className="h-3 w-3" />Dodaj punkt</button>
         </div>
       )}
     </div>
@@ -278,9 +275,7 @@ const CameraPopover = memo(function CameraPopover({
                 onOpenChange(false)
               }}
             >
-              <Camera className="h-3.5 w-3.5" />
-              View snapshot
-            </button>
+              <Camera className="h-3.5 w-3.5" />Zobacz zrzut</button>
           )}
           <button
             className="flex w-full cursor-pointer items-center gap-2 rounded px-2 py-1.5 text-left text-popover-foreground text-sm hover:bg-accent"
@@ -302,9 +297,7 @@ const CameraPopover = memo(function CameraPopover({
                 onOpenChange(false)
               }}
             >
-              <Trash2 className="h-3.5 w-3.5" />
-              Clear snapshot
-            </button>
+              <Trash2 className="h-3.5 w-3.5" />Wyczyść zrzut</button>
           )}
         </div>
       </PopoverContent>
@@ -765,9 +758,7 @@ const LevelItem = memo(function LevelItem({
                     setCameraPopoverOpen(false)
                   }}
                 >
-                  <Camera className="h-3.5 w-3.5" />
-                  View snapshot
-                </button>
+                  <Camera className="h-3.5 w-3.5" />Zobacz zrzut</button>
               )}
               <button
                 className="flex w-full cursor-pointer items-center gap-2 rounded px-2 py-1.5 text-left text-popover-foreground text-sm hover:bg-accent"
@@ -789,9 +780,7 @@ const LevelItem = memo(function LevelItem({
                     setCameraPopoverOpen(false)
                   }}
                 >
-                  <Trash2 className="h-3.5 w-3.5" />
-                  Clear snapshot
-                </button>
+                  <Trash2 className="h-3.5 w-3.5" />Wyczyść zrzut</button>
               )}
             </div>
           </PopoverContent>
@@ -833,9 +822,7 @@ const LevelItem = memo(function LevelItem({
               onClick={() => deleteLevelWithFallbackSelection(level.id)}
               title={canDeleteLevel ? 'Delete level' : 'The ground level cannot be deleted'}
             >
-              <Trash2 className="h-3.5 w-3.5" />
-              Delete
-            </button>
+              <Trash2 className="h-3.5 w-3.5" />Usuń</button>
           </PopoverContent>
         </Popover>
       </div>
@@ -925,7 +912,7 @@ const LevelsSection = memo(function LevelsSection({
           <div className="relative z-10 flex items-center pr-1 pl-[38px]">
             <Plus className="h-3.5 w-3.5" />
           </div>
-          <span className="truncate">Add level</span>
+          <span className="truncate">Dodaj poziom</span>
         </button>
         {levels.length === 0 && (
           <div className="relative flex h-8 select-none items-center border-border/50 border-b py-0 pr-2 pl-[38px] text-muted-foreground text-xs">
@@ -999,9 +986,7 @@ const LayerToggle = memo(function LayerToggle() {
               activeTab !== 'structure' && 'opacity-50 grayscale',
             )}
             src="/icons/room.png"
-          />
-          Structure
-        </div>
+          />Konstrukcja</div>
         <div className="absolute right-1.5 bottom-1 z-10 rounded border border-border/40 bg-background/40 px-1 py-[2px] backdrop-blur-md">
           <span className="block font-medium font-mono text-[9px] text-muted-foreground/70 leading-none">
             B
@@ -1072,9 +1057,7 @@ const LayerToggle = memo(function LayerToggle() {
               activeTab !== 'zones' && 'opacity-50 grayscale',
             )}
             src="/icons/kitchen.png"
-          />
-          Zones
-        </div>
+          />Strefy</div>
         <div className="absolute right-1.5 bottom-1 z-10 rounded border border-border/40 bg-background/40 px-1 py-[2px] backdrop-blur-md">
           <span className="block font-medium font-mono text-[9px] text-muted-foreground/70 leading-none">
             Z
@@ -1206,9 +1189,7 @@ const ZoneItem = memo(function ZoneItem({ zone, isLast }: { zone: ZoneNode; isLa
                     setCameraPopoverOpen(false)
                   }}
                 >
-                  <Camera className="h-3.5 w-3.5" />
-                  View snapshot
-                </button>
+                  <Camera className="h-3.5 w-3.5" />Zobacz zrzut</button>
               )}
               <button
                 className="flex w-full cursor-pointer items-center gap-2 rounded px-2 py-1.5 text-left text-popover-foreground text-sm hover:bg-accent"
@@ -1230,9 +1211,7 @@ const ZoneItem = memo(function ZoneItem({ zone, isLast }: { zone: ZoneNode; isLa
                     setCameraPopoverOpen(false)
                   }}
                 >
-                  <Trash2 className="h-3.5 w-3.5" />
-                  Clear snapshot
-                </button>
+                  <Trash2 className="h-3.5 w-3.5" />Wyczyść zrzut</button>
               )}
             </div>
           </PopoverContent>
@@ -1315,9 +1294,7 @@ const ContentSection = memo(function ContentSection() {
       return (
         <div className="px-3 py-4 text-muted-foreground text-sm">
           No zones on this level.{' '}
-          <button className="cursor-pointer text-primary hover:underline" onClick={handleAddZone}>
-            Add one
-          </button>
+          <button className="cursor-pointer text-primary hover:underline" onClick={handleAddZone}>Dodaj</button>
         </div>
       )
     }
@@ -1453,9 +1430,7 @@ const BuildingItem = memo(function BuildingItem({
                     setBuildingCameraOpen(null)
                   }}
                 >
-                  <Camera className="h-3.5 w-3.5" />
-                  View snapshot
-                </button>
+                  <Camera className="h-3.5 w-3.5" />Zobacz zrzut</button>
               )}
               <button
                 className="flex w-full cursor-pointer items-center gap-2 rounded px-2 py-1.5 text-left text-popover-foreground text-sm hover:bg-accent"
@@ -1477,9 +1452,7 @@ const BuildingItem = memo(function BuildingItem({
                     setBuildingCameraOpen(null)
                   }}
                 >
-                  <Trash2 className="h-3.5 w-3.5" />
-                  Clear snapshot
-                </button>
+                  <Trash2 className="h-3.5 w-3.5" />Wyczyść zrzut</button>
               )}
             </div>
           </PopoverContent>

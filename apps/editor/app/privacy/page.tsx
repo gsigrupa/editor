@@ -22,9 +22,7 @@ export default function PrivacyPage() {
             <Link
               className="text-muted-foreground transition-colors hover:text-foreground"
               href="/terms"
-            >
-              Terms of Service
-            </Link>
+            >Regulamin</Link>
             <span className="text-muted-foreground">|</span>
             <span className="font-medium text-foreground">Privacy Policy</span>
           </nav>
@@ -48,10 +46,8 @@ export default function PrivacyPage() {
           <section className="mb-8 space-y-4">
             <h2 className="font-semibold text-xl">2. Information We Collect</h2>
 
-            <h3 className="mt-4 font-medium text-lg">Account Information</h3>
-            <p className="text-foreground/90 leading-relaxed">
-              When you create an account, we collect:
-            </p>
+            <h3 className="mt-4 font-medium text-lg">Informacje o koncie</h3>
+            <p className="text-foreground/90 leading-relaxed">Gdy tworzysz konto, zbieramy:</p>
             <ul className="list-disc space-y-2 pl-6 text-foreground/90">
               <li>Email address</li>
               <li>Name</li>
@@ -65,7 +61,7 @@ export default function PrivacyPage() {
               floor plans, and associated metadata.
             </p>
 
-            <h3 className="mt-4 font-medium text-lg">Usage Analytics</h3>
+            <h3 className="mt-4 font-medium text-lg">Analityka użytkowania</h3>
             <p className="text-foreground/90 leading-relaxed">
               We use Vercel Analytics and Speed Insights to collect anonymized usage data, including
               page views, performance metrics, and general usage patterns. This helps us improve the
@@ -75,7 +71,7 @@ export default function PrivacyPage() {
 
           <section className="mb-8 space-y-4">
             <h2 className="font-semibold text-xl">3. How We Use Your Information</h2>
-            <p className="text-foreground/90 leading-relaxed">We use your information to:</p>
+            <p className="text-foreground/90 leading-relaxed">Wykorzystujemy Twoje dane do:</p>
             <ul className="list-disc space-y-2 pl-6 text-foreground/90">
               <li>Provide and maintain your account</li>
               <li>Store and sync your projects across devices</li>
@@ -131,7 +127,7 @@ export default function PrivacyPage() {
                 signed in
               </li>
               <li>
-                <strong>Analytics cookies</strong> - Used by Vercel Analytics to collect anonymized
+                <strong>Pliki cookie analityczne</strong> - Used by Vercel Analytics to collect anonymized
                 usage data
               </li>
             </ul>
@@ -139,9 +135,9 @@ export default function PrivacyPage() {
 
           <section className="mb-8 space-y-4">
             <h2 className="font-semibold text-xl">7. Your Rights</h2>
-            <p className="text-foreground/90 leading-relaxed">You have the right to:</p>
+            <p className="text-foreground/90 leading-relaxed">Masz prawo do:</p>
             <ul className="list-disc space-y-2 pl-6 text-foreground/90">
-              <li>Access the personal data we hold about you</li>
+              <li>Uzyskaj dostęp do swoich danych osobowych</li>
               <li>Request correction of inaccurate data</li>
               <li>Request deletion of your data</li>
               <li>Export your project data</li>

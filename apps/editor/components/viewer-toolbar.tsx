@@ -79,7 +79,7 @@ const levelModeLabels: Record<string, string> = {
 const wallModeOrder = ['cutaway', 'up', 'down'] as const
 const wallModeConfig: Record<string, { icon: string; label: string }> = {
   up: { icon: '/icons/room.png', label: 'Full height' },
-  cutaway: { icon: '/icons/wallcut.png', label: 'Cutaway' },
+  cutaway: { icon: '/icons/wallcut.png', label: 'Przekrój' },
   down: { icon: '/icons/walllow.png', label: 'Low' },
 }
 

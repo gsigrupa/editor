@@ -253,9 +253,7 @@ function LevelRow({
                 }}
                 type="button"
               >
-                <Trash2 className="h-3 w-3" />
-                Delete level
-              </button>
+                <Trash2 className="h-3 w-3" />Usuń poziom</button>
             </PopoverContent>
           </Popover>
         </div>
@@ -596,7 +594,7 @@ export function FloatingLevelSelector() {
       <Dialog onOpenChange={(open) => !open && setDeletingLevel(null)} open={!!deletingLevel}>
         <DialogContent showCloseButton={false}>
           <DialogHeader>
-            <DialogTitle>Delete level</DialogTitle>
+            <DialogTitle>Usuń poziom</DialogTitle>
             <DialogDescription>
               Are you sure you want to delete{' '}
               <strong>{deletingLevel ? getLevelDisplayLabel(deletingLevel) : ''}</strong>? All
@@ -608,16 +606,12 @@ export function FloatingLevelSelector() {
               className="rounded-full border border-border px-4 py-2 text-sm transition-colors hover:bg-accent"
               onClick={() => setDeletingLevel(null)}
               type="button"
-            >
-              Cancel
-            </button>
+            >Anuluj</button>
             <button
               className="rounded-full bg-red-600 px-4 py-2 text-sm text-white transition-colors hover:bg-red-700"
               onClick={handleConfirmDelete}
               type="button"
-            >
-              Delete
-            </button>
+            >Usuń</button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

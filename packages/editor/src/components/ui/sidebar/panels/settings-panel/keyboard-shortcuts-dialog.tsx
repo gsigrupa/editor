@@ -76,7 +76,7 @@ const SHORTCUT_CATEGORIES: ShortcutCategory[] = [
     ],
   },
   {
-    title: 'Drawing Tools',
+    title: 'Narzędzia rysowania',
     shortcuts: [
       {
         keys: ['Shift'],
@@ -98,7 +98,7 @@ const SHORTCUT_CATEGORIES: ShortcutCategory[] = [
     ],
   },
   {
-    title: 'Camera',
+    title: 'Kamera',
     shortcuts: [
       {
         keys: ['Middle click'],

@@ -56,9 +56,7 @@ export function PaintPanel() {
       <PanelSection title="Custom Material">
         <div className="space-y-3">
           <div className="space-y-2">
-            <label className="block font-medium text-muted-foreground text-xs uppercase tracking-[0.12em]">
-              Color
-            </label>
+            <label className="block font-medium text-muted-foreground text-xs uppercase tracking-[0.12em]">Kolor</label>
             <div className="flex items-center gap-2">
               <input
                 className="h-10 w-14 cursor-pointer rounded-md border border-input bg-transparent"
@@ -152,8 +150,8 @@ export function PaintPanel() {
               value={currentProps.side}
             >
               <option value="front">Front</option>
-              <option value="back">Back</option>
-              <option value="double">Double</option>
+              <option value="back">Wstecz</option>
+              <option value="double">Podwójne</option>
             </select>
           </div>
         </div>

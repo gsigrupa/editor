@@ -1363,9 +1363,7 @@ export const FirstPersonOverlay = ({ onExit }: { onExit: () => void }) => {
             <InlineControlHint keyLabel="E / R" label="Interact" />
             <InlineControlHint keyLabel="T" label="Close" />
             <div className="h-px w-full bg-border/30" />
-            <span className="text-center text-muted-foreground/60 text-xs">
-              Click to look around
-            </span>
+            <span className="text-center text-muted-foreground/60 text-xs">Kliknij aby się rozejrzeć</span>
           </div>
         </div>
       )}

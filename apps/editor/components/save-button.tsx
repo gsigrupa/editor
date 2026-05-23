@@ -31,7 +31,7 @@ export function CreateSceneButton({ label = 'Create new scene' }: { label?: stri
       const response = await fetch('/api/scenes', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: 'Untitled scene', graph: EMPTY_GRAPH }),
+        body: JSON.stringify({ name: 'Scena bez nazwy', graph: EMPTY_GRAPH }),
       })
       if (!response.ok) {
         setError(`Failed to create scene (${response.status})`)

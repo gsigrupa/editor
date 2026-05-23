@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Terms of Service',
-  description: 'Terms of Service for Pascal Editor and the Pascal platform.',
+  title: 'Regulamin',
+  description: 'Regulamin Pascal Editor i platformy Pascal.',
 }
 
 export default function TermsPage() {
@@ -19,7 +19,7 @@ export default function TermsPage() {
               Home
             </Link>
             <span className="text-muted-foreground">/</span>
-            <span className="font-medium text-foreground">Terms of Service</span>
+            <span className="font-medium text-foreground">Regulamin</span>
             <span className="text-muted-foreground">|</span>
             <Link
               className="text-muted-foreground transition-colors hover:text-foreground"
@@ -33,7 +33,7 @@ export default function TermsPage() {
 
       <main className="container mx-auto max-w-3xl px-6 py-12">
         <article className="prose prose-neutral dark:prose-invert max-w-none">
-          <h1 className="mb-2 font-bold text-3xl">Terms of Service</h1>
+          <h1 className="mb-2 font-bold text-3xl">Regulamin</h1>
           <p className="mb-8 text-muted-foreground text-sm">Effective Date: February 20, 2026</p>
 
           <section className="mb-8 space-y-4">
@@ -72,7 +72,7 @@ export default function TermsPage() {
 
           <section className="mb-8 space-y-4">
             <h2 className="font-semibold text-xl">4. Acceptable Use</h2>
-            <p className="text-foreground/90 leading-relaxed">You agree not to:</p>
+            <p className="text-foreground/90 leading-relaxed">Zgadzasz się, że nie będziesz:</p>
             <ul className="list-disc space-y-2 pl-6 text-foreground/90">
               <li>
                 Use the Platform for any unlawful purpose or in violation of any applicable laws

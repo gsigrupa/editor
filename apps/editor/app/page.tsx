@@ -47,9 +47,7 @@ export default function Home() {
             <span aria-hidden className="text-muted-foreground">
               ·
             </span>
-            <Link className="font-medium text-foreground hover:underline" href="/scenes">
-              Create new
-            </Link>
+            <Link className="font-medium text-foreground hover:underline" href="/scenes">Utwórz nowy</Link>
           </div>
         </div>
       )}

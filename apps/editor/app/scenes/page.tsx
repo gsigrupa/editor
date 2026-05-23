@@ -63,7 +63,7 @@ export default async function ScenesPage() {
       </header>
 
       <main className="container mx-auto max-w-5xl px-6 py-12">
-        <h1 className="mb-2 font-bold text-3xl">Your scenes</h1>
+        <h1 className="mb-2 font-bold text-3xl">Twoje sceny</h1>
         <p className="mb-8 text-muted-foreground text-sm">
           {scenes.length === 0
             ? 'No scenes yet. Create one to get started.'

@@ -25,7 +25,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'ac-block',
     category: 'appliance',
-    name: 'Ac Block',
+    name: 'Klimatyzator (blok)',
     tags: [],
     thumbnail: '/items/ac-block/thumbnail.webp',
     src: '/items/ac-block/model.glb',
@@ -38,7 +38,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'air-conditioner',
     category: 'appliance',
-    name: 'Air Conditioner',
+    name: 'Klimatyzator',
     tags: [],
     thumbnail: '/items/air-conditioner/thumbnail.webp',
     src: '/items/air-conditioner/model.glb',
@@ -51,7 +51,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'air-conditioner-block',
     category: 'appliance',
-    name: 'Air Conditioner Block',
+    name: 'Klimatyzator (blok)',
     tags: [],
     thumbnail: '/items/air-conditioner-block/thumbnail.webp',
     src: '/items/air-conditioner-block/model.glb',
@@ -64,7 +64,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'air-conditioning',
     category: 'appliance',
-    name: 'Air Conditioning',
+    name: 'Klimatyzacja',
     tags: [],
     thumbnail: '/items/air-conditioning/thumbnail.webp',
     src: '/items/air-conditioning/model.glb',
@@ -77,7 +77,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'alarm-keypad',
     category: 'appliance',
-    name: 'Alarm Keypad',
+    name: 'Klawiatura alarmu',
     tags: [],
     thumbnail: '/items/alarm-keypad/thumbnail.webp',
     src: '/items/alarm-keypad/model.glb',
@@ -90,7 +90,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'ball',
     category: 'furniture',
-    name: 'Ball',
+    name: 'Piłka',
     tags: [],
     thumbnail: '/items/ball/thumbnail.webp',
     src: '/items/ball/model.glb',
@@ -103,7 +103,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'barbell',
     category: 'furniture',
-    name: 'Barbell',
+    name: 'Sztanga',
     tags: [],
     thumbnail: '/items/barbell/thumbnail.webp',
     src: '/items/barbell/model.glb',
@@ -116,7 +116,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'barbell-stand',
     category: 'furniture',
-    name: 'Barbell Stand',
+    name: 'Stojak na sztangę',
     tags: [],
     thumbnail: '/items/barbell-stand/thumbnail.webp',
     src: '/items/barbell-stand/model.glb',
@@ -129,7 +129,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'basket-hoop',
     category: 'furniture',
-    name: 'Basket Hoop',
+    name: 'Kosz do koszykówki',
     tags: [],
     thumbnail: '/items/basket-hoop/thumbnail.webp',
     src: '/items/basket-hoop/model.glb',
@@ -142,7 +142,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'bathroom-sink',
     category: 'bathroom',
-    name: 'Bathroom Sink',
+    name: 'Umywalka łazienkowa',
     tags: [],
     thumbnail: '/items/bathroom-sink/thumbnail.webp',
     src: '/items/bathroom-sink/model.glb',
@@ -155,7 +155,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'bathtub',
     category: 'bathroom',
-    name: 'Bathtub',
+    name: 'Wanna',
     tags: [],
     thumbnail: '/items/bathtub/thumbnail.webp',
     src: '/items/bathtub/model.glb',
@@ -168,7 +168,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'bean-bag',
     category: 'furniture',
-    name: 'Bean Bag',
+    name: 'Fotel pufa',
     tags: [],
     thumbnail: '/items/bean-bag/thumbnail.webp',
     src: '/items/bean-bag/model.glb',
@@ -181,7 +181,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'bedside-table',
     category: 'furniture',
-    name: 'Bedside Table',
+    name: 'Szafka nocna',
     tags: [],
     thumbnail: '/items/bedside-table/thumbnail.webp',
     src: '/items/bedside-table/model.glb',
@@ -194,7 +194,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'books',
     category: 'furniture',
-    name: 'Books',
+    name: 'Książki',
     tags: [],
     thumbnail: '/items/books/thumbnail.webp',
     src: '/items/books/model.glb',
@@ -207,7 +207,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'bookshelf',
     category: 'furniture',
-    name: 'Bookshelf',
+    name: 'Regał na książki',
     tags: [],
     thumbnail: '/items/bookshelf/thumbnail.webp',
     src: '/items/bookshelf/model.glb',
@@ -220,7 +220,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'bunkbed',
     category: 'furniture',
-    name: 'Bunkbed',
+    name: 'Łóżko piętrowe',
     tags: [],
     thumbnail: '/items/bunkbed/thumbnail.webp',
     src: '/items/bunkbed/model.glb',
@@ -233,7 +233,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'bush',
     category: 'outdoor',
-    name: 'Bush',
+    name: 'Krzak',
     tags: [],
     thumbnail: '/items/bush/thumbnail.webp',
     src: '/items/bush/model.glb',
@@ -246,7 +246,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'cactus',
     category: 'outdoor',
-    name: 'Cactus',
+    name: 'Kaktus',
     tags: [],
     thumbnail: '/items/cactus/thumbnail.webp',
     src: '/items/cactus/model.glb',
@@ -259,7 +259,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'car-toy',
     category: 'furniture',
-    name: 'Car Toy',
+    name: 'Samochodzik zabawka',
     tags: [],
     thumbnail: '/items/car-toy/thumbnail.webp',
     src: '/items/car-toy/model.glb',
@@ -272,7 +272,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'ceiling-fan',
     category: 'furniture',
-    name: 'Ceiling Fan',
+    name: 'Wentylator sufitowy',
     tags: [],
     thumbnail: '/items/ceiling-fan/thumbnail.webp',
     src: '/items/ceiling-fan/model.glb',
@@ -285,7 +285,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'ceiling-lamp',
     category: 'furniture',
-    name: 'Ceiling Lamp',
+    name: 'Lampa sufitowa',
     tags: [],
     thumbnail: '/items/ceiling-lamp/thumbnail.webp',
     src: '/items/ceiling-lamp/model.glb',
@@ -298,7 +298,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'ceiling-light',
     category: 'furniture',
-    name: 'Ceiling Light',
+    name: 'Oświetlenie sufitowe',
     tags: [],
     thumbnail: '/items/ceiling-light/thumbnail.webp',
     src: '/items/ceiling-light/model.glb',
@@ -311,7 +311,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'circular-ceiling-light',
     category: 'furniture',
-    name: 'Circular Ceiling Light',
+    name: 'Okrągła lampa sufitowa',
     tags: [],
     thumbnail: '/items/circular-ceiling-light/thumbnail.webp',
     src: '/items/circular-ceiling-light/model.glb',
@@ -324,7 +324,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'closet',
     category: 'furniture',
-    name: 'Closet',
+    name: 'Szafa',
     tags: [],
     thumbnail: '/items/closet/thumbnail.webp',
     src: '/items/closet/model.glb',
@@ -337,7 +337,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'coat-rack',
     category: 'furniture',
-    name: 'Coat Rack',
+    name: 'Wieszak na ubrania',
     tags: [],
     thumbnail: '/items/coat-rack/thumbnail.webp',
     src: '/items/coat-rack/model.glb',
@@ -350,7 +350,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'coffee-machine',
     category: 'kitchen',
-    name: 'Coffee Machine',
+    name: 'Ekspres do kawy',
     tags: [],
     thumbnail: '/items/coffee-machine/thumbnail.webp',
     src: '/items/coffee-machine/model.glb',
@@ -363,7 +363,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'coffee-table',
     category: 'kitchen',
-    name: 'Coffee Table',
+    name: 'Stolik kawowy',
     tags: [],
     thumbnail: '/items/coffee-table/thumbnail.webp',
     src: '/items/coffee-table/model.glb',
@@ -376,7 +376,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'column',
     category: 'furniture',
-    name: 'Column',
+    name: 'Słup',
     tags: [],
     thumbnail: '/items/column/thumbnail.webp',
     src: '/items/column/model.glb',
@@ -389,7 +389,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'computer',
     category: 'appliance',
-    name: 'Computer',
+    name: 'Komputer',
     tags: [],
     thumbnail: '/items/computer/thumbnail.webp',
     src: '/items/computer/model.glb',
@@ -402,7 +402,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'couch-medium',
     category: 'furniture',
-    name: 'Couch Medium',
+    name: 'Sofa średnia',
     tags: [],
     thumbnail: '/items/couch-medium/thumbnail.webp',
     src: '/items/couch-medium/model.glb',
@@ -415,7 +415,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'couch-small',
     category: 'furniture',
-    name: 'Couch Small',
+    name: 'Sofa mała',
     tags: [],
     thumbnail: '/items/couch-small/thumbnail.webp',
     src: '/items/couch-small/model.glb',
@@ -428,7 +428,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'cutting-board',
     category: 'furniture',
-    name: 'Cutting Board',
+    name: 'Deska do krojenia',
     tags: [],
     thumbnail: '/items/cutting-board/thumbnail.webp',
     src: '/items/cutting-board/model.glb',
@@ -441,7 +441,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'desk',
     category: 'furniture',
-    name: 'Desk',
+    name: 'Biurko',
     tags: [],
     thumbnail: '/items/desk/thumbnail.webp',
     src: '/items/desk/model.glb',
@@ -454,7 +454,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'dining-chair',
     category: 'furniture',
-    name: 'Dining Chair',
+    name: 'Krzesło jadalniane',
     tags: [],
     thumbnail: '/items/dining-chair/thumbnail.webp',
     src: '/items/dining-chair/model.glb',
@@ -467,7 +467,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'dining-table',
     category: 'furniture',
-    name: 'Dining Table',
+    name: 'Stół jadalniany',
     tags: [],
     thumbnail: '/items/dining-table/thumbnail.webp',
     src: '/items/dining-table/model.glb',
@@ -480,7 +480,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'door',
     category: 'furniture',
-    name: 'Door',
+    name: 'Drzwi',
     tags: [],
     thumbnail: '/items/door/thumbnail.webp',
     src: '/items/door/model.glb',
@@ -493,7 +493,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'door-bar',
     category: 'furniture',
-    name: 'Door Bar',
+    name: 'Drzwi z drążkiem',
     tags: [],
     thumbnail: '/items/door-bar/thumbnail.webp',
     src: '/items/door-bar/model.glb',
@@ -506,7 +506,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'door-with-bar',
     category: 'furniture',
-    name: 'Door With Bar',
+    name: 'Drzwi z drążkiem',
     tags: [],
     thumbnail: '/items/door-with-bar/thumbnail.webp',
     src: '/items/door-with-bar/model.glb',
@@ -519,7 +519,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'doorway-front',
     category: 'furniture',
-    name: 'Doorway Front',
+    name: 'Otwór drzwiowy',
     tags: [],
     thumbnail: '/items/doorway-front/thumbnail.webp',
     src: '/items/doorway-front/model.glb',
@@ -532,7 +532,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'double-bed',
     category: 'furniture',
-    name: 'Double Bed',
+    name: 'Łóżko podwójne',
     tags: [],
     thumbnail: '/items/double-bed/thumbnail.webp',
     src: '/items/double-bed/model.glb',
@@ -545,7 +545,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'dresser',
     category: 'furniture',
-    name: 'Dresser',
+    name: 'Komoda',
     tags: [],
     thumbnail: '/items/dresser/thumbnail.webp',
     src: '/items/dresser/model.glb',
@@ -558,7 +558,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'drying-rack',
     category: 'furniture',
-    name: 'Drying Rack',
+    name: 'Suszarka',
     tags: [],
     thumbnail: '/items/drying-rack/thumbnail.webp',
     src: '/items/drying-rack/model.glb',
@@ -1390,7 +1390,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'skate',
     category: 'furniture',
-    name: 'Skate',
+    name: 'Deskorolka',
     tags: [],
     thumbnail: '/items/skate/thumbnail.webp',
     src: '/items/skate/model.glb',
@@ -1403,7 +1403,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'small-indoor-plant',
     category: 'outdoor',
-    name: 'Small Indoor Plant',
+    name: 'Mała roślina doniczkowa',
     tags: [],
     thumbnail: '/items/small-indoor-plant/thumbnail.webp',
     src: '/items/small-indoor-plant/model.glb',
@@ -1416,7 +1416,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'small-kitchen-cabinet',
     category: 'kitchen',
-    name: 'Small Kitchen Cabinet',
+    name: 'Mała szafka kuchenna',
     tags: [],
     thumbnail: '/items/small-kitchen-cabinet/thumbnail.webp',
     src: '/items/small-kitchen-cabinet/model.glb',
@@ -1429,7 +1429,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'smoke-detector',
     category: 'furniture',
-    name: 'Smoke Detector',
+    name: 'Czujnik dymu',
     tags: [],
     thumbnail: '/items/smoke-detector/thumbnail.webp',
     src: '/items/smoke-detector/model.glb',
@@ -1455,7 +1455,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'sprinkler',
     category: 'furniture',
-    name: 'Sprinkler',
+    name: 'Zraszacz',
     tags: [],
     thumbnail: '/items/sprinkler/thumbnail.webp',
     src: '/items/sprinkler/model.glb',
@@ -1468,7 +1468,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'stairs',
     category: 'furniture',
-    name: 'Stairs',
+    name: 'Schody',
     tags: [],
     thumbnail: '/items/stairs/thumbnail.webp',
     src: '/items/stairs/model.glb',
@@ -1481,7 +1481,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'stereo-speaker',
     category: 'appliance',
-    name: 'Stereo Speaker',
+    name: 'Głośnik stereo',
     tags: [],
     thumbnail: '/items/stereo-speaker/thumbnail.webp',
     src: '/items/stereo-speaker/model.glb',
@@ -1494,7 +1494,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'stool',
     category: 'furniture',
-    name: 'Stool',
+    name: 'Stołek',
     tags: [],
     thumbnail: '/items/stool/thumbnail.webp',
     src: '/items/stool/model.glb',
@@ -1507,7 +1507,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'stove',
     category: 'kitchen',
-    name: 'Stove',
+    name: 'Kuchenka',
     tags: [],
     thumbnail: '/items/stove/thumbnail.webp',
     src: '/items/stove/model.glb',
@@ -1520,7 +1520,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'sunbed',
     category: 'furniture',
-    name: 'Sunbed',
+    name: 'Leżak',
     tags: [],
     thumbnail: '/items/sunbed/thumbnail.webp',
     src: '/items/sunbed/model.glb',
@@ -1533,7 +1533,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'suspended-fireplace',
     category: 'furniture',
-    name: 'Suspended Fireplace',
+    name: 'Kominek wiszący',
     tags: [],
     thumbnail: '/items/suspended-fireplace/thumbnail.webp',
     src: '/items/suspended-fireplace/model.glb',
@@ -1546,7 +1546,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'table',
     category: 'furniture',
-    name: 'Table',
+    name: 'Stół',
     tags: [],
     thumbnail: '/items/table/thumbnail.webp',
     src: '/items/table/model.glb',
@@ -1559,7 +1559,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'table-lamp',
     category: 'furniture',
-    name: 'Table Lamp',
+    name: 'Lampa stołowa',
     tags: [],
     thumbnail: '/items/table-lamp/thumbnail.webp',
     src: '/items/table-lamp/model.glb',
@@ -1572,7 +1572,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'television',
     category: 'furniture',
-    name: 'Television',
+    name: 'Telewizor',
     tags: [],
     thumbnail: '/items/television/thumbnail.webp',
     src: '/items/television/model.glb',
@@ -1598,7 +1598,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'thermostat',
     category: 'appliance',
-    name: 'Thermostat',
+    name: 'Termostat',
     tags: [],
     thumbnail: '/items/thermostat/thumbnail.webp',
     src: '/items/thermostat/model.glb',
@@ -1611,7 +1611,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'threadmill',
     category: 'furniture',
-    name: 'Threadmill',
+    name: 'Bieżnia',
     tags: [],
     thumbnail: '/items/threadmill/thumbnail.webp',
     src: '/items/threadmill/model.glb',
@@ -1624,7 +1624,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'toaster',
     category: 'furniture',
-    name: 'Toaster',
+    name: 'Toster',
     tags: [],
     thumbnail: '/items/toaster/thumbnail.webp',
     src: '/items/toaster/model.glb',
@@ -1637,7 +1637,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'toilet',
     category: 'bathroom',
-    name: 'Toilet',
+    name: 'Toaleta',
     tags: [],
     thumbnail: '/items/toilet/thumbnail.webp',
     src: '/items/toilet/model.glb',
@@ -1650,7 +1650,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'toilet-brush',
     category: 'bathroom',
-    name: 'Toilet Brush',
+    name: 'Szczotka do WC',
     tags: [],
     thumbnail: '/items/toilet-brush/thumbnail.webp',
     src: '/items/toilet-brush/model.glb',
@@ -1663,7 +1663,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'toilet-paper',
     category: 'bathroom',
-    name: 'Toilet Paper',
+    name: 'Papier toaletowy',
     tags: [],
     thumbnail: '/items/toilet-paper/thumbnail.webp',
     src: '/items/toilet-paper/model.glb',
@@ -1676,7 +1676,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'toy',
     category: 'furniture',
-    name: 'Toy',
+    name: 'Zabawka',
     tags: [],
     thumbnail: '/items/toy/thumbnail.webp',
     src: '/items/toy/model.glb',
@@ -1689,7 +1689,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'trash-bin',
     category: 'furniture',
-    name: 'Trash Bin',
+    name: 'Kosz na śmieci',
     tags: [],
     thumbnail: '/items/trash-bin/thumbnail.webp',
     src: '/items/trash-bin/model.glb',
@@ -1702,7 +1702,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'tree',
     category: 'outdoor',
-    name: 'Tree',
+    name: 'Drzewo',
     tags: [],
     thumbnail: '/items/tree/thumbnail.webp',
     src: '/items/tree/model.glb',
@@ -1715,7 +1715,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'tub',
     category: 'furniture',
-    name: 'Tub',
+    name: 'Wanna',
     tags: [],
     thumbnail: '/items/tub/thumbnail.webp',
     src: '/items/tub/model.glb',
@@ -1728,7 +1728,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'tv-stand',
     category: 'appliance',
-    name: 'Tv Stand',
+    name: 'Szafka pod telewizor',
     tags: [],
     thumbnail: '/items/tv-stand/thumbnail.webp',
     src: '/items/tv-stand/model.glb',
@@ -1741,7 +1741,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'wall-art-06',
     category: 'furniture',
-    name: 'Wall Art 06',
+    name: 'Dekoracja ścienna 06',
     tags: [],
     thumbnail: '/items/wall-art-06/thumbnail.webp',
     src: '/items/wall-art-06/model.glb',
@@ -1754,7 +1754,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'wall-sink',
     category: 'bathroom',
-    name: 'Wall Sink',
+    name: 'Umywalka ścienna',
     tags: [],
     thumbnail: '/items/wall-sink/thumbnail.webp',
     src: '/items/wall-sink/model.glb',
@@ -1767,7 +1767,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'washing-machine',
     category: 'appliance',
-    name: 'Washing Machine',
+    name: 'Pralka',
     tags: [],
     thumbnail: '/items/washing-machine/thumbnail.webp',
     src: '/items/washing-machine/model.glb',
@@ -1780,7 +1780,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'window-double',
     category: 'furniture',
-    name: 'Window Double',
+    name: 'Okno podwójne',
     tags: [],
     thumbnail: '/items/window-double/thumbnail.webp',
     src: '/items/window-double/model.glb',
@@ -1793,7 +1793,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'window-large',
     category: 'furniture',
-    name: 'Window Large',
+    name: 'Okno duże',
     tags: [],
     thumbnail: '/items/window-large/thumbnail.webp',
     src: '/items/window-large/model.glb',
@@ -1806,7 +1806,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'window-rectangle',
     category: 'furniture',
-    name: 'Window Rectangle',
+    name: 'Okno prostokątne',
     tags: [],
     thumbnail: '/items/window-rectangle/thumbnail.webp',
     src: '/items/window-rectangle/model.glb',
@@ -1819,7 +1819,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'window-round',
     category: 'furniture',
-    name: 'Window Round',
+    name: 'Okno okrągłe',
     tags: [],
     thumbnail: '/items/window-round/thumbnail.webp',
     src: '/items/window-round/model.glb',
@@ -1832,7 +1832,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'window-simple',
     category: 'furniture',
-    name: 'Window Simple',
+    name: 'Okno proste',
     tags: [],
     thumbnail: '/items/window-simple/thumbnail.webp',
     src: '/items/window-simple/model.glb',
@@ -1845,7 +1845,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'window-small',
     category: 'furniture',
-    name: 'Window Small',
+    name: 'Okno małe',
     tags: [],
     thumbnail: '/items/window-small/thumbnail.webp',
     src: '/items/window-small/model.glb',
@@ -1858,7 +1858,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'window-small-2',
     category: 'furniture',
-    name: 'Window Small 2',
+    name: 'Okno małe 2',
     tags: [],
     thumbnail: '/items/window-small-2/thumbnail.webp',
     src: '/items/window-small-2/model.glb',
@@ -1871,7 +1871,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'window-square',
     category: 'furniture',
-    name: 'Window Square',
+    name: 'Okno kwadratowe',
     tags: [],
     thumbnail: '/items/window-square/thumbnail.webp',
     src: '/items/window-square/model.glb',
@@ -1884,7 +1884,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'window1-black-open-1731',
     category: 'furniture',
-    name: 'Window1 Black Open 1731',
+    name: 'Okno czarne otwierane',
     tags: [],
     thumbnail: '/items/window1-black-open-1731/thumbnail.webp',
     src: '/items/window1-black-open-1731/model.glb',
@@ -1897,7 +1897,7 @@ export const CATALOG_ITEMS: AssetInput[] = [
   {
     id: 'wine-bottle',
     category: 'furniture',
-    name: 'Wine Bottle',
+    name: 'Butelka wina',
     tags: [],
     thumbnail: '/items/wine-bottle/thumbnail.webp',
     src: '/items/wine-bottle/model.glb',

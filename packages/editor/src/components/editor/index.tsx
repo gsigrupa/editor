@@ -164,7 +164,7 @@ function EditorSceneCrashFallback() {
   return (
     <div className="fixed inset-0 z-80 flex items-center justify-center bg-background/95 p-4 text-foreground">
       <div className="w-full max-w-md rounded-2xl border border-border/60 bg-background p-6 shadow-xl">
-        <h2 className="font-semibold text-lg">The editor scene failed to render</h2>
+        <h2 className="font-semibold text-lg">Nie udało się wyrenderować sceny edytora</h2>
         <p className="mt-2 text-muted-foreground text-sm">
           You can retry the scene or return home without reloading the whole app shell.
         </p>
@@ -179,9 +179,7 @@ function EditorSceneCrashFallback() {
           <a
             className="rounded-md border border-border bg-background px-3 py-2 font-medium text-sm hover:bg-accent/40"
             href="/"
-          >
-            Back to home
-          </a>
+          >Wróć do strony głównej</a>
         </div>
       </div>
     </div>
@@ -364,7 +362,7 @@ const CAMERA_SHORTCUT_KEY_META: Record<string, { icon?: string; label: string; t
   },
   Space: {
     icon: 'lucide:space',
-    label: 'Space',
+    label: 'Spacja',
   },
 }
 
@@ -488,9 +486,7 @@ function ViewerCanvasControlsHint({
               />
             </button>
           </TooltipTrigger>
-          <TooltipContent side="bottom" sideOffset={8}>
-            Dismiss
-          </TooltipContent>
+          <TooltipContent side="bottom" sideOffset={8}>Pomiń</TooltipContent>
         </Tooltip>
       </section>
     </div>

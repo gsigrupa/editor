@@ -26,7 +26,7 @@ function makeZone(polygon: [number, number][]): AnyNode {
     parentId: null,
     visible: true,
     metadata: {},
-    name: 'Zone',
+    name: 'Strefa',
     polygon,
     color: '#000000',
   } as unknown as AnyNode
@@ -147,7 +147,7 @@ describe('computeSceneBoundsXZ', () => {
         asset: {
           id: 'a',
           category: 'furniture',
-          name: 'Chair',
+          name: 'Krzesło',
           thumbnail: '',
           src: '',
           dimensions: [1, 1, 1],

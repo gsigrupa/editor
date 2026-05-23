@@ -176,9 +176,7 @@ export function SceneLoader({ initialScene, meta }: SceneLoaderProps) {
               className="rounded-md border border-border bg-background px-3 py-1.5 font-medium text-xs hover:bg-accent/40"
               onClick={() => setConflict(false)}
               type="button"
-            >
-              Dismiss
-            </button>
+            >Pomiń</button>
           </div>
         </div>
       )}
@@ -191,9 +189,7 @@ export function SceneLoader({ initialScene, meta }: SceneLoaderProps) {
         <Link
           className="pointer-events-auto rounded-md border border-border bg-background/90 px-3 py-1.5 font-medium text-xs shadow-sm backdrop-blur hover:bg-accent/40"
           href="/scenes"
-        >
-          All scenes
-        </Link>
+        >Wszystkie sceny</Link>
       </div>
       <Editor
         layoutVersion="v2"

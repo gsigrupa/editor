@@ -44,16 +44,16 @@ type StatRow = {
 function statsRows(stats: BuildStats): StatRow[] {
   return (
     [
-      { icon: MapPin, label: 'Sites', count: stats.byType.site ?? 0 },
-      { icon: Building2, label: 'Buildings', count: stats.byType.building ?? 0 },
+      { icon: MapPin, label: 'Działki', count: stats.byType.site ?? 0 },
+      { icon: Building2, label: 'Budynki', count: stats.byType.building ?? 0 },
       { icon: Layers, label: 'Levels', count: stats.byType.level ?? 0 },
-      { icon: Square, label: 'Walls', count: stats.byType.wall ?? 0 },
-      { icon: DoorOpen, label: 'Doors', count: stats.byType.door ?? 0 },
-      { icon: AppWindow, label: 'Windows', count: stats.byType.window ?? 0 },
+      { icon: Square, label: 'Ściany', count: stats.byType.wall ?? 0 },
+      { icon: DoorOpen, label: 'Drzwi', count: stats.byType.door ?? 0 },
+      { icon: AppWindow, label: 'Okna', count: stats.byType.window ?? 0 },
       { icon: Box, label: 'Items', count: stats.byType.item ?? 0 },
-      { icon: Square, label: 'Slabs', count: stats.byType.slab ?? 0 },
-      { icon: Square, label: 'Ceilings', count: stats.byType.ceiling ?? 0 },
-      { icon: Square, label: 'Zones', count: stats.byType.zone ?? 0 },
+      { icon: Square, label: 'Płyty', count: stats.byType.slab ?? 0 },
+      { icon: Square, label: 'Sufity', count: stats.byType.ceiling ?? 0 },
+      { icon: Square, label: 'Strefy', count: stats.byType.zone ?? 0 },
       { icon: Scan, label: 'Scans', count: stats.byType.scan ?? 0 },
     ] satisfies StatRow[]
   ).filter((row) => row.count > 0)
@@ -139,9 +139,7 @@ export function LoadBuildDialog({ pending, onCancel, onConfirm }: Props) {
 
           {stats.total > 0 && (
             <div className="rounded-md border bg-card">
-              <div className="border-b px-3 py-2 font-medium text-muted-foreground text-xs uppercase">
-                Structure
-              </div>
+              <div className="border-b px-3 py-2 font-medium text-muted-foreground text-xs uppercase">Konstrukcja</div>
               {rows.length > 0 ? (
                 <div>
                   {rows.map((row, i) => {
@@ -171,9 +169,7 @@ export function LoadBuildDialog({ pending, onCancel, onConfirm }: Props) {
                   )}
                 </div>
               ) : (
-                <div className="px-3 py-4 text-center text-muted-foreground text-xs">
-                  The file contains no recognised nodes.
-                </div>
+                <div className="px-3 py-4 text-center text-muted-foreground text-xs">Plik nie zawiera rozpoznawalnych elementów.</div>
               )}
             </div>
           )}
@@ -241,9 +237,7 @@ export function LoadBuildDialog({ pending, onCancel, onConfirm }: Props) {
         </div>
 
         <DialogFooter>
-          <Button onClick={onCancel} variant="outline">
-            Cancel
-          </Button>
+          <Button onClick={onCancel} variant="outline">Anuluj</Button>
           <Button
             disabled={!ok || !parsed}
             onClick={() => {

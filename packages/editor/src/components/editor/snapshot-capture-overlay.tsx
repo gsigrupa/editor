@@ -276,9 +276,7 @@ export function SnapshotCaptureOverlay({ projectId }: { projectId: string }) {
           {/* "No selection" hint */}
           {!selectionStyle && (
             <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-              <span className="rounded-full bg-black/40 px-4 py-2 text-sm text-white backdrop-blur-sm">
-                Drag the area you want to capture
-              </span>
+              <span className="rounded-full bg-black/40 px-4 py-2 text-sm text-white backdrop-blur-sm">Przeciągnij obszar do zarejestrowania</span>
             </div>
           )}
 
@@ -388,9 +386,7 @@ export function SnapshotCaptureOverlay({ projectId }: { projectId: string }) {
             >
               {captureState === 'capturing' ? (
                 <>
-                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                  Capturing
-                </>
+                  <Loader2 className="h-3.5 w-3.5 animate-spin" />Rejestrowanie</>
               ) : captureState === 'saved' ? (
                 <>
                   <Check className="h-3.5 w-3.5" />
@@ -398,9 +394,7 @@ export function SnapshotCaptureOverlay({ projectId }: { projectId: string }) {
                 </>
               ) : (
                 <>
-                  <Camera className="h-3.5 w-3.5" />
-                  Capture
-                </>
+                  <Camera className="h-3.5 w-3.5" />Zarejestruj</>
               )}
             </button>
           )

@@ -208,9 +208,7 @@ export function MaterialPicker({
                   onClick={handleCustomOpen}
                   title="Custom"
                   type="button"
-                >
-                  Custom
-                </button>
+                >Niestandardowy</button>
               ) : null}
             </div>
           </div>

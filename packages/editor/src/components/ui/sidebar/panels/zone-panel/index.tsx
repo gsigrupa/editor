@@ -81,9 +81,7 @@ function ZoneItem({ zone }: { zone: ZoneNode }) {
                   setCameraPopoverOpen(false)
                 }}
               >
-                <Camera className="h-3.5 w-3.5" />
-                View snapshot
-              </button>
+                <Camera className="h-3.5 w-3.5" />Zobacz zrzut</button>
             )}
             <button
               className="flex w-full cursor-pointer items-center gap-2 rounded px-2 py-1.5 text-left text-popover-foreground text-sm hover:bg-accent"
@@ -105,9 +103,7 @@ function ZoneItem({ zone }: { zone: ZoneNode }) {
                   setCameraPopoverOpen(false)
                 }}
               >
-                <Trash2 className="h-3.5 w-3.5" />
-                Clear snapshot
-              </button>
+                <Trash2 className="h-3.5 w-3.5" />Wyczyść zrzut</button>
             )}
           </div>
         </PopoverContent>
@@ -155,9 +151,7 @@ export function ZonePanel() {
       {levelZones.length === 0 ? (
         <div className="px-3 py-4 text-muted-foreground text-sm">
           No zones on this level.{' '}
-          <button className="cursor-pointer text-primary hover:underline" onClick={handleAddZone}>
-            Add one
-          </button>
+          <button className="cursor-pointer text-primary hover:underline" onClick={handleAddZone}>Dodaj</button>
         </div>
       ) : (
         levelZones.map((zone) => <ZoneItem key={zone.id} zone={zone} />)

@@ -76,7 +76,7 @@ export function EditorCommands() {
       // ── Scene ────────────────────────────────────────────────────────────
       {
         id: 'editor.tool.wall',
-        label: 'Wall Tool',
+        label: 'Narzędzie ściana',
         group: 'Scene',
         icon: <Square className="h-4 w-4" />,
         keywords: ['draw', 'build', 'structure'],
@@ -84,7 +84,7 @@ export function EditorCommands() {
       },
       {
         id: 'editor.tool.slab',
-        label: 'Slab Tool',
+        label: 'Narzędzie płyta',
         group: 'Scene',
         icon: <Layers className="h-4 w-4" />,
         keywords: ['floor', 'build'],
@@ -92,7 +92,7 @@ export function EditorCommands() {
       },
       {
         id: 'editor.tool.ceiling',
-        label: 'Ceiling Tool',
+        label: 'Narzędzie sufit',
         group: 'Scene',
         icon: <Grid3X3 className="h-4 w-4" />,
         keywords: ['top', 'build'],
@@ -100,7 +100,7 @@ export function EditorCommands() {
       },
       {
         id: 'editor.tool.door',
-        label: 'Door Tool',
+        label: 'Narzędzie drzwi',
         group: 'Scene',
         icon: <DoorOpen className="h-4 w-4" />,
         keywords: ['opening', 'entrance'],
@@ -108,7 +108,7 @@ export function EditorCommands() {
       },
       {
         id: 'editor.tool.window',
-        label: 'Window Tool',
+        label: 'Narzędzie okno',
         group: 'Scene',
         icon: <AppWindow className="h-4 w-4" />,
         keywords: ['opening', 'glass'],
@@ -124,7 +124,7 @@ export function EditorCommands() {
       },
       {
         id: 'editor.tool.stair',
-        label: 'Stair Tool',
+        label: 'Narzędzie schody',
         group: 'Scene',
         icon: <ArrowRight className="h-4 w-4" />,
         keywords: ['stairs', 'staircase', 'flight', 'landing', 'steps'],
@@ -132,7 +132,7 @@ export function EditorCommands() {
       },
       {
         id: 'editor.tool.zone',
-        label: 'Zone Tool',
+        label: 'Narzędzie strefa',
         group: 'Scene',
         icon: <Hexagon className="h-4 w-4" />,
         keywords: ['area', 'room', 'space'],
@@ -140,7 +140,7 @@ export function EditorCommands() {
       },
       {
         id: 'editor.delete-selection',
-        label: 'Delete Selection',
+        label: 'Usuń zaznaczenie',
         group: 'Scene',
         icon: <Trash2 className="h-4 w-4" />,
         keywords: ['remove', 'erase'],
@@ -181,7 +181,7 @@ export function EditorCommands() {
       },
       {
         id: 'editor.level.add',
-        label: 'Add Level',
+        label: 'Dodaj poziom',
         group: 'Levels',
         icon: <Plus className="h-4 w-4" />,
         keywords: ['level', 'floor', 'add', 'create', 'new'],
@@ -220,7 +220,7 @@ export function EditorCommands() {
       },
       {
         id: 'editor.level.delete',
-        label: 'Delete Level',
+        label: 'Usuń poziom',
         group: 'Levels',
         icon: <Trash2 className="h-4 w-4" />,
         keywords: ['level', 'floor', 'delete', 'remove'],
@@ -241,7 +241,7 @@ export function EditorCommands() {
       // ── Viewer Controls ──────────────────────────────────────────────────
       {
         id: 'editor.viewer.wall-mode',
-        label: 'Wall Mode',
+        label: 'Tryb ściany',
         group: 'Viewer Controls',
         icon: <Layers className="h-4 w-4" />,
         keywords: ['wall', 'cutaway', 'up', 'down', 'view'],
@@ -297,7 +297,7 @@ export function EditorCommands() {
       },
       {
         id: 'editor.viewer.camera-snapshot',
-        label: 'Take Snapshot',
+        label: 'Zrób zrzut',
         group: 'Viewer Controls',
         icon: <Camera className="h-4 w-4" />,
         keywords: ['camera', 'snapshot', 'capture', 'save', 'view', 'bookmark'],
@@ -318,7 +318,7 @@ export function EditorCommands() {
       },
       {
         id: 'editor.view.fullscreen',
-        label: 'Toggle Fullscreen',
+        label: 'Przełącz pełny ekran',
         group: 'View',
         icon: <Maximize2 className="h-4 w-4" />,
         keywords: ['fullscreen', 'maximize', 'expand', 'window'],
@@ -332,7 +332,7 @@ export function EditorCommands() {
       // ── History ──────────────────────────────────────────────────────────
       {
         id: 'editor.history.undo',
-        label: 'Undo',
+        label: 'Cofnij',
         group: 'History',
         icon: <Undo2 className="h-4 w-4" />,
         keywords: ['undo', 'revert', 'back'],
@@ -340,7 +340,7 @@ export function EditorCommands() {
       },
       {
         id: 'editor.history.redo',
-        label: 'Redo',
+        label: 'Ponów',
         group: 'History',
         icon: <Redo2 className="h-4 w-4" />,
         keywords: ['redo', 'forward', 'repeat'],
@@ -382,7 +382,7 @@ export function EditorCommands() {
         : []),
       {
         id: 'editor.export.share-link',
-        label: 'Copy Share Link',
+        label: 'Skopiuj link udostępniania',
         group: 'Export & Share',
         icon: <Copy className="h-4 w-4" />,
         keywords: ['share', 'copy', 'url', 'link'],
@@ -390,7 +390,7 @@ export function EditorCommands() {
       },
       {
         id: 'editor.export.screenshot',
-        label: 'Take Screenshot',
+        label: 'Zrób screenshot',
         group: 'Export & Share',
         icon: <Camera className="h-4 w-4" />,
         keywords: ['screenshot', 'capture', 'image', 'photo', 'png'],

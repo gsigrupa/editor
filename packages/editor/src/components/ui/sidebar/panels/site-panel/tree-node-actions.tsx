@@ -87,9 +87,7 @@ export const TreeNodeActions = memo(function TreeNodeActions({ nodeId }: TreeNod
                 className="flex w-full cursor-pointer items-center gap-2 rounded px-2 py-1.5 text-left text-popover-foreground text-sm hover:bg-accent"
                 onClick={handleViewCamera}
               >
-                <Camera className="h-3.5 w-3.5" />
-                View snapshot
-              </button>
+                <Camera className="h-3.5 w-3.5" />Zobacz zrzut</button>
             )}
             <button
               className="flex w-full cursor-pointer items-center gap-2 rounded px-2 py-1.5 text-left text-popover-foreground text-sm hover:bg-accent"
@@ -103,9 +101,7 @@ export const TreeNodeActions = memo(function TreeNodeActions({ nodeId }: TreeNod
                 className="flex w-full cursor-pointer items-center gap-2 rounded px-2 py-1.5 text-left text-popover-foreground text-sm hover:bg-destructive hover:text-destructive-foreground"
                 onClick={handleClearCamera}
               >
-                <Trash2 className="h-3.5 w-3.5" />
-                Clear snapshot
-              </button>
+                <Trash2 className="h-3.5 w-3.5" />Wyczyść zrzut</button>
             )}
           </div>
         </PopoverContent>
