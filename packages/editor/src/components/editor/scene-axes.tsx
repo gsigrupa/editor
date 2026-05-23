@@ -25,17 +25,17 @@ export function SceneAxes() {
   return (
     <group>
       {/* X axis — red */}
-      <mesh position={[0, 0, 0]}>
+      <mesh castShadow={false} position={[0, 0, 0]} receiveShadow={false}>
         <boxGeometry args={[AXIS_LENGTH, AXIS_THICKNESS, AXIS_THICKNESS]} />
         <meshBasicMaterial color="#ef4444" depthTest={false} transparent opacity={0.7} />
       </mesh>
       {/* Y axis — green (up) */}
-      <mesh position={[0, 0, 0]}>
+      <mesh castShadow={false} position={[0, 0, 0]} receiveShadow={false}>
         <boxGeometry args={[AXIS_THICKNESS, AXIS_LENGTH, AXIS_THICKNESS]} />
         <meshBasicMaterial color="#22c55e" depthTest={false} transparent opacity={0.7} />
       </mesh>
       {/* Z axis — blue */}
-      <mesh position={[0, 0, 0]}>
+      <mesh castShadow={false} position={[0, 0, 0]} receiveShadow={false}>
         <boxGeometry args={[AXIS_THICKNESS, AXIS_THICKNESS, AXIS_LENGTH]} />
         <meshBasicMaterial color="#3b82f6" depthTest={false} transparent opacity={0.7} />
       </mesh>
