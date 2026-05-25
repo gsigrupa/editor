@@ -27,12 +27,13 @@ import { ActionButton } from './action-button'
 // GSI fork: 250 MB (typowe GLB skanu pomieszczenia z LiDARu). Upstream Pascal mial 200 MB.
 const MAX_FILE_SIZE = 250 * 1024 * 1024 // 250 MB
 const ACCEPTED_FILE_TYPES = '.glb,.gltf,image/jpeg,image/png,image/webp,image/gif'
-const GRID_SNAP_STEPS: GridSnapStep[] = [0.5, 0.25, 0.1, 0.05, 0.01, 0.001]
+const GRID_SNAP_STEPS: GridSnapStep[] = [1, 0.5, 0.25, 0.1, 0.05, 0.01, 0.001]
 
 function formatGridSnapStep(step: GridSnapStep) {
   // GSI fork: toFixed(2) (0.50/0.25/0.10/0.05) tracił precyzję dla 0.01
   // (= "0.01") i 0.001 (= "0.00" co było mylące). Format inteligentny:
   // m dla >=0.05, cm dla 0.01, mm dla 0.001.
+  if (step === 1) return '1 m'
   if (step >= 0.05) return step.toFixed(2) // "0.50" / "0.25" / "0.10" / "0.05"
   if (step === 0.01) return '1 cm'
   if (step === 0.001) return '1 mm'
@@ -379,13 +380,12 @@ function GridSnapControl() {
               aria-expanded={isOpen}
               aria-label={`Grid snap: ${formatGridSnapStep(gridSnapStep)}`}
               className={cn(
-                'flex h-11 w-11 flex-col items-center justify-center rounded-lg text-muted-foreground transition-all hover:bg-white/5 hover:text-foreground',
+                'flex h-11 min-w-11 items-center justify-center rounded-lg px-2 text-muted-foreground transition-all hover:bg-white/5 hover:text-foreground',
                 isOpen && 'bg-white/10 text-foreground',
               )}
               type="button"
             >
-              <Icon height={16} icon="lucide:grid-2x2" width={16} />
-              <span className="mt-1 font-medium text-[9px] leading-none">
+              <span className="font-medium text-[10px] leading-none">
                 {formatGridSnapStep(gridSnapStep)}
               </span>
             </button>

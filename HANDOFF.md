@@ -20,6 +20,14 @@
   - `Miarka T` w dolnym pasku trybów używa `Ruler` z `lucide-react`.
   - `Gumka` w dolnym pasku trybów zastępuje generyczny `Usuń/D` i używa
     `Eraser` z `lucide-react`; skrót narzędzia zostaje `E`.
+- Unit toolbar:
+  - Grid snap automatycznie dopasowuje się do `useViewer.lengthUnit`:
+    `m -> 1 m`, `cm -> 1 cm`, `mm -> 1 mm`.
+  - Lista `GridSnapStep` ma teraz krok `1` (`1 m`) obok wcześniejszych
+    `0.5 / 0.25 / 0.1 / 0.05 / 0.01 / 0.001`.
+  - Dolny przycisk grid snap pokazuje samą wartość snapu bez ikony siatki,
+    bo przy automatycznym dopasowaniu do jednostek pełni rolę parametru, nie
+    osobnego narzędzia.
 - Dodano SketchUp-style Eraser:
   - Skrót `E` aktywuje narzędzie `eraser` w `structure/build`.
   - Gumka usuwa pojedyncze module-scope guides (`point` / `line` /

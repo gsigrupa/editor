@@ -33,7 +33,7 @@ import {
   SwatchBook,
 } from 'lucide-react'
 import Image from 'next/image'
-import { type ReactNode, useCallback } from 'react'
+import { type ReactNode, useCallback, useEffect } from 'react'
 import { cn } from '@/lib/utils'
 import { Tooltip, TooltipContent, TooltipTrigger } from './toolbar-tooltip'
 
@@ -410,6 +410,17 @@ function UnitToggle() {
   // Imperial usunięty z UI — store.unit zostaje 'metric' fixed.
   const lengthUnit = useViewer((state) => state.lengthUnit)
   const setLengthUnit = useViewer((state) => state.setLengthUnit)
+  const setGridSnapStep = useEditor((state) => state.setGridSnapStep)
+
+  useEffect(() => {
+    const snapByUnit = {
+      m: 1,
+      cm: 0.01,
+      mm: 0.001,
+    } as const
+
+    setGridSnapStep(snapByUnit[lengthUnit])
+  }, [lengthUnit, setGridSnapStep])
 
   const cycle = () => {
     const next: 'm' | 'cm' | 'mm' =

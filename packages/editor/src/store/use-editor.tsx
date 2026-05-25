@@ -100,7 +100,7 @@ export type StructureLayer = 'zones' | 'elements'
 export type FloorplanSelectionTool = 'click' | 'marquee'
 // GSI fork: dodane 0.01 (1cm) i 0.001 (1mm) — meble parametryczne
 // wymagają precyzji mm dla blatów, frontów, pasów cokołu, dystansów Blum.
-export type GridSnapStep = 0.5 | 0.25 | 0.1 | 0.05 | 0.01 | 0.001
+export type GridSnapStep = 1 | 0.5 | 0.25 | 0.1 | 0.05 | 0.01 | 0.001
 
 // Combined tool type
 export type Tool = SiteTool | StructureTool | FurnishTool
@@ -315,7 +315,7 @@ export const DEFAULT_PERSISTED_EDITOR_LAYOUT_STATE: PersistedEditorLayoutState =
   referenceFloorOpacity: 0.35,
 }
 
-const GRID_SNAP_STEPS: GridSnapStep[] = [0.5, 0.25, 0.1, 0.05, 0.01, 0.001]
+const GRID_SNAP_STEPS: GridSnapStep[] = [1, 0.5, 0.25, 0.1, 0.05, 0.01, 0.001]
 
 function normalizeModeForPhase(phase: Phase, mode: Mode | undefined): Mode {
   if (phase === 'site') {
