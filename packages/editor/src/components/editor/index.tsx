@@ -67,6 +67,7 @@ import { FloatingActionMenu } from './floating-action-menu'
 import { FloatingBuildingActionMenu } from './floating-building-action-menu'
 import { FloorplanPanel } from './floorplan-panel'
 import { Grid } from './grid'
+import { MeasureOverlay } from '../tools/measure/measure-tool'
 import { SceneAxes } from './scene-axes'
 import { PresetThumbnailGenerator } from './preset-thumbnail-generator'
 import { SelectionManager } from './selection-manager'
@@ -610,6 +611,7 @@ const ViewerSceneContent = memo(function ViewerSceneContent({
         <Grid cellColor="#aaa" fadeDistance={500} sectionColor="#ccc" />
       )}
       {!(isLoading || isFirstPersonMode) && <SceneAxes />}
+      {!(isLoading || isFirstPersonMode) && <MeasureOverlay />}
       {!(isLoading || isVersionPreviewMode || isFirstPersonMode) && <ToolManager />}
       {isFirstPersonMode && <FirstPersonControls />}
       <CustomCameraControls />
