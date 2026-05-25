@@ -1,9 +1,7 @@
 'use client'
 
 import { Icon } from '@iconify/react'
-import { type LevelNode, useScene } from '@pascal-app/core'
-import { useViewer } from '@pascal-app/viewer'
-import { type LucideIcon, Trash2 } from 'lucide-react'
+import { Eraser, Ruler, type LucideIcon } from 'lucide-react'
 import Image from 'next/image'
 import { cn } from './../../../lib/utils'
 import useEditor from './../../../store/use-editor'
@@ -12,12 +10,12 @@ import { ActionButton } from './action-button'
 type ControlId =
   | 'select'
   | 'box-select'
-  | 'site-edit'
+  | 'measure'
   | 'build'
   | 'material-paint'
   | 'furnish'
   | 'zone'
-  | 'delete'
+  | 'eraser'
 
 type ControlConfig = {
   id: ControlId
@@ -50,11 +48,12 @@ const controls: ControlConfig[] = [
     activeColor: 'bg-white/10 hover:bg-white/10',
   },
   {
-    id: 'site-edit',
-    imageSrc: '/icons/site.png',
-    label: 'Edytuj działkę',
-    color: 'hover:bg-white/5',
-    activeColor: 'bg-white/10 hover:bg-white/10',
+    id: 'measure',
+    icon: Ruler,
+    label: 'Miarka',
+    shortcut: 'T',
+    color: 'hover:bg-purple-500/20 hover:text-purple-400',
+    activeColor: 'bg-purple-500/20 text-purple-400',
   },
   {
     id: 'build',
@@ -89,10 +88,10 @@ const controls: ControlConfig[] = [
     activeColor: 'bg-green-500/20 text-green-400',
   },
   {
-    id: 'delete',
-    icon: Trash2,
-    label: 'Usuń',
-    shortcut: 'D',
+    id: 'eraser',
+    icon: Eraser,
+    label: 'Gumka',
+    shortcut: 'E',
     color: 'hover:bg-red-500/20 hover:text-red-400',
     activeColor: 'bg-red-500/20 text-red-400',
   },
@@ -101,63 +100,48 @@ const controls: ControlConfig[] = [
 export function ControlModes() {
   const mode = useEditor((state) => state.mode)
   const phase = useEditor((state) => state.phase)
+  const tool = useEditor((state) => state.tool)
   const selectionTool = useEditor((state) => state.floorplanSelectionTool)
   const setMode = useEditor((state) => state.setMode)
   const setPhase = useEditor((state) => state.setPhase)
+  const setTool = useEditor((state) => state.setTool)
   const setStructureLayer = useEditor((state) => state.setStructureLayer)
   const setSelectionTool = useEditor((state) => state.setFloorplanSelectionTool)
   const primeMaterialPaintFromSelection = useEditor(
     (state) => state.primeMaterialPaintFromSelection,
   )
-  const levelId = useViewer((s) => s.selection.levelId)
-
-  // Only subscribe to the primitive `level` number — when walls are added to
-  // this level the object ref changes but this number doesn't, so Object.is
-  // dedupes and we avoid a re-render.
-  const levelIndex = useScene((state) => {
-    if (!levelId) return null
-    const node = state.nodes[levelId]
-    return node?.type === 'level' ? (node as LevelNode).level : null
-  })
-
   const isSiteEditing = phase === 'site'
-  const isGroundFloor = levelIndex === 0
-  const canEnterSiteEdit = isGroundFloor || isSiteEditing
 
   const structureLayer = useEditor((state) => state.structureLayer)
 
   const getIsActive = (id: ControlId): boolean => {
-    if (isSiteEditing) return id === 'site-edit'
+    if (isSiteEditing) return false
     if (id === 'select') return mode === 'select' && selectionTool === 'click'
     if (id === 'box-select') return mode === 'select' && selectionTool === 'marquee'
-    if (id === 'site-edit') return false
+    if (id === 'measure')
+      return (
+        mode === 'build' &&
+        phase === 'structure' &&
+        structureLayer === 'elements' &&
+        tool === 'measure'
+      )
     if (id === 'build')
       return mode === 'build' && phase === 'structure' && structureLayer === 'elements'
     if (id === 'material-paint') return mode === 'material-paint'
     if (id === 'furnish') return mode === 'build' && phase === 'furnish'
     if (id === 'zone')
       return mode === 'build' && phase === 'structure' && structureLayer === 'zones'
+    if (id === 'eraser')
+      return (
+        mode === 'build' &&
+        phase === 'structure' &&
+        structureLayer === 'elements' &&
+        tool === 'eraser'
+      )
     return mode === id
   }
 
   const handleClick = (id: ControlId) => {
-    if (id === 'site-edit') {
-      if (isSiteEditing) {
-        // Toggle off → back to structure/select
-        setPhase('structure')
-        setMode('select')
-        setStructureLayer('elements')
-      } else if (isGroundFloor) {
-        // Enter site editing — set state directly to preserve level selection.
-        // setPhase('site') calls viewer.resetSelection() which clears levelId,
-        // breaking the 2D floorplan (it needs a level to render the SVG).
-        useEditor.setState({ phase: 'site', mode: 'select', tool: null, catalogCategory: null })
-        // Clear object selection so the polygon editor handles receive pointer events
-        useViewer.getState().setSelection({ selectedIds: [] })
-      }
-      return
-    }
-
     // Exit site editing first if needed
     if (isSiteEditing) {
       setPhase('structure')
@@ -170,6 +154,15 @@ export function ControlModes() {
     } else if (id === 'box-select') {
       setMode('select')
       setSelectionTool('marquee')
+    } else if (id === 'measure') {
+      if (getIsActive('measure')) {
+        setMode('select')
+      } else {
+        setPhase('structure')
+        setStructureLayer('elements')
+        setMode('build')
+        setTool('measure')
+      }
     } else if (id === 'build') {
       // Toggle: if already in structure build, go back to select
       if (getIsActive('build')) {
@@ -205,6 +198,15 @@ export function ControlModes() {
         setStructureLayer('zones')
         setMode('build')
       }
+    } else if (id === 'eraser') {
+      if (getIsActive('eraser')) {
+        setMode('select')
+      } else {
+        setPhase('structure')
+        setStructureLayer('elements')
+        setMode('build')
+        setTool('eraser')
+      }
     } else {
       setMode(id)
     }
@@ -215,36 +217,20 @@ export function ControlModes() {
       {controls.map((c) => {
         const ModeIcon = c.icon
         const isImageMode = Boolean(c.imageSrc)
-        const isSiteButton = c.id === 'site-edit'
         const isActive = getIsActive(c.id)
-        const isDisabled = isSiteButton && !canEnterSiteEdit
 
         return (
           <ActionButton
+            aria-label={c.shortcut ? `${c.label} ${c.shortcut}` : c.label}
             className={cn(
               'group text-muted-foreground',
-              isSiteButton
-                ? isActive
-                  ? c.activeColor
-                  : canEnterSiteEdit
-                    ? 'opacity-60 grayscale hover:bg-white/5 hover:opacity-100 hover:grayscale-0'
-                    : 'cursor-not-allowed opacity-35 grayscale'
-                : !(isImageMode || isActive) && c.color,
-              !(isSiteButton || isImageMode) && isActive && c.activeColor,
-              !isSiteButton && isImageMode && isActive && 'bg-white/10 hover:bg-white/10',
-              !isSiteButton && isImageMode && !isActive && 'hover:bg-white/5',
+              !(isImageMode || isActive) && c.color,
+              !isImageMode && isActive && c.activeColor,
+              isImageMode && isActive && 'bg-white/10 hover:bg-white/10',
+              isImageMode && !isActive && 'hover:bg-white/5',
             )}
-            disabled={isDisabled}
             key={c.id}
-            label={
-              isSiteButton
-                ? isActive
-                  ? 'Zakończ edycję działki'
-                  : canEnterSiteEdit
-                    ? 'Edytuj działkę'
-                    : 'Edycja działki (tylko parter)'
-                : c.label
-            }
+            label={c.label}
             onClick={() => handleClick(c.id)}
             shortcut={c.shortcut}
             size="icon"
@@ -255,13 +241,9 @@ export function ControlModes() {
                 alt={c.label}
                 className={cn(
                   'h-[28px] w-[28px] object-contain transition-[opacity,filter] duration-200',
-                  isSiteButton
-                    ? isActive
-                      ? 'opacity-100 grayscale-0'
-                      : ''
-                    : isActive
-                      ? 'opacity-100 grayscale-0'
-                      : 'opacity-60 grayscale group-hover:opacity-100 group-hover:grayscale-0',
+                  isActive
+                    ? 'opacity-100 grayscale-0'
+                    : 'opacity-60 grayscale group-hover:opacity-100 group-hover:grayscale-0',
                 )}
                 height={28}
                 src={c.imageSrc}

@@ -13,6 +13,63 @@
 
 ## Aktualny WIP: SketchUp-style Tape Measure (klawisz T)
 
+### Update Codex 2026-05-25
+
+- `CODEX.md` dodany w root repo z zasadami pracy Codexa.
+- Dodano ikonki toolbar:
+  - `Miarka T` w dolnym pasku trybów używa `Ruler` z `lucide-react`.
+  - `Gumka` w dolnym pasku trybów zastępuje generyczny `Usuń/D` i używa
+    `Eraser` z `lucide-react`; skrót narzędzia zostaje `E`.
+- Dodano SketchUp-style Eraser:
+  - Skrót `E` aktywuje narzędzie `eraser` w `structure/build`.
+  - Gumka usuwa pojedyncze module-scope guides (`point` / `line` /
+    `vertical`) przez hover + klik.
+  - Nie usuwa measurements ani geometrii sceny.
+- Tape Measure przepisany od nowa jako prostszy SketchUp-style v2:
+  - Osobny model: `Guide` (`point` / `line` / `vertical`), `Measurement`,
+    `SnapResult`, `Draft`.
+  - Domyślny tryb po `T` to GUIDE, bliżej SketchUpowego kursora z `+`;
+    `Ctrl/Meta` przełącza GUIDE/POMIAR.
+  - Snap engine ma jeden priorytetowy path: Y axis / guides / measurements /
+    wall endpoint / midpoint / edge / X/Z axes / empty.
+  - X/Z axes tworzą horizontal infinite guide lines.
+  - Y axis tworzy offsetowaną vertical guide line (`Guide.kind = 'vertical'`)
+    w miejscu drugiego kliknięcia/drag, z osobnym render path.
+  - Y axis nie polega już tylko na podłogowym grid snapie: Tape Measure liczy
+    dystans promienia myszy do pionowego odcinka osi Y (`Ray.distanceSqToSegment`),
+    więc można złapać widoczną zieloną oś jak osobny hit target.
+  - Wall face snap dodany dla obu stron ściany (`wall.thickness / 2`), żeby
+    guide'y można było brać z centerline albo z lica ściany.
+  - Tape Measure nie używa już `snapWallDraftPoint` przed własnym snap engine,
+    bo ten helper dociągał kursor do centerline ściany i gubił informację,
+    po której stronie/lucu ściany jest user.
+  - Priorytet snapów ściany: wall face endpoint / wall face / centerline
+    endpoint / midpoint / centerline edge. Dzięki temu pomiary domyślnie
+    łapią wewnętrzne/zewnętrzne lico, nie środek ściany.
+  - Dodano SketchUp-style axis lock strzałkami podczas draftu:
+    `ArrowRight` = X, `ArrowUp` = Z, `ArrowLeft` = Y, `ArrowDown` = clear.
+    W trybie GUIDE wybrana oś ustala orientację nowego guide'a niezależnie od
+    tego, z jakiej osi/guide'a rozpoczęto drag. W trybie POMIAR blokuje kierunek
+    pomiaru.
+  - Snap `Origin`/Y axis jest liczony od rogu działki (`siteCorner`), spójnie
+    z `SceneAxes`.
+  - Event listenery narzędzia są rejestrowane raz i czytają bieżący stan z refs.
+  - Render zostaje przy WebGPU-safe `boxGeometry` + `meshBasicMaterial` +
+    `castShadow={false}`.
+- Sprawdzone:
+  - TypeScript check OK:
+    `./packages/editor/node_modules/.bin/tsc --noEmit -p packages/editor/tsconfig.json`
+  - Browser smoke: `T` pokazuje HUD w GUIDE, `Ctrl` przełącza na POMIAR,
+    bez błędów konsoli.
+  - Browser smoke Eraser: `E` pokazuje HUD gumki, bez błędów konsoli.
+  - Browser smoke Axis Lock: po `T` + pierwszy klik + `ArrowRight` HUD pokazuje
+    `blokada X`, bez błędów konsoli.
+  - Browser smoke toolbar: widoczne przyciski `Miarka T` i `Gumka E`; klik
+    `Miarka T` aktywuje HUD miarki, klik `Gumka E` aktywuje tryb gumki.
+- Zostaje:
+  - DB persistence guides nadal poza zakresem; wymaga postMessage/schema
+    koordynacji z GSI/Claude.
+
 Wczoraj (2026-05-24) Claude pracował nad miarką. Commit handoff w pipeline.
 Po nim Codex bierze tę pracę i decyduje czy:
 1. Domyka (kilka drobnych UX fixów, niżej)
@@ -44,9 +101,9 @@ Po nim Codex bierze tę pracę i decyduje czy:
 - **Pull guide z osi** — `Ctrl + klik` na oś X/Y/Z → drag → czarna dashed
   infinite parallel line (`COLOR_AXIS_GUIDE #0f172a`, period 12cm =
   6cm dash + 6cm gap, length 200m). Drugi klik = guide zostaje.
-- **Bez Ctrl = pomiar segmentowy.** Ctrl jako modifier per-click (intent
-  łapany w `guideIntentRef` w momencie kliku 1, trwa do końca draftu).
-  Bez ukrytego mode toggle'a.
+- **Domyślnie GUIDE jak w SketchUp.** `Ctrl/Meta` przełącza GUIDE/POMIAR;
+  intent jest łapany przy klik 1 i może zostać przełączony podczas drag przed
+  drugim kliknięciem.
 - **Delete hover'em** — `Del/Backspace` + hover na guide / guide-point /
   measurement endpoint = usuwa pojedynczy element. `Y` = clear all.
 - **Snap detection** — `getCurrentLevelWalls` używa `level.children[]`
@@ -55,10 +112,8 @@ Po nim Codex bierze tę pracę i decyduje czy:
 
 ### Co nie działa / wymaga decyzji
 
-1. **Y axis vertical guide line** — aktualnie klik na Y axis snap (corner)
-   tworzy `guide point` jako fallback. Pełen support wymaga rozszerzenia
-   struct `GuideLine` o `kind: 'horizontal' | 'vertical'` + separate
-   render path w `GuideLineRender`.
+1. **Y axis vertical guide line** — zrobione w rewrite v2 jako
+   `Guide.kind = 'vertical'` + osobny render path.
 2. **DB persystencja guides** — module-scope store przeżyje switch
    narzędzia, ale nie reload iframe. Wymaga:
    - Extension `floor_plans` table w GSI o pole `measure_guides LONGTEXT`
@@ -92,7 +147,7 @@ Pełen aktualny contract w `~/Vaults/Knowledge/Codex Pascal handoff.md`
 po stronie Roberta. Nie modyfikuj message types ani schemy bez aktualizacji
 tej notki + powiadomienia Claude (po stronie GSI musi być parity).
 
-Aktualne message types:
+Aktualne message types (Faza 1, single-kind):
 - `pascal:ready` — Pascal mountowany, wysyła do parent (GSI). Parent
   odpowiada `gsi:scene` (load).
 - `pascal:save` — autosave debounce 1s. Parent zapisuje do
@@ -100,8 +155,40 @@ Aktualne message types:
 - `pascal:navigate-back` — klik "Wróć do projektu" w toolbar. Parent
   push do `/app/inwestycje/[id]?tab=model3d`.
 
-Pola URL Pascal embed:
+Pola URL Pascal embed (Faza 1):
 - `/embed?projectId=X&parentOrigin=Y`
+
+### 🆕 Faza 2 (2026-05-25): multi-kind support — site_state vs designed
+
+Decyzja produktowa: każdy projekt ma DWA autonomiczne floor_plans:
+- `kind = 'site_state'` — stan zastany (fizyczne wymiary, ground truth)
+- `kind = 'designed'` — wersja projektowana (meble, zmiany układu)
+
+**Co Codex robi po stronie Pascala:**
+
+1. URL parser w `/embed` page — czytaj `kind` z searchParams (default `'designed'` gdy brak).
+2. `pascal:ready` payload rozszerz o `kind`: `{ projectId, kind }`.
+3. `pascal:save` payload rozszerz o `kind`: `{ projectId, kind, data }`.
+4. `pascal:navigate-back` payload rozszerz o `kind`: `{ projectId, kind }`.
+5. Nowy message type `pascal:clone` — wysyłany przez klik buttona "Skopiuj
+   jako bazę projektu" w toolbarze (widoczny TYLKO gdy `kind === 'site_state'`):
+   `{ projectId, from: 'site_state', to: 'designed' }`.
+6. Toolbar — dorzuć badge w lewym-górnym albo obok 3D/2D/Split:
+   - `kind === 'site_state'` → badge "🏗️ STAN ZASTANY" (np. amber-100 bg, amber-900 text)
+   - `kind === 'designed'` → badge "📐 PROJEKTOWANY" (np. indigo-100 bg, indigo-900 text)
+7. Button "Skopiuj jako bazę projektu" (tylko site_state) — analogicznie do
+   "Wróć do projektu", wysyła `pascal:clone` i pokazuje toast "Skopiowano"
+   po `gsi:clone-ack`.
+
+**GSI po drugiej stronie:**
+- Migracja SQL: `floor_plans.kind ENUM('site_state','designed')` + composite unique
+- API: `?kind=K` query param + `POST /floor-plan/clone` endpoint
+- `PascalEmbed` prop `kind`, URL `?kind=K`
+- `/app/inwestycje/[id]/plan-3d` — 2 sub-taby
+
+Zmiana w obu stronach jednoczesna. Bez kind = 'designed' (backward compat).
+
+Pełen contract w atomic note Roberta.
 
 ---
 
@@ -110,7 +197,8 @@ Pola URL Pascal embed:
 W kolejności priorytetu:
 
 1. **Tape Measure cleanup** (current WIP) — decyzja Codex jak wyżej.
-2. **Faza 5/7 — Furniture catalog drawer** (drag&drop, 10-20 mebli starter set GLTF z CC0)
+2. **🆕 2026-05-25: Multi-kind support (site_state vs designed)** — sekcja wyżej.
+3. **Faza 5/7 — Furniture catalog drawer** (drag&drop, 10-20 mebli starter set GLTF z CC0)
 3. **Faza 6/7 — Materials/textures picker** (kafelki, parkiet, tapeta, farba ścian, beton — 10-15 starter tekstur)
 4. **Vertical guide line (oś Y)** — extension struct GuideLine + render path
 5. **DB persystencja guides** — postMessage extension + GSI API

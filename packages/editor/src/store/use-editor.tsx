@@ -77,6 +77,7 @@ export type StructureTool =
   | 'skylight'
   | 'dormer'
   | 'measure' // GSI fork: SketchUp-style tape measure (M key)
+  | 'eraser' // GSI fork: SketchUp-style Eraser for guides (E key)
 
 // Furnish mode tools (items and decoration)
 export type FurnishTool = 'item'
