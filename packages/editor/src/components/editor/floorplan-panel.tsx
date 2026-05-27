@@ -99,6 +99,7 @@ import {
 import {
   createWallOnCurrentLevel,
   isWallLongEnough,
+  type WallDraftSnapResult,
   snapWallDraftPointDetailed,
   snapWallDraftPoint,
   WALL_GRID_STEP,
@@ -374,6 +375,12 @@ type WallEndpointDraft = {
 type WallCurveDraft = {
   wallId: WallNode['id']
   curveOffset: number
+}
+
+type WallDraftSnapHint = {
+  label: string
+  point: WallPlanPoint
+  source: WallDraftSnapResult['source']
 }
 
 type SiteBoundaryDraft = {
@@ -2033,6 +2040,29 @@ function buildDraftWall(levelId: string, start: WallPlanPoint, end: WallPlanPoin
 
 function pointsEqual(a: WallPlanPoint, b: WallPlanPoint): boolean {
   return a[0] === b[0] && a[1] === b[1]
+}
+
+function getWallDraftSnapHint(snap: WallDraftSnapResult): WallDraftSnapHint | null {
+  if (snap.source === 'grid') return null
+
+  let label = 'Snap'
+  if (snap.source === 'wall-endpoint') {
+    label = 'Punkt'
+  } else if (snap.source === 'wall-target') {
+    label = 'Krawędź'
+  } else if (snap.reference?.kind === 'face') {
+    label = snap.reference.side === 'front' || snap.reference.side === 'back' ? 'Lico' : 'Płaszczyzna'
+  } else if (snap.reference?.kind === 'edge') {
+    label = 'Krawędź'
+  } else if (snap.reference?.kind === 'point') {
+    label = 'Punkt'
+  }
+
+  return {
+    label,
+    point: snap.visualPoint,
+    source: snap.source,
+  }
 }
 
 function haveSameIds(currentIds: string[], nextIds: string[]): boolean {
@@ -3960,6 +3990,7 @@ export function FloorplanPanel() {
   const [draftEnd, setDraftEnd] = useState<WallPlanPoint | null>(null)
   const [draftVisualStart, setDraftVisualStart] = useState<WallPlanPoint | null>(null)
   const [draftVisualEnd, setDraftVisualEnd] = useState<WallPlanPoint | null>(null)
+  const [wallDraftSnapHint, setWallDraftSnapHint] = useState<WallDraftSnapHint | null>(null)
   const [fenceDraftStart, setFenceDraftStart] = useState<WallPlanPoint | null>(null)
   const [fenceDraftEnd, setFenceDraftEnd] = useState<WallPlanPoint | null>(null)
   const [roofDraftStart, setRoofDraftStart] = useState<WallPlanPoint | null>(null)
@@ -5905,6 +5936,7 @@ export function FloorplanPanel() {
     setDraftEnd(null)
     setDraftVisualStart(null)
     setDraftVisualEnd(null)
+    setWallDraftSnapHint(null)
   }, [])
   const clearFencePlacementDraft = useCallback(() => {
     setFenceDraftStart(null)
@@ -7051,6 +7083,7 @@ export function FloorplanPanel() {
       // drives the 2D draft polygon — both views update in parallel.
       emitFloorplanGridEvent('move', wallSnap.visualPoint, event)
       setCursorPoint(wallSnap.visualPoint)
+      setWallDraftSnapHint(getWallDraftSnapHint(wallSnap))
 
       if (!draftStart) {
         return
@@ -8643,6 +8676,39 @@ export function FloorplanPanel() {
                     fillOpacity={0.9}
                     r={FLOORPLAN_CURSOR_MARKER_CORE_RADIUS_PX * floorplanUnitsPerPixel}
                   />
+                </g>
+              )}
+
+              {isWallBuildActive && wallDraftSnapHint && (
+                <g
+                  pointerEvents="none"
+                  transform={`translate(${toSvgX(wallDraftSnapHint.point[0]) + 12 * floorplanUnitsPerPixel} ${
+                    toSvgY(wallDraftSnapHint.point[1]) - 12 * floorplanUnitsPerPixel
+                  })`}
+                >
+                  <rect
+                    fill={isDark ? 'rgba(15, 23, 42, 0.92)' : 'rgba(255, 255, 255, 0.94)'}
+                    height={18 * floorplanUnitsPerPixel}
+                    rx={4 * floorplanUnitsPerPixel}
+                    stroke={wallDraftSnapHint.source === 'wall-reference' ? palette.draftStroke : palette.cursor}
+                    strokeOpacity={0.85}
+                    strokeWidth={1.2 * floorplanUnitsPerPixel}
+                    vectorEffect="non-scaling-stroke"
+                    width={(wallDraftSnapHint.label.length * 7 + 18) * floorplanUnitsPerPixel}
+                    x={0}
+                    y={-18 * floorplanUnitsPerPixel}
+                  />
+                  <text
+                    fill={isDark ? '#f8fafc' : '#1f2937'}
+                    fontFamily="Inter, ui-sans-serif, system-ui, sans-serif"
+                    fontSize={11 * floorplanUnitsPerPixel}
+                    fontWeight={700}
+                    letterSpacing={0}
+                    x={9 * floorplanUnitsPerPixel}
+                    y={-5 * floorplanUnitsPerPixel}
+                  >
+                    {wallDraftSnapHint.label}
+                  </text>
                 </g>
               )}
 

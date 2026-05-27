@@ -255,6 +255,17 @@
   widoczny, brak Next runtime/build error.
 - Test Roberta po preview split: działa. Build łapie wizualnie lico/krawędź,
   a zapis zostaje topologiczny.
+- Po commicie/pushu `457d59e1` rozpoczęto kolejny krok UX: Build pokazuje teraz
+  lekki SVG label przy snapie (`Lico`, `Krawędź`, `Punkt`, `Płaszczyzna`) tylko
+  podczas aktywnego Builda. To jest zwykły overlay w floorplanie, bez zmian
+  schemy, postMessage ani zapisu sceny.
+- TypeScript check OK po snap label:
+  `./packages/editor/node_modules/.bin/tsc --noEmit -p packages/editor/tsconfig.json`.
+- Test runtime OK po snap label:
+  `/Users/robert/.bun/bin/bun test packages/editor/src/lib/wall-geometry-references.test.ts packages/core/src/lib/space-detection.test.ts`
+  → 15 pass / 0 fail.
+- Browser smoke po snap label OK: `Buduj B` widoczny, `Wall refs debug`
+  widoczny, brak Next runtime/build error.
 - Zostaje: ręczny test rysowania face-to-face i decyzja, czy następny etap ma
   przenieść również 2D draft polygon w pełni na `visualPoint`, czy zostawić
   wizualny snap jako marker, a draft wall nadal topologiczny.
