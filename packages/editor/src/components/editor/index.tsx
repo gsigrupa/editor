@@ -76,6 +76,7 @@ import { SnapshotCaptureOverlay } from './snapshot-capture-overlay'
 import { type SnapshotCameraData, ThumbnailGenerator } from './thumbnail-generator'
 import { WallMeasurementLabel } from './wall-measurement-label'
 import { WallMoveSideHandles } from './wall-move-side-handles'
+import { WallRefsDebugPanel } from './wall-refs-debug-panel'
 
 const CAMERA_CONTROLS_HINT_DISMISSED_STORAGE_KEY = 'editor-camera-controls-hint-dismissed:v1'
 const DELETE_CURSOR_BADGE_COLOR = '#ef4444'
@@ -1193,6 +1194,7 @@ export default function Editor({
                   )}
                   {viewerBanner}
                   {projectId ? <SnapshotCaptureOverlay projectId={projectId} /> : null}
+                  <WallRefsDebugPanel />
                 </>
               }
               renderTabContent={renderTabContent}
@@ -1261,6 +1263,7 @@ export default function Editor({
               {isFirstPersonMode && (
                 <FirstPersonOverlay onExit={() => useEditor.getState().setFirstPersonMode(false)} />
               )}
+              <WallRefsDebugPanel />
             </ViewerOverlays>
           </>
         )}

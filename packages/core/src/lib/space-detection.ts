@@ -822,6 +822,10 @@ function nextAutoZoneName(nodes: Array<{ name?: string }>) {
   return `Pomieszczenie ${maxIndex + 1}`
 }
 
+function isDefaultAutoZoneName(name?: string): boolean {
+  return /^Pomieszczenie\s+\d+$/i.test((name ?? '').trim())
+}
+
 // GSI fork: helpers do polygon overlap detection (preserve zone name
 // na zdarzeniu "split" — gdy user dorzuca wall'e wewnątrz zone, dzieli
 // na podpokoje). Naming z prefiksem `tuple` żeby uniknąć kolizji z
@@ -907,8 +911,13 @@ export function planAutoZonesForLevel(
   // Pass 2: SPLIT inheritance — pozostałe (unmatched) existingAuto może
   // być zone'em który podzielił się na nowe pokoje. Szukamy detected
   // pokoi z centroid wewnątrz starego zone polygon — przepisujemy nazwę
-  // największemu, dla pozostałych "{name} 2", "{name} 3"...
-  const splitInherited = new Map<number, string>() // detected idx → inherited name
+  // największemu. Dla custom nazw ("Salon") kolejne pokoje dostają
+  // "Salon 2", "Salon 3"; dla domyślnych "Pomieszczenie N" używamy
+  // kolejnego wolnego numeru, żeby zone/sufit/podłoga miały spójny naming.
+  const splitInherited = new Map<
+    number,
+    { baseName: string; inheritedName?: string; order: number }
+  >()
   for (const zone of existingAuto) {
     if (matchedExistingIds.has(zone.id)) continue
     const zonePoly = zone.polygon as Array<[number, number]>
@@ -928,8 +937,18 @@ export function planAutoZonesForLevel(
     childIndices.sort((a, b) => b.area - a.area)
     const baseName = zone.name ?? nextAutoZoneName([])
     childIndices.forEach((child, order) => {
-      const inheritedName = order === 0 ? baseName : `${baseName} ${order + 1}`
-      splitInherited.set(child.idx, inheritedName)
+      const inheritedName =
+        order === 0
+          ? baseName
+          : isDefaultAutoZoneName(baseName)
+            ? undefined
+            : `${baseName} ${order + 1}`
+
+      splitInherited.set(child.idx, {
+        baseName,
+        inheritedName,
+        order,
+      })
       matchedDetectedIdx.add(child.idx)
     })
     matchedExistingIds.add(zone.id) // mark as "consumed" — usunie się ale przepisaliśmy nazwę
@@ -942,8 +961,8 @@ export function planAutoZonesForLevel(
   // Plus stare zone'y przepisane do split inherited też trzeba usunąć
   // (już mają matchedExistingIds.has true, więc nie znajdą się wyżej).
   for (const zone of existingAuto) {
-    const wasInheritedConsumed = Array.from(splitInherited.values()).some((name) =>
-      name === zone.name || name.startsWith(`${zone.name} `),
+    const wasInheritedConsumed = Array.from(splitInherited.values()).some((entry) =>
+      entry.baseName === zone.name,
     )
     if (wasInheritedConsumed && !zonesToDelete.includes(zone.id)) {
       zonesToDelete.push(zone.id)
@@ -960,7 +979,8 @@ export function planAutoZonesForLevel(
     const room = detected[index]
     if (!room) continue
 
-    const name = splitInherited.get(index) ?? nextAutoZoneName(plannedZonesForNaming)
+    const inherited = splitInherited.get(index)
+    const name = inherited?.inheritedName ?? nextAutoZoneName(plannedZonesForNaming)
     plannedZonesForNaming.push({ name })
 
     zonesToCreate.push(

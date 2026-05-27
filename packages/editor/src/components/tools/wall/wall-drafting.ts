@@ -13,6 +13,10 @@ import {
   type WindowNode,
 } from '@pascal-app/core'
 import { useViewer } from '@pascal-app/viewer'
+import {
+  findNearestWallReferenceSnapAcrossWalls,
+  wallReferenceSnapToCenterlinePoint,
+} from '../../../lib/wall-geometry-references'
 import { sfxEmitter } from '../../../lib/sfx-bus'
 import useEditor from '../../../store/use-editor'
 
@@ -30,6 +34,12 @@ const DEFAULT_WALL_ANGLE_SNAP_STEP = Math.PI / 4
 type WallSplitIntersection = {
   wallId: WallNode['id']
   point: WallPlanPoint
+}
+
+function isWallReferenceSnapEnabled(): boolean {
+  if (typeof window === 'undefined') return false
+  const params = new URLSearchParams(window.location.search)
+  return params.get('buildRefs') === '1'
 }
 
 function distanceSquared(a: WallPlanPoint, b: WallPlanPoint): number {
@@ -390,10 +400,22 @@ export function snapWallDraftPoint(args: {
   start?: WallPlanPoint
   angleSnap?: boolean
   ignoreWallIds?: string[]
+  useWallRefs?: boolean
 }): WallPlanPoint {
-  const { point, walls, start, angleSnap = false, ignoreWallIds } = args
+  const {
+    point,
+    walls,
+    start,
+    angleSnap = false,
+    ignoreWallIds,
+    useWallRefs = isWallReferenceSnapEnabled(),
+  } = args
   const step = getWallGridStep()
   const angleStep = getWallAngleSnapStep(step)
+  const ignoredWallIds = new Set(ignoreWallIds ?? [])
+  const snapWalls = ignoredWallIds.size > 0
+    ? walls.filter((wall) => !ignoredWallIds.has(wall.id))
+    : walls
 
   // GSI fork: corner snap ZAWSZE wygrywa nad angle snap. Bez tego —
   // angle snap (np. 45° z startu) wymuszał basePoint w miejscu odległym
@@ -428,6 +450,30 @@ export function snapWallDraftPoint(args: {
     start && angleSnap
       ? snapPointTo45Degrees(start, point, step, angleStep)
       : snapPointToGrid(point, step)
+
+  if (useWallRefs && snapWalls.length > 0) {
+    const refSnap = findNearestWallReferenceSnapAcrossWalls(
+      [basePoint[0], 0, basePoint[1]],
+      snapWalls,
+      useScene.getState().nodes,
+      {
+        includePoints: false,
+        maxDistance: WALL_JOIN_SNAP_RADIUS,
+      },
+    )
+    if (refSnap) {
+      const snapWall = snapWalls.find((wall) => wall.id === refSnap.wallId)
+      const centerlinePoint = snapWall
+        ? wallReferenceSnapToCenterlinePoint(snapWall, refSnap)
+        : null
+
+      if (centerlinePoint) {
+        return [centerlinePoint[0], centerlinePoint[2]]
+      }
+
+      return [refSnap.position[0], refSnap.position[2]]
+    }
+  }
 
   return (
     findWallSnapTarget(basePoint, walls, {
