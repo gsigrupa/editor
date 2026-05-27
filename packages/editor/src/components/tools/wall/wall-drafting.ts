@@ -15,6 +15,8 @@ import {
 import { useViewer } from '@pascal-app/viewer'
 import {
   findNearestWallReferenceSnapAcrossWalls,
+  type WallReferenceSide,
+  type WallReferenceSnapKind,
   wallReferenceSnapToCenterlinePoint,
 } from '../../../lib/wall-geometry-references'
 import { sfxEmitter } from '../../../lib/sfx-bus'
@@ -34,6 +36,22 @@ const DEFAULT_WALL_ANGLE_SNAP_STEP = Math.PI / 4
 type WallSplitIntersection = {
   wallId: WallNode['id']
   point: WallPlanPoint
+}
+
+export type WallDraftSnapSource = 'grid' | 'wall-endpoint' | 'wall-target' | 'wall-reference'
+
+export type WallDraftSnapResult = {
+  // Topology point: safe for WallNode.start/end and auto floor/ceiling/zone.
+  point: WallPlanPoint
+  // Visual point: exact user-facing reference, e.g. face/edge offset.
+  visualPoint: WallPlanPoint
+  source: WallDraftSnapSource
+  reference?: {
+    wallId: WallNode['id']
+    kind: WallReferenceSnapKind
+    refId: string
+    side?: WallReferenceSide
+  }
 }
 
 function isWallReferenceSnapEnabled(): boolean {
@@ -402,6 +420,18 @@ export function snapWallDraftPoint(args: {
   ignoreWallIds?: string[]
   useWallRefs?: boolean
 }): WallPlanPoint {
+  return snapWallDraftPointDetailed(args).point
+}
+
+export function snapWallDraftPointDetailed(args: {
+  point: WallPlanPoint
+  walls: WallNode[]
+  start?: WallPlanPoint
+  angleSnap?: boolean
+  ignoreWallIds?: string[]
+  useWallRefs?: boolean
+  nodes?: ReturnType<typeof useScene.getState>['nodes']
+}): WallDraftSnapResult {
   const {
     point,
     walls,
@@ -409,6 +439,7 @@ export function snapWallDraftPoint(args: {
     angleSnap = false,
     ignoreWallIds,
     useWallRefs = isWallReferenceSnapEnabled(),
+    nodes = useScene.getState().nodes,
   } = args
   const step = getWallGridStep()
   const angleStep = getWallAngleSnapStep(step)
@@ -442,7 +473,11 @@ export function snapWallDraftPoint(args: {
         (w.end[0] === cornerSnap[0] && w.end[1] === cornerSnap[1]),
     )
     if (isExactEndpoint) {
-      return cornerSnap
+      return {
+        point: cornerSnap,
+        visualPoint: cornerSnap,
+        source: 'wall-endpoint',
+      }
     }
   }
 
@@ -455,7 +490,7 @@ export function snapWallDraftPoint(args: {
     const refSnap = findNearestWallReferenceSnapAcrossWalls(
       [basePoint[0], 0, basePoint[1]],
       snapWalls,
-      useScene.getState().nodes,
+      nodes,
       {
         includePoints: false,
         maxDistance: WALL_JOIN_SNAP_RADIUS,
@@ -466,20 +501,42 @@ export function snapWallDraftPoint(args: {
       const centerlinePoint = snapWall
         ? wallReferenceSnapToCenterlinePoint(snapWall, refSnap)
         : null
+      const visualPoint: WallPlanPoint = [refSnap.position[0], refSnap.position[2]]
+      const topologyPoint: WallPlanPoint = centerlinePoint
+        ? [centerlinePoint[0], centerlinePoint[2]]
+        : visualPoint
 
-      if (centerlinePoint) {
-        return [centerlinePoint[0], centerlinePoint[2]]
+      return {
+        point: topologyPoint,
+        visualPoint,
+        source: 'wall-reference',
+        reference: {
+          wallId: refSnap.wallId,
+          kind: refSnap.kind,
+          refId: refSnap.refId,
+          side: refSnap.side,
+        },
       }
-
-      return [refSnap.position[0], refSnap.position[2]]
     }
   }
 
-  return (
-    findWallSnapTarget(basePoint, walls, {
-      ignoreWallIds,
-    }) ?? basePoint
-  )
+  const wallTarget = findWallSnapTarget(basePoint, walls, {
+    ignoreWallIds,
+  })
+
+  if (wallTarget) {
+    return {
+      point: wallTarget,
+      visualPoint: wallTarget,
+      source: 'wall-target',
+    }
+  }
+
+  return {
+    point: basePoint,
+    visualPoint: basePoint,
+    source: 'grid',
+  }
 }
 
 export function isWallLongEnough(start: WallPlanPoint, end: WallPlanPoint): boolean {

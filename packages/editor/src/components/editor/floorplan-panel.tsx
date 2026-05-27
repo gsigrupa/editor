@@ -99,6 +99,7 @@ import {
 import {
   createWallOnCurrentLevel,
   isWallLongEnough,
+  snapWallDraftPointDetailed,
   snapWallDraftPoint,
   WALL_GRID_STEP,
   type WallPlanPoint,
@@ -3957,6 +3958,8 @@ export function FloorplanPanel() {
 
   const [draftStart, setDraftStart] = useState<WallPlanPoint | null>(null)
   const [draftEnd, setDraftEnd] = useState<WallPlanPoint | null>(null)
+  const [draftVisualStart, setDraftVisualStart] = useState<WallPlanPoint | null>(null)
+  const [draftVisualEnd, setDraftVisualEnd] = useState<WallPlanPoint | null>(null)
   const [fenceDraftStart, setFenceDraftStart] = useState<WallPlanPoint | null>(null)
   const [fenceDraftEnd, setFenceDraftEnd] = useState<WallPlanPoint | null>(null)
   const [roofDraftStart, setRoofDraftStart] = useState<WallPlanPoint | null>(null)
@@ -4816,14 +4819,16 @@ export function FloorplanPanel() {
   }, [shouldShowSiteBoundaryHandles, siteVertexDragState, visibleSitePolygon])
 
   const draftPolygon = useMemo(() => {
-    if (!(levelId && draftStart && draftEnd && isWallLongEnough(draftStart, draftEnd))) {
+    const previewStart = draftVisualStart ?? draftStart
+    const previewEnd = draftVisualEnd ?? draftEnd
+    if (!(levelId && previewStart && previewEnd && isWallLongEnough(previewStart, previewEnd))) {
       return null
     }
 
-    const draftWall = getSharedFloorplanWall(buildDraftWall(levelId, draftStart, draftEnd))
+    const draftWall = getSharedFloorplanWall(buildDraftWall(levelId, previewStart, previewEnd))
     // Keep the live draft preview cheap; full level-wide mitering here runs on every mouse move.
     return getWallPlanFootprint(draftWall, EMPTY_WALL_MITER_DATA)
-  }, [draftEnd, draftStart, levelId])
+  }, [draftEnd, draftStart, draftVisualEnd, draftVisualStart, levelId])
   const draftPolygonPoints = useMemo(() => {
     if (isRoofBuildActive && roofDraftStart && roofDraftEnd) {
       const minX = Math.min(roofDraftStart[0], roofDraftEnd[0])
@@ -5898,6 +5903,8 @@ export function FloorplanPanel() {
   const clearWallPlacementDraft = useCallback(() => {
     setDraftStart(null)
     setDraftEnd(null)
+    setDraftVisualStart(null)
+    setDraftVisualEnd(null)
   }, [])
   const clearFencePlacementDraft = useCallback(() => {
     setFenceDraftStart(null)
@@ -7031,23 +7038,35 @@ export function FloorplanPanel() {
         return
       }
 
-      const snappedPoint = snapWallDraftPoint({
+      const wallSnap = snapWallDraftPointDetailed({
         point: planPoint,
         walls,
         start: draftStart ?? undefined,
         angleSnap: Boolean(draftStart) && !shiftPressed,
       })
+      const snappedPoint = wallSnap.point
 
       // Emit `grid:move` so the registry-driven wall tool's 3D preview
       // tracks the cursor. The local draftEnd update below is what
       // drives the 2D draft polygon — both views update in parallel.
-      emitFloorplanGridEvent('move', snappedPoint, event)
-      setCursorPoint(snappedPoint)
+      emitFloorplanGridEvent('move', wallSnap.visualPoint, event)
+      setCursorPoint(wallSnap.visualPoint)
 
       if (!draftStart) {
         return
       }
 
+      setDraftVisualEnd((previousEnd) => {
+        if (
+          previousEnd &&
+          previousEnd[0] === wallSnap.visualPoint[0] &&
+          previousEnd[1] === wallSnap.visualPoint[1]
+        ) {
+          return previousEnd
+        }
+
+        return wallSnap.visualPoint
+      })
       setDraftEnd((previousEnd) => {
         if (
           !previousEnd ||
@@ -7229,11 +7248,13 @@ export function FloorplanPanel() {
   )
 
   const handleWallPlacementPoint = useCallback(
-    (point: WallPlanPoint) => {
+    (point: WallPlanPoint, visualPoint = point) => {
       if (!draftStart) {
         setDraftStart(point)
         setDraftEnd(point)
-        setCursorPoint(point)
+        setDraftVisualStart(visualPoint)
+        setDraftVisualEnd(visualPoint)
+        setCursorPoint(visualPoint)
         return
       }
 
@@ -7295,6 +7316,7 @@ export function FloorplanPanel() {
     shiftPressed,
     snapPolygonDraftPoint,
     snapWallDraftPoint,
+    snapWallDraftPointDetailed,
     toPoint2D,
     walls,
   })

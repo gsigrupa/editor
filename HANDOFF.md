@@ -210,6 +210,55 @@
   - custom nazwa nadal dziedziczy się sensownie: `Salon`, `Salon 2`, ...
   - test `planAutoZonesForLevel` pokrywa oba przypadki.
 
+### Update Codex 2026-05-27 — Build v2 visual/topology split
+
+- Po teście Roberta miarka nadal nie daje oczekiwanego SketchUp flow, więc
+  kierunek wraca do fundamentu: Build v2 / model ściany oparty o jawne
+  referencje.
+- Dodano `snapWallDraftPointDetailed(...)` w
+  `packages/editor/src/components/tools/wall/wall-drafting.ts`.
+- Nowy wynik snapu rozdziela:
+  - `visualPoint` — dokładna referencja widoczna dla usera, np. lico/krawędź
+    ściany,
+  - `point` — punkt topologiczny bezpieczny dla `WallNode.start/end` oraz
+    obecnego auto floor/ceiling/zone pipeline.
+- Dotychczasowe `snapWallDraftPoint(...)` zostaje kompatybilne i zwraca tylko
+  `point`, więc pozostałe narzędzia nie muszą znać nowego kontraktu.
+- Floorplan Build używa teraz szczegółowego snapu w ruchu i kliknięciu:
+  preview/grid event może dostać `visualPoint`, a zapis ściany dostaje nadal
+  `point` topologiczny.
+- Pliki dotknięte dla Build:
+  - `packages/editor/src/components/tools/wall/wall-drafting.ts`
+  - `packages/editor/src/components/editor/floorplan-panel.tsx`
+  - `packages/editor/src/components/editor/use-floorplan-background-placement.ts`
+- TypeScript check OK:
+  `./packages/editor/node_modules/.bin/tsc --noEmit -p packages/editor/tsconfig.json`.
+- Test runtime OK:
+  `/Users/robert/.bun/bin/bun test packages/editor/src/lib/wall-geometry-references.test.ts packages/core/src/lib/space-detection.test.ts`
+  → 15 pass / 0 fail.
+- Próba dodania osobnego testu `wall-drafting.test.ts` została cofnięta, bo
+  import `wall-drafting.ts` w Bun uruchamia viewer/CSG stack i pada na
+  `three-mesh-bvh` (`The superclass is not a constructor`). Nie zostawiono
+  czerwonego testu.
+- Browser smoke OK na `http://localhost:3002/?wallRefs=1&buildRefs=1`:
+  `Buduj B` widoczny, panel `Wall refs debug` widoczny, brak Next
+  runtime/build error.
+- Kolejny krok wykonany: 2D draft preview ma osobny
+  `draftVisualStart` / `draftVisualEnd` i rysuje się po `visualPoint`, a nie
+  wyłącznie po topologicznym `point`. Zapis ściany nadal używa topologii
+  `WallNode.start/end`.
+- Ponowny TypeScript check OK po preview split.
+- Ponowny test runtime OK:
+  `/Users/robert/.bun/bin/bun test packages/editor/src/lib/wall-geometry-references.test.ts packages/core/src/lib/space-detection.test.ts`
+  → 15 pass / 0 fail.
+- Browser smoke po preview split OK: `Buduj B` widoczny, `Wall refs debug`
+  widoczny, brak Next runtime/build error.
+- Test Roberta po preview split: działa. Build łapie wizualnie lico/krawędź,
+  a zapis zostaje topologiczny.
+- Zostaje: ręczny test rysowania face-to-face i decyzja, czy następny etap ma
+  przenieść również 2D draft polygon w pełni na `visualPoint`, czy zostawić
+  wizualny snap jako marker, a draft wall nadal topologiczny.
+
 #### TODO — Build v2 / SketchUp-like walls
 
 - Nie commitować nowych ścian bezpośrednio po face-offset snapie, jeśli obecny
@@ -224,6 +273,47 @@
   został sprawdzony po reloadzie; nie udało się odtworzyć błędu Next. W starym
   logu była jednorazowa seria WebGPU validation errors, ale po throttlingu
   `Cursor snap` browser smoke przeszedł bez błędów konsoli.
+
+### Update Codex 2026-05-27 — Tape Measure wall refs snap
+
+- Tape Measure zaczyna używać wspólnego silnika
+  `findNearestWallReferenceSnapAcrossWalls(...)` zamiast własnej ręcznej logiki
+  snapowania ścian.
+- Snap miarki rozróżnia teraz referencje ściany:
+  - `point` → punkt/narożnik/midpoint ściany,
+  - `edge` → krawędź ściany albo krawędź otworu,
+  - `face` → rzeczywiste lico ściany (`front` / `back` / `top` / `start` /
+    `end` / `center`).
+- Guide wyciągany z lica/krawędzi dostaje linię równoległą albo prostopadłą do
+  ściany na podstawie referencji, więc zachowanie jest bliżej SketchUp: guide
+  startuje z prawdziwego lica/krawędzi, a nie z midpointu/centerline.
+- Pliki dotknięte:
+  - `packages/editor/src/components/tools/measure/measure-tool.tsx`
+  - `HANDOFF.md`
+- TypeScript check OK:
+  `./packages/editor/node_modules/.bin/tsc --noEmit -p packages/editor/tsconfig.json`.
+- Test runtime OK:
+  `/Users/robert/.bun/bin/bun test packages/editor/src/lib/wall-geometry-references.test.ts`
+  → 11 pass / 0 fail.
+- Browser smoke OK na `http://localhost:3002/?wallRefs=1&buildRefs=1`:
+  - strona ładuje się bez runtime crasha,
+  - `Miarka T` aktywuje się z toolbaru,
+  - panel `Wall refs debug` widzi ściany i referencje.
+- Zostaje do ręcznego sprawdzenia UX: czy hover-snap miarki na konkretnych
+  licach/krawędziach zachowuje się dokładnie jak oczekiwany SketchUp flow
+  podczas realnego przeciągania guide'ów po obu stronach ścian.
+- Update po teście Roberta: sama ścieżka `grid:move` łapała głównie dolne
+  płaszczyzny, więc dodano drugi snap path oparty o promień z kamery do
+  podwyższonych referencji ściany (`y > 0`): górne narożniki, top edges i
+  pionowe krawędzie. Cel: dać miarce możliwość złapania wysokości pomieszczenia
+  i górnych referencji ścian, a nie tylko dolnych linii na podłodze.
+- Ponowny TypeScript check OK:
+  `./packages/editor/node_modules/.bin/tsc --noEmit -p packages/editor/tsconfig.json`.
+- Browser smoke po zmianie height snap OK:
+  `Miarka T` aktywna, `Wall refs debug` widoczny, brak Next runtime/build error.
+- Update po decyzji produktowej: WIP snapowania wysokości w Tape Measure został
+  wycofany z aktualnego diffu. Dalszy kierunek idzie przez Build v2 /
+  SketchUp-like wall refs jako fundament, a nie przez łatanie miarki.
 
 Wczoraj (2026-05-24) Claude pracował nad miarką. Commit handoff w pipeline.
 Po nim Codex bierze tę pracę i decyduje czy:

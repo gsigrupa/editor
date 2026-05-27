@@ -4,7 +4,7 @@ import { emitter, type FenceNode, isCurvedWall, type WallNode } from '@pascal-ap
 import { type MouseEvent as ReactMouseEvent, useCallback } from 'react'
 import { getPlanPointDistance } from '../../lib/floorplan'
 import { snapFenceDraftPoint } from '../tools/fence/fence-drafting'
-import type { WallPlanPoint } from '../tools/wall/wall-drafting'
+import type { WallDraftSnapResult, WallPlanPoint } from '../tools/wall/wall-drafting'
 
 type UseFloorplanBackgroundPlacementArgs = {
   activePolygonDraftPoints: WallPlanPoint[]
@@ -32,7 +32,7 @@ type UseFloorplanBackgroundPlacementArgs = {
   getSnappedFloorplanPoint: (point: WallPlanPoint) => WallPlanPoint
   handleCeilingPlacementPoint: (point: WallPlanPoint) => void
   handleSlabPlacementPoint: (point: WallPlanPoint) => void
-  handleWallPlacementPoint: (point: WallPlanPoint) => void
+  handleWallPlacementPoint: (point: WallPlanPoint, visualPoint?: WallPlanPoint) => void
   handleZonePlacementPoint: (point: WallPlanPoint) => void
   isCeilingBuildActive: boolean
   isFenceBuildActive: boolean
@@ -55,6 +55,12 @@ type UseFloorplanBackgroundPlacementArgs = {
     start?: WallPlanPoint
     angleSnap: boolean
   }) => WallPlanPoint
+  snapWallDraftPointDetailed?: (args: {
+    point: WallPlanPoint
+    walls: WallNode[]
+    start?: WallPlanPoint
+    angleSnap: boolean
+  }) => WallDraftSnapResult
   snapPolygonDraftPoint: (args: {
     point: WallPlanPoint
     start?: WallPlanPoint
@@ -95,6 +101,7 @@ export function useFloorplanBackgroundPlacement({
   setRoofDraftStart,
   shiftPressed,
   snapWallDraftPoint,
+  snapWallDraftPointDetailed,
   snapPolygonDraftPoint,
   toPoint2D,
   walls,
@@ -212,15 +219,25 @@ export function useFloorplanBackgroundPlacement({
       // / draftEnd state in the floor plan would never update, leaving
       // the dashed-line draft preview invisible.
       if (isWallBuildActive) {
-        const snappedPoint = snapWallDraftPoint({
+        const wallSnap = snapWallDraftPointDetailed?.({
           point: planPoint,
           walls,
           start: draftStart ?? undefined,
           angleSnap: Boolean(draftStart) && !shiftPressed,
-        })
+        }) ?? {
+          point: snapWallDraftPoint({
+            point: planPoint,
+            walls,
+            start: draftStart ?? undefined,
+            angleSnap: Boolean(draftStart) && !shiftPressed,
+          }),
+          visualPoint: planPoint,
+          source: 'grid' as const,
+        }
+        const snappedPoint = wallSnap.point
 
-        emitFloorplanGridEvent('click', snappedPoint, event)
-        handleWallPlacementPoint(snappedPoint)
+        emitFloorplanGridEvent('click', wallSnap.visualPoint, event)
+        handleWallPlacementPoint(snappedPoint, wallSnap.visualPoint)
         return true
       }
 
@@ -265,6 +282,7 @@ export function useFloorplanBackgroundPlacement({
       setRoofDraftStart,
       shiftPressed,
       snapWallDraftPoint,
+      snapWallDraftPointDetailed,
       snapPolygonDraftPoint,
       toPoint2D,
       walls,
